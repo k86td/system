@@ -30,7 +30,7 @@ in
   };
 
   home.shellAliases = {
-    sw = "home-manager --flake ~/.config/home-manager#tlepine switch";
+    sw = "home-manager --flake /etc/nixos#ebox-tlepine switch";
   };
 
   # Let Home Manager install and manage itself.
