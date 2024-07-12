@@ -11,6 +11,13 @@
 
   home.stateVersion = "23.11";
 
+  home.file = {
+    "/home/tlepine/.config/nvim" = {
+      source = ./nvim;
+      recursive = true;
+    };
+  };
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
