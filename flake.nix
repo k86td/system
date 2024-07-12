@@ -36,7 +36,7 @@
       };
     };
 
-    homeConfigurations = home-manager.lib.homeManagerConfiguration {
+    homeConfigurations."ebox-tlepine" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       modules = [
         ./home/ebox-tlepine.nix
