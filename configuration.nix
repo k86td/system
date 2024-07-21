@@ -31,6 +31,7 @@
     "discord"
     "vscode"
     "steamcmd"
+    "obsidian"
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -99,7 +100,6 @@
   # services.printing.enable = true;
 
   # Enable sound.
-  sound.enable = true;
   hardware.pulseaudio.enable = true;
   nixpkgs.config.pulseaudio = true;
 
@@ -152,6 +152,9 @@
       ruby
       k9s
       lazygit
+      taskwarrior
+      taskwarrior-tui
+      obsidian
     ];
   };
 
@@ -295,7 +298,7 @@
   # and migrated your data accordingly.
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 
 }
 
