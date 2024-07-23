@@ -68,5 +68,15 @@ in
   programs.neovim = {
     enable = true;
   };
+
+  programs.vim = {
+    enable = true;
+    plugins = with pkgs.vimPlugins; [
+      vim-markdown
+    ];
+    extraConfig = ''
+      set conceallevel=2
+    '';
+  };
 }
 
