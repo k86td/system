@@ -18,6 +18,10 @@
     };
   };
 
+  home.sessionPath = [
+    "/home/tlepine/.cargo/bin"
+  ];
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;

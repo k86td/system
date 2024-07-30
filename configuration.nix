@@ -154,6 +154,7 @@
       lazygit
       taskwarrior
       taskwarrior-tui
+      rofimoji
       obsidian
     ];
   };
@@ -200,6 +201,8 @@
     dmenu
     xorg.xinit
     # unstable.alacritty # when version 0.13.1 is stable, remove from unstable
+    smile
+    wl-clipboard-rs
     alacritty
     gcc
     waybar
@@ -208,6 +211,7 @@
     inetutils
     hyprlock
     wlogout
+    xdg-utils
     (pkgs.buildFHSUserEnv {
       name = "renpyfhs";
       runScript = "bash";
