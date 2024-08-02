@@ -41,6 +41,8 @@ in
 
       bind-key -T copy-mode C-y send-keys -X copy-selection-and-cancel
       bind -n C-p paste-buffer
+
+      set -g default-terminal "screen-256color"
     '';
     plugins = [
       minimal-tmux-status

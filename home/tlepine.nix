@@ -36,6 +36,7 @@
 
     initExtra = ''
       path+=('/home/tlepine/go/bin')
+      export TERM=xterm-256color
     '';
 
     shellAliases = {
