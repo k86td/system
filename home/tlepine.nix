@@ -2,6 +2,8 @@
   inputs, lib, config, pkgs, ...
 }:
 {
+  imports = [ ./modules/tmux.nix ];
+
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
@@ -44,5 +46,4 @@
 
     history.size = 10000;
   };
-
 }
