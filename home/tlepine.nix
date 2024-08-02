@@ -13,6 +13,10 @@
 
   home.stateVersion = "23.11";
 
+  home.packages = with pkgs; [
+    nixd
+  ];
+
   home.file = {
     "/home/tlepine/.config/nvim" = {
       source = ./files/nvim;
