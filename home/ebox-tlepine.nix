@@ -29,7 +29,7 @@ in
   # plain files is through 'home.file'.
   home.file = {
     "${homeDirectory}/.config/nvim" = {
-      source = ./nvim;
+      source = ./files/nvim;
       recursive = true;
     };
   };

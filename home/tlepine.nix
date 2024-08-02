@@ -15,7 +15,7 @@
 
   home.file = {
     "/home/tlepine/.config/nvim" = {
-      source = ./nvim;
+      source = ./files/nvim;
       recursive = true;
     };
   };
