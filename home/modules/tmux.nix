@@ -43,6 +43,8 @@ in
       bind -n C-p paste-buffer
 
       set -g default-terminal "screen-256color"
+
+      set -sg escape-time 0
     '';
     plugins = [
       minimal-tmux-status
