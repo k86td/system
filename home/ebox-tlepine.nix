@@ -4,6 +4,8 @@ let
   homeDirectory = "/home/${username}";
 in
 {
+  imports = [ ./modules/tmux.nix ];
+
   home.username = "${username}";
   home.homeDirectory = "${homeDirectory}";
 
@@ -19,6 +21,8 @@ in
     kubectl
     kubelogin-oidc
     k9s
+
+    nixd
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -91,4 +95,3 @@ in
     '';
   };
 }
-
