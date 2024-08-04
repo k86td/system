@@ -214,6 +214,7 @@
       targetPkgs = pkgs: with pkgs; [
         libGL
         python310
+        alsa-lib
       ];
     })
   ];
