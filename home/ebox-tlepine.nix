@@ -23,6 +23,12 @@ in
     k9s
 
     nixd
+
+    # to move to ansible-k3s
+    ansible
+    python312
+    python312Packages.pip
+    python312Packages.jmespath
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
