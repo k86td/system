@@ -32,6 +32,10 @@ in
       source = ./files/nvim;
       recursive = true;
     };
+    "/etc/nix" = {
+        source = ./files/nix;
+        recursive = true;
+    };
   };
 
   home.sessionVariables = {
