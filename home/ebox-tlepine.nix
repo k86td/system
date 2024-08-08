@@ -26,7 +26,6 @@ in
 
     # to move to ansible-k3s
     ansible
-    python312
     python312Packages.pip
     python312Packages.jmespath
   ];
