@@ -32,7 +32,7 @@ in
       source = ./files/nvim;
       recursive = true;
     };
-    "/etc/nix" = {
+    "${homeDirectory}/.config/nix" = {
         source = ./files/nix;
         recursive = true;
     };
