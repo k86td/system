@@ -4,6 +4,12 @@ let
   homeDirectory = "/home/${username}";
 in
 {
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+    };
+  };
+
   imports = [ ./modules/tmux.nix ];
 
   home.username = "${username}";
@@ -21,6 +27,9 @@ in
     kubectl
     kubelogin-oidc
     k9s
+    ripgrep
+
+    _1password
 
     nixd
 
@@ -63,6 +72,7 @@ in
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+
     initExtra = ''
       source ~/.profile
       export LANG=C.UTF-8
@@ -70,7 +80,22 @@ in
     oh-my-zsh = {
       enable = true;
       theme = "half-life";
+      plugins = [
+        "1password"
+      ];
     };
+
+    plugins = [
+      {
+        name = "zsh-autosuggestions";
+        src = pkgs.fetchFromGitHub {
+          owner = "zsh-users";
+          repo = "zsh-autosuggestions";
+          rev = "v0.7.0";
+          sha256 = "sha256-KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=";
+        };
+      }
+    ];
   };
 
   programs.lazygit = {
