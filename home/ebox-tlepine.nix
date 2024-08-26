@@ -9,6 +9,12 @@ in
     ./modules/vim.nix
   ];
 
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+    };
+  };
+
   home.username = "${username}";
   home.homeDirectory = "${homeDirectory}";
 
