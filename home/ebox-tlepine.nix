@@ -4,7 +4,10 @@ let
   homeDirectory = "/home/${username}";
 in
 {
-  imports = [ ./modules/tmux.nix ];
+  imports = [
+    ./modules/tmux.nix
+    ./modules/vim.nix
+  ];
 
   home.username = "${username}";
   home.homeDirectory = "${homeDirectory}";
@@ -85,22 +88,5 @@ in
 
   programs.neovim = {
     enable = true;
-  };
-
-  programs.vim = {
-    enable = true;
-    plugins = with pkgs.vimPlugins; [
-      vim-markdown
-
-      # colorscheme
-      papercolor-theme
-    ];
-    extraConfig = ''
-      colorscheme PaperColor
-      set background=dark
-      set conceallevel=2
-
-      autocmd FileType markdown set textwidth=50
-    '';
   };
 }

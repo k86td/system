@@ -2,7 +2,10 @@
   inputs, lib, config, pkgs, ...
 }:
 {
-  imports = [ ./modules/tmux.nix ];
+  imports = [
+    ./modules/tmux.nix
+    ./modules/vim.nix
+  ];
 
   programs.direnv = {
     enable = true;
