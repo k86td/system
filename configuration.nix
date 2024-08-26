@@ -187,7 +187,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     networkmanager-openvpn
-    vim
     wget
     # unstable.hyprcursor # not working:(
     niv		# nixos dependency manager, alternative to Flakes
