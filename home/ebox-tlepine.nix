@@ -2,6 +2,13 @@
 let
   username = "tlepine";
   homeDirectory = "/home/${username}";
+
+  zsh-utilities = pkgs.fetchFromGitHub {
+    owner = "k86td";
+    repo = "zsh-utilities";
+    rev = "main";
+    sha256 = "sha256-e7rKVh63IJ0ErA/FTTbtDrJcHIL4YGtSCtC/BGp2En4=";
+  };
 in
 {
   imports = [
@@ -80,7 +87,8 @@ in
     '';
     oh-my-zsh = {
       enable = true;
-      theme = "half-life";
+      custom = "${zsh-utilities}";
+      theme = "half-kubernetes";
     };
   };
 
