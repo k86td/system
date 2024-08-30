@@ -67,6 +67,7 @@ in
 
   home.shellAliases = {
     sw = "home-manager --flake /etc/nixos#ebox-tlepine switch";
+    dev = "nix develop -c $SHELL";
   };
 
   # Let Home Manager install and manage itself.
