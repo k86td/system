@@ -19,6 +19,10 @@
   home.packages = with pkgs; [
     wdisplays
     nixd
+    fzf
+    ripgrep
+    rustup
+    pkg-config
   ];
 
   home.file = {
