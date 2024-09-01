@@ -20,6 +20,9 @@ require("lazy").setup({
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     -- import/override with your plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.php" },
+    { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.go" },
+    { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.typescript" },
+    { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.rust" },
     { import = "plugins" },
   },
   defaults = {
