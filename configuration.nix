@@ -96,7 +96,7 @@
   # services.printing.enable = true;
 
   # Enable sound.
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.enable = false;
   nixpkgs.config.pulseaudio = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
