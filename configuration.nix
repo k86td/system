@@ -96,8 +96,12 @@
   # services.printing.enable = true;
 
   # Enable sound.
-  hardware.pulseaudio.enable = false;
+  hardware.pulseaudio.enable = true;
   nixpkgs.config.pulseaudio = true;
+
+  services.pipewire = {
+    enable = false; 
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -188,6 +192,7 @@
   environment.systemPackages = with pkgs; [
     networkmanager-openvpn
     wget
+    playerctl
     # unstable.hyprcursor # not working:(
     niv		# nixos dependency manager, alternative to Flakes
     st		# minimal terminal
