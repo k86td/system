@@ -23,6 +23,8 @@
     ripgrep
     rustup
     pkg-config
+    kubectl
+    blender
   ];
 
   home.file = {
@@ -45,6 +47,8 @@
     initExtra = ''
       path+=('/home/tlepine/go/bin')
       export TERM=xterm-256color
+
+      source <(kubectl completion zsh)
     '';
 
     shellAliases = {

@@ -96,11 +96,14 @@
   # services.printing.enable = true;
 
   # Enable sound.
-  hardware.pulseaudio.enable = true;
-  nixpkgs.config.pulseaudio = true;
+  # hardware.pulseaudio.enable = false;
+  # nixpkgs.config.pulseaudio = false;
 
   services.pipewire = {
-    enable = false; 
+    enable = true; 
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -122,7 +125,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tlepine = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "wireshark" ];
+    extraGroups = [ "wheel" "docker" "wireshark" "render" "video" ];
     packages = with pkgs; [
       htop
       firefox
@@ -133,7 +136,7 @@
       gnumake
       brightnessctl
       docker-compose
-      kubectl
+      # kubectl
       kind
       calibre
       swww
@@ -156,6 +159,7 @@
       taskwarrior-tui
       rofimoji
       obsidian
+      xdg-desktop-portal-hyprland
     ];
   };
 
@@ -213,7 +217,7 @@
     wlogout
     xdg-utils
     (pkgs.buildFHSUserEnv {
-      name = "renpyfhs";
+      name = "renpyfhs310";
       runScript = "bash";
       targetPkgs = pkgs: with pkgs; [
         libGL
@@ -221,6 +225,19 @@
         alsa-lib
       ];
     })
+    (pkgs.buildFHSUserEnv {
+      name = "renpyfhs2";
+      runScript = "bash";
+      targetPkgs = pkgs: with pkgs; [
+        libGL
+        python2
+        alsa-lib
+      ];
+    })
+  ];
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "python-2.7.18.8"
   ];
 
   security.sudo = {
