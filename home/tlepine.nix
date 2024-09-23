@@ -25,6 +25,7 @@
     pkg-config
     kubectl
     blender
+    obs-studio
   ];
 
   home.file = {
