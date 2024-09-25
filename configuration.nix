@@ -1,4 +1,4 @@
-{ config, lib, pkgs, nixpkgs, lanzaboote, nixos-hardware, ... }:
+{ config, lib, pkgs, nixpkgs, lanzaboote, nixos-hardware, hyprland, ... }:
 # let
   # sources = import ./nix/sources.nix;
   # lanzaboote = import sources.lanzaboote;
@@ -64,7 +64,11 @@
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
 
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    package = hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage = hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+  };
   programs.hyprland.xwayland.enable = true;
   programs.hyprlock.enable = true;
 
@@ -82,7 +86,13 @@
   #   displayManager.startx.enable = true;
   # };
 
-  # hardware.opengl.enable = true;
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      # vpl-gpu-rt
+      intel-media-sdk
+    ];
+  };
 
   # services.xserver.windowManager.dwm.package = pkgs.dwm.overrideAttrs {
   #   src = /etc/dwm/source;
@@ -159,7 +169,6 @@
       taskwarrior-tui
       rofimoji
       obsidian
-      xdg-desktop-portal-hyprland
     ];
   };
 

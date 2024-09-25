@@ -15,9 +15,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1&tag=v0.43.0";
   };
 
-  outputs = { self, nixpkgs, lanzaboote, nixos-hardware, home-manager }:
+  outputs = { self, nixpkgs, lanzaboote, nixos-hardware, home-manager, ...}@attrs:
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
@@ -25,9 +26,11 @@
   {
     nixosConfigurations = {
       superthinker = nixpkgs.lib.nixosSystem {
+        # TODO: wtf is this?
+        specialArgs = attrs;
         modules = [
           lanzaboote.nixosModules.lanzaboote
-	        ./configuration.nix
+          ./configuration.nix
           nixos-hardware.nixosModules.lenovo-thinkpad-t490
           home-manager.nixosModules.home-manager {
             home-manager.users.tlepine = import ./home/tlepine.nix;

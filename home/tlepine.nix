@@ -7,6 +7,14 @@
     ./modules/vim.nix
   ];
 
+  # xdg.portal = {
+  #   enable = true;
+  #   config.common.default = "hyprland";
+  #   extraPortals = [
+  #     pkgs.xdg-desktop-portal-hyprland
+  #   ];
+  # };
+
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
@@ -26,6 +34,7 @@
     kubectl
     blender
     obs-studio
+    xorg.xset
   ];
 
   home.file = {
