@@ -165,7 +165,7 @@
       ruby
       k9s
       lazygit
-      taskwarrior
+      taskwarrior3
       taskwarrior-tui
       rofimoji
       obsidian
