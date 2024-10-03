@@ -14,6 +14,7 @@ in
   imports = [
     ./modules/tmux.nix
     ./modules/vim.nix
+    ./modules/taskwarrior.nix
   ];
 
   nixpkgs = {
