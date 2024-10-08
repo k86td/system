@@ -10,11 +10,12 @@ let
     sha256 = "sha256-e7rKVh63IJ0ErA/FTTbtDrJcHIL4YGtSCtC/BGp2En4=";
   };
 in
-{
+rec {
   imports = [
     ./modules/tmux.nix
     ./modules/vim.nix
     ./modules/taskwarrior.nix
+    ./modules/nushell.nix
   ];
 
   nixpkgs = {
@@ -69,6 +70,13 @@ in
   home.shellAliases = {
     sw = "home-manager --flake /etc/nixos#ebox-tlepine switch";
     dev = "nix develop -c $SHELL";
+  };
+
+  programs.nushell = {
+    shellAliases = {
+      sw = "home-manager --flake /etc/nixos#ebox-tlepine switch";
+      dev = "nix develop -c $env.SHELL";
+    };
   };
 
   # Let Home Manager install and manage itself.
