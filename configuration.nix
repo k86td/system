@@ -135,6 +135,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tlepine = {
     isNormalUser = true;
+    shell = pkgs.nushell;
     extraGroups = [ "wheel" "docker" "wireshark" "render" "video" ];
     packages = with pkgs; [
       htop

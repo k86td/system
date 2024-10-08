@@ -5,6 +5,7 @@
   imports = [
     ./modules/tmux.nix
     ./modules/vim.nix
+    ./modules/nushell.nix
   ];
 
   # xdg.portal = {
@@ -48,6 +49,14 @@
     "/home/tlepine/.cargo/bin"
   ];
 
+  programs.nushell = {
+    shellAliases = {
+      start = "Hyprland and logout";
+      sw = "sudo nixos-rebuild --flake /etc/nixos#superthinker switch";
+      kins = "kubectl --insecure-skip-tls-verify";
+    };
+  };
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -62,7 +71,9 @@
     '';
 
     shellAliases = {
+      start = "Hyprland && logout";
       sw = "sudo nixos-rebuild --flake /etc/nixos#superthinker switch";
+      kins = "kubectl --insecure-skip-tls-verify";
     };
 
     oh-my-zsh = {
