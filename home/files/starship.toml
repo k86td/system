@@ -1,0 +1,16 @@
+format = '''$username$directory$kubernetes
+$character$cmd_duration
+'''
+add_newline = false
+
+[character]
+success_symbol = '[::](yellow)'
+error_symbol = '[:!](red)'
+
+[username]
+disabled = false
+show_always = true
+
+[kubernetes]
+disabled = false
+format = '[󱃾 $context](yellow) '
