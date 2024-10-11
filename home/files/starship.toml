@@ -1,4 +1,4 @@
-format = '''$username$directory$kubernetes
+format = '''$username$directory$kubernetes$git_status
 $character$cmd_duration
 '''
 add_newline = false
