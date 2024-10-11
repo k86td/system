@@ -14,7 +14,7 @@ in
 {
   programs.tmux = {
     enable = true;
-    shell = "${pkgs.zsh}/bin/zsh";
+    shell = "${pkgs.nushell}/bin/nu";
     extraConfig = ''
       bind -n M-t new-window
 
