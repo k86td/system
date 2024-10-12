@@ -43,6 +43,9 @@
       source = ./files/nvim;
       recursive = true;
     };
+    "/home/tlepine/.config/starship.toml" = {
+        source = ./files/starship.toml;
+    };
   };
 
   home.sessionPath = [
@@ -51,7 +54,7 @@
 
   programs.nushell = {
     shellAliases = {
-      start = "Hyprland and logout";
+      start = "Hyprland";
       sw = "sudo nixos-rebuild --flake /etc/nixos#superthinker switch";
       kins = "kubectl --insecure-skip-tls-verify";
     };

@@ -1,4 +1,4 @@
-format = '''$username$directory$git_branch$git_status$kubernetes
+format = '''$hostname$directory$git_branch$git_status$kubernetes
 $character$cmd_duration
 '''
 add_newline = false
@@ -10,6 +10,9 @@ error_symbol = '[:!](red)'
 [username]
 disabled = false
 show_always = true
+
+[hostname]
+ssh_only = false
 
 [kubernetes]
 disabled = false
