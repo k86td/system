@@ -66,11 +66,6 @@ rec {
     };
   };
 
-  programs.starship = {
-    enable = true;
-    enableNushellIntegration = true;
-  };
-
   home.sessionVariables = {
     # EDITOR = "emacs";
   };
