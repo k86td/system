@@ -57,6 +57,7 @@
       start = "Hyprland";
       sw = "sudo nixos-rebuild --flake /etc/nixos#superthinker switch";
       kins = "kubectl --insecure-skip-tls-verify";
+      vi = "vim";
     };
   };
 

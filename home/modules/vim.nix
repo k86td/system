@@ -23,6 +23,7 @@ in
     ];
     extraConfig = ''
       set termguicolors
+      set number
 
       colorscheme tokyonight
       set background=dark
