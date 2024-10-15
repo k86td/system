@@ -83,7 +83,7 @@ rec {
     extraConfig = ''
       $env.STARSHIP_SHELL = "nu"
 
-      $env.PATH = '/home/tlepine/.nix-profile/bin' | append '/usr/bin' | append '/bin'
+      $env.PATH = '/home/tlepine/.nix-profile/bin' | append '/usr/bin' | append '/bin' | append '/mnt/wsl/docker-desktop/cli-tools/usr/bin'
     '';
   };
 
