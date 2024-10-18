@@ -36,6 +36,7 @@
     blender
     obs-studio
     xorg.xset
+    gopls
   ];
 
   home.file = {
