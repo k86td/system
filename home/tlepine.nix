@@ -37,6 +37,12 @@
     obs-studio
     xorg.xset
     gopls
+    netbeans
+    libreoffice
+    httpie
+
+    # games
+    runelite
   ];
 
   home.file = {

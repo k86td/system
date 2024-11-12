@@ -14,6 +14,18 @@
       # (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
     ];
 
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+    };
+  };
+
+  programs._1password.enable = true;
+  programs._1password-gui = {
+    enable = true;
+    polkitPolicyOwners = [ "tlepine" ];
+  };
+
   # enable bluetooth
   hardware.bluetooth = {
     enable = true;
@@ -226,6 +238,23 @@
     hyprlock
     wlogout
     xdg-utils
+    (pkgs.buildFHSUserEnv {
+      name = "javafhs";
+      runScript = "bash";
+      targetPkgs = pkgs: with pkgs; [
+        jdk21
+        xorg.libXxf86vm
+        libGL
+        glib
+        gtk3
+        xorg.libXtst
+        xorg.xwininfo
+        xorg.xprop
+        maven
+        temurin-jre-bin
+        runelite
+      ];
+    })
     (pkgs.buildFHSUserEnv {
       name = "renpyfhs310";
       runScript = "bash";
