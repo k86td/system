@@ -16,6 +16,10 @@
   #   ];
   # };
 
+  services.dunst = {
+    enable = true;
+  };
+
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
@@ -40,6 +44,13 @@
     netbeans
     libreoffice
     httpie
+    halloy
+
+    # neovim lazyvim deps
+    gofumpt
+    gotools
+    shfmt
+    stylua
 
     # games
     runelite
