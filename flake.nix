@@ -15,7 +15,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1&tag=v0.43.0";
+    hyprland = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "git+https://github.com/hyprwm/Hyprland?submodules=1&tag=v0.45.1";
+    };
   };
 
   outputs = { self, nixpkgs, lanzaboote, nixos-hardware, home-manager, ...}@attrs:

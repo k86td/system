@@ -161,7 +161,7 @@
       docker-compose
       # kubectl
       kind
-      calibre
+      # calibre
       swww
       kubernetes-helm
       discord
