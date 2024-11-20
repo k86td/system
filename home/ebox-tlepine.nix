@@ -36,10 +36,19 @@ rec {
     code-server
     gcc
     stow
-    kubernetes-helm
+
+    (pkgs.wrapHelm pkgs.kubernetes-helm {
+      plugins = [
+        pkgs.kubernetes-helmPlugins.helm-diff
+      ];
+    })
+    # kubernetes-helm
+    helmfile
+
     kubectl
     kubelogin-oidc
     k9s
+    kind
 
     nixd
   ];
