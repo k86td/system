@@ -50,6 +50,7 @@ rec {
     k9s
     kind
 
+    rust-analyzer
     nixd
   ];
 
