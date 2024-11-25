@@ -45,6 +45,7 @@
     libreoffice
     httpie
     halloy
+    vtsls
 
     # neovim lazyvim deps
     gofumpt
@@ -52,6 +53,7 @@
     shfmt
     stylua
 
+    dart
     # games
     runelite
   ];
