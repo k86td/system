@@ -30,6 +30,8 @@ rec {
   home.stateVersion = "24.05";
 
   home.packages = with pkgs; [
+    rustup
+
     lua-language-server
 
     openssh
@@ -50,7 +52,6 @@ rec {
     k9s
     kind
 
-    rust-analyzer
     nixd
   ];
 
