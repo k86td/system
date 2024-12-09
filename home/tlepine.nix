@@ -46,6 +46,7 @@
     httpie
     halloy
     vtsls
+    cargo-generate
 
     # neovim lazyvim deps
     gofumpt
