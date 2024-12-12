@@ -5,7 +5,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out,                            "WarningMsg" },
+      { out, "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -18,15 +18,20 @@ require("lazy").setup({
   spec = {
     { "nyoom-engineering/oxocarbon.nvim" },
     -- add LazyVim and import its plugins
-    { "LazyVim/LazyVim",                 import = "lazyvim.plugins" },
+    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    {
+      "scottmckendry/cyberdream.nvim",
+      lazy = false,
+      priority = 1000,
+    },
     -- import/override with your plugins
-    { "LazyVim/LazyVim",                 import = "lazyvim.plugins.extras.lang.php" },
-    { "LazyVim/LazyVim",                 import = "lazyvim.plugins.extras.lang.go" },
-    { "LazyVim/LazyVim",                 import = "lazyvim.plugins.extras.lang.typescript" },
-    { "LazyVim/LazyVim",                 import = "lazyvim.plugins.extras.lang.rust" },
-    { "LazyVim/LazyVim",                 import = "lazyvim.plugins.extras.lang.nushell" },
-    { "LazyVim/LazyVim",                 import = "lazyvim.plugins.extras.lang.java" },
-    { "LazyVim/LazyVim",                 import = "lazyvim.plugins.extras.lang.typescript" },
+    { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.php" },
+    { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.go" },
+    { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.typescript" },
+    { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.rust" },
+    { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.nushell" },
+    { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.java" },
+    { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "plugins" },
   },
   defaults = {
