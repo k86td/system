@@ -51,6 +51,7 @@ rec {
     kubelogin-oidc
     k9s
     kind
+    ripgrep
 
     nixd
   ];
