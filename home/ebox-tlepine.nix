@@ -39,6 +39,8 @@ rec {
     gcc
     stow
 
+    mustache
+
     (pkgs.wrapHelm pkgs.kubernetes-helm {
       plugins = [
         pkgs.kubernetes-helmPlugins.helm-diff
