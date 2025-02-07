@@ -39,7 +39,7 @@ rec {
     gcc
     stow
 
-    mustache
+    mustache-go
 
     (pkgs.wrapHelm pkgs.kubernetes-helm {
       plugins = [
