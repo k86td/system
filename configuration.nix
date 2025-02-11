@@ -128,6 +128,15 @@
     pulse.enable = true;
   };
 
+  services.udev.extraRules = ''
+    ACTION=="add" \
+      , SUBSYSTEM=="net" \
+      , ATTRS{manufacturer}=="reMarkable" \
+      , ATTRS{idProduct}=="4010" \
+      , ATTRS{idVendor}=="04b3" \
+      , NAME="reMarkable_USB" 
+  '';
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -182,6 +191,7 @@
       taskwarrior-tui
       rofimoji
       obsidian
+      nwg-displays
     ];
   };
 
@@ -273,10 +283,6 @@
         alsa-lib
       ];
     })
-  ];
-
-  nixpkgs.config.permittedInsecurePackages = [
-    "python-2.7.18.8"
   ];
 
   security.sudo = {

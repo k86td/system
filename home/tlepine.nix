@@ -8,6 +8,12 @@
     ./modules/nushell.nix
   ];
 
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+    };
+  };
+
   # xdg.portal = {
   #   enable = true;
   #   config.common.default = "hyprland";
@@ -47,6 +53,8 @@
     halloy
     vtsls
     cargo-generate
+    sc
+    waypipe
 
     # neovim lazyvim deps
     gofumpt
@@ -57,6 +65,7 @@
     dart
     # games
     runelite
+    runescape
   ];
 
   home.file = {
