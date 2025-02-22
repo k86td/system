@@ -302,7 +302,7 @@
 
   # setup fonts
   fonts.packages = with pkgs; [
-    nerd-fonts.fira-code
+    fira-code
   ];
 
    # services.greetd = {
