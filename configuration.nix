@@ -274,15 +274,6 @@
         alsa-lib
       ];
     })
-    (pkgs.buildFHSUserEnv {
-      name = "renpyfhs2";
-      runScript = "bash";
-      targetPkgs = pkgs: with pkgs; [
-        libGL
-        python2
-        alsa-lib
-      ];
-    })
   ];
 
   security.sudo = {
@@ -311,7 +302,7 @@
 
   # setup fonts
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" ]; })
+    nerd-fonts.fira-code
   ];
 
    # services.greetd = {

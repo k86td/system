@@ -65,7 +65,6 @@
     dart
     # games
     runelite
-    runescape
   ];
 
   home.file = {
