@@ -25,13 +25,10 @@ require("lazy").setup({
       priority = 1000,
     },
     -- import/override with your plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.php" },
     { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.go" },
-    { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.typescript" },
     { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.rust" },
     { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.nushell" },
     { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.java" },
-    { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.typescript" },
     { "LazyVim/LazyVim", import = "lazyvim.plugins.extras.lang.vue" },
     { import = "plugins" },
   },

@@ -57,6 +57,8 @@
     waypipe
 
     # neovim lazyvim deps
+    go
+    gopls
     gofumpt
     gotools
     shfmt
