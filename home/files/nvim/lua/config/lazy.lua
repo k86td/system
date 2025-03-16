@@ -17,6 +17,10 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   spec = {
     { "nyoom-engineering/oxocarbon.nvim" },
+    {
+      "catpuccin/nvim",
+      lazy = false,
+    },
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     {

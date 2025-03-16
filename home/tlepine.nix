@@ -6,7 +6,7 @@
     ./modules/tmux.nix
     ./modules/vim.nix
     ./modules/nushell.nix
-    ./modules/lazyvim.nix
+    ./modules/lazyvim/mod.nix
   ];
 
   nixpkgs = {
