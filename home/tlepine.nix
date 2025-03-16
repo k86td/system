@@ -6,6 +6,7 @@
     ./modules/tmux.nix
     ./modules/vim.nix
     ./modules/nushell.nix
+    ./modules/lazyvim.nix
   ];
 
   nixpkgs = {
@@ -70,10 +71,10 @@
   ];
 
   home.file = {
-    "/home/tlepine/.config/nvim" = {
-      source = ./files/nvim;
-      recursive = true;
-    };
+    # "/home/tlepine/.config/nvim" = {
+    #   source = ./files/nvim;
+    #   recursive = true;
+    # };
     "/home/tlepine/.config/starship.toml" = {
         source = ./files/starship.toml;
     };
