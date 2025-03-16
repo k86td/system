@@ -14,14 +14,6 @@
     };
   };
 
-  # xdg.portal = {
-  #   enable = true;
-  #   config.common.default = "hyprland";
-  #   extraPortals = [
-  #     pkgs.xdg-desktop-portal-hyprland
-  #   ];
-  # };
-
   services.dunst = {
     enable = true;
   };
@@ -55,6 +47,7 @@
     cargo-generate
     sc
     waypipe
+    youtube-music
 
     # neovim lazyvim deps
     go
