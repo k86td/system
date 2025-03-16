@@ -192,6 +192,7 @@
       rofimoji
       obsidian
       nwg-displays
+      hyprpaper
     ];
   };
 
