@@ -9,6 +9,10 @@ let
     rev = "main";
     sha256 = "sha256-e7rKVh63IJ0ErA/FTTbtDrJcHIL4YGtSCtC/BGp2En4=";
   };
+
+  python3Pkg = pkgs.python312.withPackages(ps: [
+    pkgs.python312Packages.kubernetes
+  ]);
 in
 rec {
   imports = [
@@ -41,13 +45,13 @@ rec {
 
     mustache-go
 
-    (pkgs.wrapHelm pkgs.kubernetes-helm {
-      plugins = [
-        pkgs.kubernetes-helmPlugins.helm-diff
-      ];
-    })
+    #(pkgs.wrapHelm pkgs.kubernetes-helm {
+    #  plugins = [
+    #    pkgs.kubernetes-helmPlugins.helm-diff
+    #  ];
+    #})
     # kubernetes-helm
-    helmfile
+    #helmfile
 
     kubectl
     kubelogin-oidc
@@ -56,6 +60,10 @@ rec {
     ripgrep
 
     nixd
+
+    #argocd
+    # ansible
+    # python3Pkg
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
