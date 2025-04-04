@@ -40,6 +40,13 @@
           }
         ];
       };
+
+      lenoovo-pad = nixpkgs.lib.nixosSystem {
+        modules = [
+          ./hosts/lenoovo-pad/configuration.nix
+          nixos-hardware.nixosModules.lenovo-ideapad
+        ];
+      };
     };
 
     homeConfigurations."ebox-tlepine" = home-manager.lib.homeManagerConfiguration {
