@@ -11,16 +11,18 @@
     ];
 
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.grub = {
+    enable = true;
+    device = "nodev";
+    efiSupport = true;
+  };
+  boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # networking.hostName = "nixos"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.hostName = "lenoovo-pad";
+  networking.networkmanager.enable = true;
 
-  # Set your time zone.
-  # time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "America/Toronto";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -41,7 +43,6 @@
     "nix-command"
     "flakes"
   ];
-  
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -49,6 +50,16 @@
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
+
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
+        user = "greeter";
+      };
+    };
+  };
 
   # Enable sound.
   # hardware.pulseaudio.enable = true;
@@ -66,7 +77,8 @@
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-      tree
+      firefox
+      home-manager
     ];
   };
 
@@ -79,7 +91,21 @@
     wget
     git
     curl
+
+    # TODO: move this in its own module
+    # for sway
+    grim
+    slurp
+    wl-clipboard
+    mako
   ];
+
+  services.gnome.gnome-keyring.enable = true;
+
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

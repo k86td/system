@@ -44,7 +44,6 @@
       lenoovo-pad = nixpkgs.lib.nixosSystem {
         modules = [
           ./hosts/lenoovo-pad/configuration.nix
-          nixos-hardware.nixosModules.lenovo-ideapad
         ];
       };
     };
@@ -53,6 +52,13 @@
       inherit pkgs;
       modules = [
         ./home/ebox-tlepine.nix
+      ];
+    };
+
+    homeConfigurations."new-tlepine" = home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+      modules = [
+        ./home/new-tlepine.nix
       ];
     };
 
