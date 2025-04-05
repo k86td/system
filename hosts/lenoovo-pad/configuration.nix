@@ -91,21 +91,9 @@
     wget
     git
     curl
-
-    # TODO: move this in its own module
-    # for sway
-    grim
-    slurp
-    wl-clipboard
-    mako
   ];
 
-  services.gnome.gnome-keyring.enable = true;
-
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-  };
+  security.polkit.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
