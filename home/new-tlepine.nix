@@ -13,7 +13,7 @@ let
   };
 in {
   imports = [
-    ./modules/starship.nix
+    ./modules/terminal.nix
   ];
 
   home.username = "tlepine";
