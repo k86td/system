@@ -1,8 +1,20 @@
 {
   inputs, lib, config, pkgs, ...
 }:
-{
-  imports = [ ];
+let
+  wal-darkeye = pkgs.stdenv.mkDerivation rec {
+    name = "darkeye";
+    src = files/wallpapers;
+    dontUnpack = true;
+    installPhase = ''
+      mkdir -p $out
+      cp ${src}/darkeye.jpg $out
+    '';
+  };
+in {
+  imports = [
+    ./modules/starship.nix
+  ];
 
   home.username = "tlepine";
   home.homeDirectory = "/home/tlepine";
@@ -14,10 +26,11 @@
     wrapperFeatures.gtk = true;
     config = rec {
       modifier = "Mod4";
+      terminal = "${pkgs.kitty}/bin/kitty";
       gaps.inner = 10;
       output = {
         eDP-1 = {
-          bg = "/etc/nixos/home/files/wallpapers/darkeye.jpg fill";
+          bg = "${wal-darkeye}/darkeye.jpg fill";
         };
       };
     };
