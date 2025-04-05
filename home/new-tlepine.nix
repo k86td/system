@@ -15,6 +15,11 @@
     config = rec {
       modifier = "Mod4";
       gaps.inner = 10;
+      output = {
+        eDP-1 = {
+          bg = "/etc/nixos/home/files/wallpapers/darkeye.jpg fill";
+        };
+      };
     };
     extraConfig = ''
       default_border pixel 2
@@ -22,6 +27,7 @@
   };
 
   home.packages = with pkgs; [
+    swaybg
     grim
     slurp
     wl-clipboard
