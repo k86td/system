@@ -59,6 +59,10 @@ in {
     userEmail = "tristanlepine14@gmail.com";
   };
 
+  programs.firefox = {
+    enable = true;
+  };
+
   programs.home-manager.enable = true;
 
   home.stateVersion = "24.11";
