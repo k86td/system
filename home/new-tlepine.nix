@@ -19,6 +19,15 @@ in {
   home.username = "tlepine";
   home.homeDirectory = "/home/tlepine";
 
+  programs.vim = {
+    enable = true;
+    settings = {
+      expandtab = true;
+      shiftwidth = 2;
+      tabstop = 2;
+    };
+  };
+
   # TODO: move this to its own module
   services.gnome-keyring.enable = true;
   wayland.windowManager.sway = {
@@ -49,12 +58,20 @@ in {
     '';
   };
 
+  # programs.waybar = {
+  #   enable = true;
+  #   settings = {};
+  #   style = {};
+  # };
+
   home.packages = with pkgs; [
     swaybg
     grim
     slurp
     wl-clipboard
     mako
+
+    telegram-desktop
   ];
 
   home.pointerCursor = {
