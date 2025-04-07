@@ -28,10 +28,20 @@ in {
       modifier = "Mod4";
       terminal = "${pkgs.kitty}/bin/kitty";
       gaps.inner = 10;
+      defaultWorkspace = "workspace number 1";
       output = {
         eDP-1 = {
           bg = "${wal-darkeye}/darkeye.jpg fill";
         };
+      };
+      keybindings = 
+      let
+        pactl = "${pkgs.pulseaudio}/bin/pactl";
+      in
+        lib.mkOptionDefault {
+        "XF86AudioMute"        = "exec ${pactl} set-sink-mute @DEFAULT_SINK@ toggle";
+        "XF86AudioRaiseVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ +5%";
+        "XF86AudioLowerVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ -5%";
       };
     };
     extraConfig = ''
@@ -51,7 +61,6 @@ in {
     gtk.enable = true;
     package = pkgs.phinger-cursors;
     name = "phinger-cursors-dark";
-    size = 32;
   };
 
   programs.git = {
