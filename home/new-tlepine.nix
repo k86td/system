@@ -28,6 +28,12 @@ in {
     };
   };
 
+  services.wlsunset = {
+    enable = true;
+    latitude = 45.34;
+    longitude = -73.54 ;
+  };
+
   # TODO: move this to its own module
   services.gnome-keyring.enable = true;
   wayland.windowManager.sway = {
@@ -52,26 +58,33 @@ in {
         "XF86AudioRaiseVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ +5%";
         "XF86AudioLowerVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ -5%";
       };
+      bars = [
+        { command = "${pkgs.waybar}/bin/waybar"; }
+      ];
     };
     extraConfig = ''
       default_border pixel 2
     '';
   };
 
-  # programs.waybar = {
-  #   enable = true;
-  #   settings = {};
-  #   style = {};
-  # };
+  programs.waybar = {
+    enable = true;
+    style = ''
+      * {
+        font-family: Hurmit Nerd Font;
+        font-size: 13px;
+      }
+    '';
+  };
 
   home.packages = with pkgs; [
-    swaybg
     grim
     slurp
     wl-clipboard
     mako
+    libnotify
 
-    telegram-desktop
+    # telegram-desktop
   ];
 
   home.pointerCursor = {

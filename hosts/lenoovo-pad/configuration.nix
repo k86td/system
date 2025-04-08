@@ -97,6 +97,10 @@
     curl
   ];
 
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "FiraCode" "Hermit" ]; })
+  ];
+
   security.polkit.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are

@@ -1,5 +1,11 @@
 { pkgs, lib, ... }:
 {
+  # TODO: don't hardcode flake name
+  home.shellAliases = {
+    "hw" = "home-manager switch --flake /etc/nixos#new-tlepine"; 
+    "sw" = "sudo nixos-rebuild switch --flake /etc/nixos#lenoovo-pad"; 
+  };
+
   programs.zsh = {
     enable = true;
   };
