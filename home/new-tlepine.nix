@@ -11,6 +11,12 @@ let
       cp ${src}/darkeye.jpg $out
     '';
   };
+  colors = {
+    background = "#181C14";
+    tertiary = "#3C3D37";
+    secondary = "#697565";
+    primary = "#ECDFCC";
+  };
 in {
   imports = [
     ./modules/terminal.nix
@@ -61,6 +67,13 @@ in {
       bars = [
         { command = "${pkgs.waybar}/bin/waybar"; }
       ];
+      input = {
+        "type:touchpad" = {
+          tap = "enabled";
+          drag = "enabled";
+          natural_scroll = "enabled";
+        };
+      };
     };
     extraConfig = ''
       default_border pixel 2
@@ -72,9 +85,103 @@ in {
     style = ''
       * {
         font-family: Hurmit Nerd Font;
-        font-size: 13px;
+        font-size: 1em;
+        border: none;
+        border-radius: 0;
+      }
+
+      window#waybar {
+        color: ${colors.primary};
+        background: ${colors.background};
+      }
+
+      #workspaces button {
+        color: ${colors.tertiary};
+        background: ${colors.background};
+        padding-left: 3px;
+        padding-right: 3px;
+      }
+      #workspaces button:hover {
+        color: ${colors.secondary};
+      }
+      #workspaces button.visible {
+        color: ${colors.primary};
+      }
+
+      #battery, #network, #pulseaudio {
+        font-size: 1.25em; 
+        margin: 0;
+        padding: 0;
+      }
+
+      .modules-left {
+        padding-left: 6px;
+      }
+
+      .modules-right {
+        padding-right: 6px;
+      }
+
+      tooltip {
+        background: ${colors.background};
+        border-radius: 5px;
       }
     '';
+    settings = [
+      {
+        layer = "top";
+        position = "top"; 
+        modules-left = [ "sway/workspaces" "sway/mode" ];
+        modules-center = [ "sway/window" ];
+        modules-right = [ "pulseaudio" "battery" "network" "clock" ];
+
+        spacing = 20;
+
+        "pulseaudio" = {
+          format = "{icon} ";
+          format-icons = [
+            "󰕿"
+            "󰖀"
+            "󰕾"
+          ];
+        };
+        "battery" = {
+          bat = "BAT1"; 
+          format = "{icon} ";
+          format-icons = [
+            ""
+            ""
+            ""
+            ""
+            ""
+          ];
+        };
+        "network" = {
+          format-wifi = "{icon} "; 
+          tooltip-format = "{essid} ({signalStrength}%)";
+          format-icons = [
+            "󰤯"
+            "󰤟"
+            "󰤢"
+            "󰤨"
+          ];
+        };
+        "clock" = {
+          format = "{:%b %d, %H:%M}";
+          tooltip-format = "{calendar}";
+          calendar = {
+            mode = "year";
+            mode-mon-col = 3;
+            format = {
+              today = "<span color='${colors.primary}'><b><u>{}</u></b></span>";
+              weeks = "<span color='${colors.secondary}'>{}</span>";
+              days = "<span color='${colors.secondary}'>{}</span>";
+              months = "<span color='${colors.primary}'>{}</span>";
+            };
+          };
+        };
+      } 
+    ];
   };
 
   home.packages = with pkgs; [
@@ -84,7 +191,7 @@ in {
     mako
     libnotify
 
-    # telegram-desktop
+    telegram-desktop
   ];
 
   home.pointerCursor = {
