@@ -22,6 +22,8 @@ in {
     ./modules/terminal.nix
   ];
 
+  nixpkgs.config.allowUnfree = true;
+
   home.username = "tlepine";
   home.homeDirectory = "/home/tlepine";
 
@@ -48,7 +50,7 @@ in {
     config = rec {
       modifier = "Mod4";
       terminal = "${pkgs.kitty}/bin/kitty";
-      gaps.inner = 10;
+      gaps.inner = 5;
       defaultWorkspace = "workspace number 1";
       output = {
         eDP-1 = {
@@ -63,6 +65,7 @@ in {
         "XF86AudioMute"        = "exec ${pactl} set-sink-mute @DEFAULT_SINK@ toggle";
         "XF86AudioRaiseVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ +5%";
         "XF86AudioLowerVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ -5%";
+        "XF86AudioMicMute"        = "exec ${pactl} set-sink-input-mute @DEFAULT_SINK@ toggle";
       };
       bars = [
         { command = "${pkgs.waybar}/bin/waybar"; }
@@ -108,18 +111,22 @@ in {
         color: ${colors.primary};
       }
 
+      #clock {
+        margin-left: 1em;
+      }
+
       #battery, #network, #pulseaudio {
         font-size: 1.25em; 
-        margin: 0;
-        padding: 0;
+        margin-left: 0.2em;
+        margin-right: 0.2em;
       }
 
       .modules-left {
-        padding-left: 6px;
+        padding-left: 1em;
       }
 
       .modules-right {
-        padding-right: 6px;
+        padding-right: 1em;
       }
 
       tooltip {
@@ -133,28 +140,40 @@ in {
         position = "top"; 
         modules-left = [ "sway/workspaces" "sway/mode" ];
         modules-center = [ "sway/window" ];
-        modules-right = [ "pulseaudio" "battery" "network" "clock" ];
+        modules-right = [ "pulseaudio#output" "battery" "network" "clock" ];
 
-        spacing = 20;
 
-        "pulseaudio" = {
+        "pulseaudio#output" = {
           format = "{icon} ";
-          format-icons = [
-            "󰕿"
-            "󰖀"
-            "󰕾"
-          ];
+          tooltip-format = "{volume}% {desc}";
+          format-icons = {
+            default = [
+              "󰕿"
+              "󰖀"
+              "󰕾"
+            ];
+            default-muted = "󰖁";
+            headphone = "󰋋";
+            headphone-muted = "󰟎";
+          };
         };
         "battery" = {
           bat = "BAT1"; 
           format = "{icon} ";
-          format-icons = [
-            ""
-            ""
-            ""
-            ""
-            ""
-          ];
+          format-icons = {
+            default = [
+              "󰂎"
+              "󱊡"
+              "󱊢"
+              "󱊣"
+            ];
+            charging = [
+              "󰢟"
+              "󱊤"
+              "󱊥"
+              "󱊦"
+            ];
+          };
         };
         "network" = {
           format-wifi = "{icon} "; 
@@ -190,6 +209,13 @@ in {
     wl-clipboard
     mako
     libnotify
+
+    vscode
+
+    go
+    gopls
+
+    waypipe
 
     telegram-desktop
   ];
