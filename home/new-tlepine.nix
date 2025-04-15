@@ -201,6 +201,7 @@ in {
   };
 
   programs.git = {
+    enable = true;
     userName = "Tristan Lepine";
     userEmail = "tristanlepine14@gmail.com";
   };

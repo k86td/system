@@ -14,6 +14,7 @@
     enable = true;
     settings = {
       shell = "${pkgs.zsh}/bin/zsh";
+      enable_audio_bell = false;
     };
   };
 

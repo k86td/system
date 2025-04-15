@@ -48,6 +48,8 @@
     sc
     waypipe
     youtube-music
+    ansible
+    zed-editor
 
     # neovim lazyvim deps
     go
@@ -82,6 +84,7 @@
       sw = "sudo nixos-rebuild --flake /etc/nixos#superthinker switch";
       kins = "kubectl --insecure-skip-tls-verify";
       vi = "vim";
+      code = "code --ozone-platform=wayland";
     };
   };
 

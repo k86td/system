@@ -20,11 +20,25 @@
     };
   };
 
+  nix = {
+    settings = {
+      substituters = [
+        "https://nix-community.cachix.org"
+        "https://cache.nixos.org/"
+      ];
+      trusted-public-keys = [
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
+    };
+  };
+
   programs._1password.enable = true;
   programs._1password-gui = {
     enable = true;
     polkitPolicyOwners = [ "tlepine" ];
   };
+
+  security.polkit.enable = true;
 
   # enable bluetooth
   hardware.bluetooth = {
@@ -52,14 +66,23 @@
   ];
 
   boot.lanzaboote = {
-    enable = true;
+    enable = false;
     pkiBundle = "/etc/secureboot";
+  };
+
+  boot.loader.grub = {
+    enable = true;
+    device = "nodev";
+    efiSupport = true;
   };
 
   networking.hostName = "superthinker"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.hosts = {
+    "151.101.2.217" = [ "cache.nixos.org" ];
+  };
 
   # Set your time zone.
   time.timeZone = "America/Toronto";
@@ -75,14 +98,6 @@
   #   keyMap = "us";
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
-
-  programs.hyprland = {
-    enable = true;
-    package = hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage = hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-  };
-  programs.hyprland.xwayland.enable = true;
-  programs.hyprlock.enable = true;
 
   programs.steam = {
     enable = true;
@@ -159,40 +174,42 @@
     shell = pkgs.nushell;
     extraGroups = [ "wheel" "docker" "wireshark" "render" "video" ];
     packages = with pkgs; [
-      htop
-      firefox
-      remmina
-      tio
-      git
-      gh
-      gnumake
-      brightnessctl
-      docker-compose
-      # kubectl
-      kind
-      # calibre
-      swww
-      kubernetes-helm
-      discord
-      libreoffice-qt
-      containerlab
-      hyprshot
-      prismlauncher
-      rpi-imager
-      vscode
-      arduino
-      steamcmd
-      pulseview
-      telegram-desktop
-      ruby
-      k9s
-      lazygit
-      taskwarrior3
-      taskwarrior-tui
-      rofimoji
-      obsidian
-      nwg-displays
-      hyprpaper
+      home-manager
+
+      # htop
+      # firefox
+      # remmina
+      # tio
+      # git
+      # gh
+      # gnumake
+      # brightnessctl
+      # docker-compose
+      # # kubectl
+      # kind
+      # # calibre
+      # swww
+      # kubernetes-helm
+      # discord
+      # libreoffice-qt
+      # containerlab
+      # hyprshot
+      # prismlauncher
+      # rpi-imager
+      # vscode
+      # arduino
+      # steamcmd
+      # pulseview
+      # telegram-desktop
+      # ruby
+      # k9s
+      # lazygit
+      # taskwarrior3
+      # taskwarrior-tui
+      # rofimoji
+      # obsidian
+      # nwg-displays
+      # hyprpaper
     ];
   };
 
@@ -306,16 +323,15 @@
     (nerdfonts.override { fonts = [ "FiraCode" "Hermit" ]; })
   ];
 
-   # services.greetd = {
-   #   enable = true;
-   #   settings = rec {
-   #     hyprland = {
-   #       command = "${pkgs.hyprland}/bin/Hyprland";
-   #       user = "tlepine";
-   #     };
-   #     default_session = hyprland;
-   #   };
-   # };
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
+        user = "greeter";
+      };
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -335,6 +351,9 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+  networking.firewall = {
+    enable = false;
+  };
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
