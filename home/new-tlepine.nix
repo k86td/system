@@ -55,6 +55,7 @@ in {
       output = {
         eDP-1 = {
           bg = "${wal-darkeye}/darkeye.jpg fill";
+          scale = "1.5";
         };
       };
       keybindings = 
@@ -65,7 +66,7 @@ in {
         "XF86AudioMute"        = "exec ${pactl} set-sink-mute @DEFAULT_SINK@ toggle";
         "XF86AudioRaiseVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ +5%";
         "XF86AudioLowerVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ -5%";
-        "XF86AudioMicMute"        = "exec ${pactl} set-sink-input-mute @DEFAULT_SINK@ toggle";
+        "XF86AudioMicMute"     = "exec ${pactl} set-sink-input-mute @DEFAULT_SINK@ toggle";
       };
       bars = [
         { command = "${pkgs.waybar}/bin/waybar"; }
@@ -75,6 +76,9 @@ in {
           tap = "enabled";
           drag = "enabled";
           natural_scroll = "enabled";
+        };
+        "1118:2354:Microsoft_Arc_Mouse" = {
+          pointer_accel = "-0.7";
         };
       };
     };
@@ -158,7 +162,7 @@ in {
           };
         };
         "battery" = {
-          bat = "BAT1"; 
+          bat = "BAT0"; 
           format = "{icon} ";
           format-icons = {
             default = [
@@ -203,12 +207,21 @@ in {
     ];
   };
 
+  programs.rofi = {
+    enable = true;
+    theme = ./files/rofi/redSquared.rasi;
+  };
+
   home.packages = with pkgs; [
     grim
     slurp
     wl-clipboard
     mako
     libnotify
+
+    nyxt
+
+    gcr
 
     vscode
 
@@ -218,6 +231,7 @@ in {
     waypipe
 
     telegram-desktop
+    teams-for-linux
   ];
 
   home.pointerCursor = {

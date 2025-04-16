@@ -32,12 +32,8 @@
         # TODO: wtf is this?
         specialArgs = attrs;
         modules = [
-          lanzaboote.nixosModules.lanzaboote
           ./configuration.nix
           nixos-hardware.nixosModules.lenovo-thinkpad-t490
-          # home-manager.nixosModules.home-manager {
-          #   home-manager.users.tlepine = import ./home/tlepine.nix;
-          # }
         ];
       };
 

@@ -1,14 +1,7 @@
-{ config, lib, pkgs, nixpkgs, lanzaboote, nixos-hardware, hyprland, ... }:
-# let
-  # sources = import ./nix/sources.nix;
-  # lanzaboote = import sources.lanzaboote;
-  # unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
-
-# in
+{ config, lib, pkgs, nixpkgs, nixos-hardware, hyprland, ... }:
 {
   imports =
     [ # Include the results of the hardware scan.
-       # lanzaboote.nixosModules.lanzaboote
       ./hardware-configuration.nix
       # <nixos-hardware/lenovo/thinkpad/t490>
       # (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
@@ -57,18 +50,13 @@
   ];
 
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
 
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
-
-  boot.lanzaboote = {
-    enable = false;
-    pkiBundle = "/etc/secureboot";
-  };
 
   boot.loader.grub = {
     enable = true;
@@ -80,9 +68,8 @@
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
-  networking.hosts = {
-    "151.101.2.217" = [ "cache.nixos.org" ];
-  };
+
+  systemd.services.NetworkManager-wait-online.enable = false;
 
   # Set your time zone.
   time.timeZone = "America/Toronto";
@@ -171,7 +158,6 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tlepine = {
     isNormalUser = true;
-    shell = pkgs.nushell;
     extraGroups = [ "wheel" "docker" "wireshark" "render" "video" ];
     packages = with pkgs; [
       home-manager
@@ -314,23 +300,46 @@
     sw = "sudo nixos-rebuild --flake /etc/nixos#superthinker switch";
   };
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enableOnBoot = false;
+    enable = true;
+  };
   virtualisation.podman.enable = true;
   
 
   # setup fonts
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" "Hermit" ]; })
+    nerd-fonts.fira-code
+    nerd-fonts.hurmit
   ];
 
-  services.greetd = {
+  services.greetd = 
+  let
+    swayEnv = pkgs.writeShellScriptBin "sway-env" ''
+      export ELECTRON_OZONE_PLATFORM_HINT=wayland
+
+      exec sway
+    '';
+  in
+  {
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
-        user = "greeter";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd ${swayEnv}/bin/sway-env";
+        user = "tlepine";
       };
     };
+  };
+
+  # this is to avoid spamming log messages while tuigreet is open
+  systemd.services.greetd.serviceConfig = {
+    Type = "idle";
+    StandardInput = "tty";
+    StandardOutput = "tty";
+    StandardError = "journal";
+    TTYReset = true;
+    TTYVHangup = true;
+    TTYVTDisallocate = true;
   };
 
   # Some programs need SUID wrappers, can be configured further or are
