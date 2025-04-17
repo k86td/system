@@ -230,9 +230,12 @@
   #   histSize = 10000;
   # };
 
-  services.openvpn.servers = {
+  services.openvpn.servers = 
+  let
+    repoDecrypted = builtins.hashFile "sha256" ./secrets/state == builtins.hashString "sha256" "decrypted\n";
+  in{
     BOSS = {
-      config = builtins.readFile ./secrets/vpn/ebox-boss.ovpn;
+      config = if bossVpn.success then bossVpn.value else null;
     };
   };
 
