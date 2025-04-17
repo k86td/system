@@ -1,9 +1,7 @@
 { pkgs, lib, ... }:
 {
-  # TODO: don't hardcode flake name
   home.shellAliases = {
     "hw" = "home-manager switch --flake /etc/nixos#new-tlepine"; 
-    "sw" = "sudo nixos-rebuild switch --flake /etc/nixos#lenoovo-pad"; 
   };
 
   programs.zsh = {
@@ -12,6 +10,10 @@
 
   programs.kitty = {
     enable = true;
+    font = {
+      name = "Hurmit Nerd Font Mono";
+      package = pkgs.nerd-fonts.hurmit;
+    };
     settings = {
       shell = "${pkgs.zsh}/bin/zsh";
       enable_audio_bell = false;
