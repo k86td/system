@@ -162,6 +162,9 @@
     packages = with pkgs; [
       home-manager
 
+      _1password-gui
+      _1password-cli
+
       # htop
       # firefox
       # remmina
@@ -227,7 +230,11 @@
   #   histSize = 10000;
   # };
 
-  # services.openvpn.servers = {};
+  services.openvpn.servers = {
+    BOSS = {
+      config = builtins.readFile ./secrets/vpn/ebox-boss.ovpn;
+    };
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
