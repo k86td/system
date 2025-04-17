@@ -15,6 +15,7 @@
     settings = {
       shell = "${pkgs.zsh}/bin/zsh";
       enable_audio_bell = false;
+      background_opacity = "0.9";
     };
   };
 

@@ -227,9 +227,14 @@
   #   histSize = 10000;
   # };
 
+  # services.openvpn.servers = {};
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    git
+    git-crypt
+
     networkmanager-openvpn
     wget
     playerctl
@@ -313,19 +318,11 @@
     nerd-fonts.hurmit
   ];
 
-  services.greetd = 
-  let
-    swayEnv = pkgs.writeShellScriptBin "sway-env" ''
-      export ELECTRON_OZONE_PLATFORM_HINT=wayland
-
-      exec sway
-    '';
-  in
-  {
+  services.greetd = {
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd ${swayEnv}/bin/sway-env";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd sway";
         user = "tlepine";
       };
     };

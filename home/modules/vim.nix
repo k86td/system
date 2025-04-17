@@ -20,16 +20,23 @@ in
     plugins = with pkgs.vimPlugins; [
       vim-markdown
       extraPlugins.tokyonight-vim
+      nerdtree
     ];
+    settings = {
+      expandtab = true;
+      shiftwidth = 2;
+      tabstop = 2;
+    };
     extraConfig = ''
       set termguicolors
       set number
 
       colorscheme tokyonight
-      set background=dark
       set conceallevel=2
 
       autocmd FileType markdown set textwidth=50
+
+      nmap <Space>e :NERDTreeToggle <Enter>
     '';
   };
 }

@@ -20,20 +20,15 @@ let
 in {
   imports = [
     ./modules/terminal.nix
+    ./modules/vim.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
 
   home.username = "tlepine";
   home.homeDirectory = "/home/tlepine";
-
-  programs.vim = {
-    enable = true;
-    settings = {
-      expandtab = true;
-      shiftwidth = 2;
-      tabstop = 2;
-    };
+  home.shellAliases = {
+    hw = "home-manager switch --flake /etc/nixos#new-tlepine";
   };
 
   services.wlsunset = {
@@ -42,20 +37,57 @@ in {
     longitude = -73.54 ;
   };
 
+  programs.wofi = {
+    enable = true;
+  };
+
+  services.kanshi = {
+    enable = true;
+    settings = [
+      { profile.name = "undocked";
+        profile.outputs = [
+          { criteria = "eDP-1"; }
+        ];
+      }
+      { profile.name = "docked-single-left";
+        profile.outputs = [
+          { criteria = "eDP-1";
+            scale = 2.0;
+            mode = "1920x1080@60";
+            position = "0,270";
+          }
+          { criteria = "LG Electronics 32inch LG FHD 903NTRLA7270";
+            mode = "1920x1080@60";
+            position = "960,0";
+          }
+        ];
+      }
+    ];
+  };
+
   # TODO: move this to its own module
   services.gnome-keyring.enable = true;
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
+    extraSessionCommands = ''
+      export ELECTRON_OZONE_PLATFORM_HINT=wayland
+    '';
     config = rec {
       modifier = "Mod4";
       terminal = "${pkgs.kitty}/bin/kitty";
       gaps.inner = 5;
       defaultWorkspace = "workspace number 1";
+      startup = [
+        {
+          command = "${pkgs.kanshi}";
+          always = true;
+        }
+      ];
       output = {
         eDP-1 = {
           bg = "${wal-darkeye}/darkeye.jpg fill";
-          scale = "1.5";
+          scale = "2";
         };
       };
       keybindings = 
@@ -67,11 +99,18 @@ in {
         "XF86AudioRaiseVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ +5%";
         "XF86AudioLowerVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ -5%";
         "XF86AudioMicMute"     = "exec ${pactl} set-sink-input-mute @DEFAULT_SINK@ toggle";
+
+        "Mod4+d" = "exec ${pkgs.wofi}/bin/wofi --show run";
       };
       bars = [
         { command = "${pkgs.waybar}/bin/waybar"; }
       ];
       input = {
+        "type:keyboard" = {
+          xkb_layout = "us,ca";
+          xkb_options = "grp:alt_shift_toggle";
+        };
+
         "type:touchpad" = {
           tap = "enabled";
           drag = "enabled";
@@ -205,11 +244,6 @@ in {
         };
       } 
     ];
-  };
-
-  programs.rofi = {
-    enable = true;
-    theme = ./files/rofi/redSquared.rasi;
   };
 
   home.packages = with pkgs; [
