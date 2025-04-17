@@ -25,12 +25,18 @@
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
+
+    cfg = {
+      repoDecrypted = builtins.hashFile "sha256" ./secrets/state == builtins.hashString "sha256" "decrypted\n";
+    };
   in
   {
     nixosConfigurations = {
       superthinker = nixpkgs.lib.nixosSystem {
-        # TODO: wtf is this?
-        specialArgs = attrs;
+        # this sends down to the imported modules the variables inherited
+        specialArgs = {
+          inherit cfg;
+        };
         modules = [
           ./configuration.nix
           nixos-hardware.nixosModules.lenovo-thinkpad-t490

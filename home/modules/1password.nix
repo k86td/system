@@ -5,15 +5,12 @@
   ];
 
   xdg.desktopEntries = {
-    "1passsword" = {
+    "1password" = {
       name = "1Password";
       genericName = "Password Manager";
-      exec = "1password --ozone-platform-hint=x11 %U";
+      exec = "1password --ozone-platform=x11 %U";
       terminal = false;
-      mimeType = [
-        "x-scheme-handler/onepassword"
-      ];
-      type = "Application";
+      categories = [ "Application" ];
     }; 
   };
 }

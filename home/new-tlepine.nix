@@ -21,6 +21,7 @@ in {
   imports = [
     ./modules/terminal.nix
     ./modules/vim.nix
+    ./modules/1password.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -30,6 +31,8 @@ in {
   home.shellAliases = {
     hw = "home-manager switch --flake /etc/nixos#new-tlepine";
   };
+  
+  xdg.enable = true;
 
   services.wlsunset = {
     enable = true;
@@ -39,6 +42,10 @@ in {
 
   programs.wofi = {
     enable = true;
+    # this can be helpful when debugging
+    # settings = {
+    #   "drun-print_command" = true;
+    # };
   };
 
   services.kanshi = {
@@ -100,7 +107,7 @@ in {
         "XF86AudioLowerVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ -5%";
         "XF86AudioMicMute"     = "exec ${pactl} set-sink-input-mute @DEFAULT_SINK@ toggle";
 
-        "Mod4+d" = "exec ${pkgs.wofi}/bin/wofi --show run";
+        "Mod4+d" = "exec ${pkgs.wofi}/bin/wofi --show drun";
       };
       bars = [
         { command = "${pkgs.waybar}/bin/waybar"; }
@@ -253,6 +260,7 @@ in {
     mako
     libnotify
 
+    # minimal browser with vim-like bindings
     nyxt
 
     gcr

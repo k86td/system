@@ -1,5 +1,4 @@
-{ config, lib, pkgs, nixpkgs, nixos-hardware, hyprland, ... }:
-{
+{ config, lib, pkgs, cfg, ... }: {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -25,12 +24,7 @@
     };
   };
 
-  programs._1password.enable = true;
-  programs._1password-gui = {
-    enable = true;
-    polkitPolicyOwners = [ "tlepine" ];
-  };
-
+  # TODO: figure out what this is
   security.polkit.enable = true;
 
   # enable bluetooth
@@ -162,9 +156,6 @@
     packages = with pkgs; [
       home-manager
 
-      _1password-gui
-      _1password-cli
-
       # htop
       # firefox
       # remmina
@@ -230,14 +221,12 @@
   #   histSize = 10000;
   # };
 
-  services.openvpn.servers = 
-  let
-    repoDecrypted = builtins.hashFile "sha256" ./secrets/state == builtins.hashString "sha256" "decrypted\n";
-  in{
+  services.openvpn.servers = if cfg.repoDecrypted then {
     BOSS = {
-      config = if bossVpn.success then bossVpn.value else null;
+      config = builtins.readFile ./secrets/vpn/ebox-boss.ovpn;
+      autoStart = false;
     };
-  };
+  } else {};
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
