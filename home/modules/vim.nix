@@ -2,14 +2,13 @@
 let
   # TODO: move custom vim plugins to their own file (or git repo)
   extraPlugins = {
-    tokyonight-vim = pkgs.vimUtils.buildVimPlugin {
-      name = "tokyonight.vim";
-      version = "1.0";
+    vim-transparent = pkgs.vimUtils.buildVimPlugin {
+      name = "vim-transparent";
       src = pkgs.fetchFromGitHub {
-        owner = "ghifarit53";
-        repo = "tokyonight-vim";
-        rev = "4e82e0f0452a6ce8f387828ec71013015515035a";
-        sha256 = "sha256-ui/6xv8PH6KuQ4hG1FNMf6EUdF2wfWPNgG/GMXYvn/8=";
+        owner = "tribela";
+        repo = "vim-transparent";
+        rev = "7b34267";
+        sha256 = "sha256-zEH5A9CKaoN5DXJjmC0+j74kBZsfJm+Ztk1qFHeIzts=";
       };
     };
   };
@@ -18,9 +17,12 @@ in
   programs.vim = {
     enable = true;
     plugins = with pkgs.vimPlugins; [
-      vim-markdown
-      extraPlugins.tokyonight-vim
+      extraPlugins.vim-transparent
       nerdtree
+
+      # markdown plugins
+      vim-markdown
+      markdown-preview-nvim
     ];
     settings = {
       expandtab = true;
@@ -31,7 +33,7 @@ in
       set termguicolors
       set number
 
-      colorscheme tokyonight
+      colorscheme industry
       set conceallevel=2
 
       autocmd FileType markdown set textwidth=50

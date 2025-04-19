@@ -28,6 +28,7 @@
 
     cfg = {
       repoDecrypted = builtins.hashFile "sha256" ./secrets/state == builtins.hashString "sha256" "decrypted\n";
+      wallpapers = (import ./home/files/wallpapers/default.nix { inherit pkgs; });
     };
   in
   {
@@ -59,6 +60,11 @@
 
     homeConfigurations."new-tlepine" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
+
+      extraSpecialArgs = {
+        inherit cfg;
+      };
+
       modules = [
         ./home/new-tlepine.nix
       ];

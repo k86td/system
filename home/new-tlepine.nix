@@ -1,23 +1,5 @@
+{ cfg, lib, pkgs, ... }:
 {
-  inputs, lib, config, pkgs, ...
-}:
-let
-  wal-darkeye = pkgs.stdenv.mkDerivation rec {
-    name = "darkeye";
-    src = files/wallpapers;
-    dontUnpack = true;
-    installPhase = ''
-      mkdir -p $out
-      cp ${src}/darkeye.jpg $out
-    '';
-  };
-  colors = {
-    background = "#181C14";
-    tertiary = "#3C3D37";
-    secondary = "#697565";
-    primary = "#ECDFCC";
-  };
-in {
   imports = [
     ./modules/terminal.nix
     ./modules/vim.nix
@@ -41,11 +23,16 @@ in {
   };
 
   programs.wofi = {
-    enable = true;
+    enable = false;
     # this can be helpful when debugging
     # settings = {
     #   "drun-print_command" = true;
     # };
+  };
+
+  programs.rofi = {
+    enable = true;
+    theme = ./files/rofi/redSquared.rasi;
   };
 
   services.kanshi = {
@@ -53,7 +40,11 @@ in {
     settings = [
       { profile.name = "undocked";
         profile.outputs = [
-          { criteria = "eDP-1"; }
+          { criteria = "eDP-1";
+            scale = 1.0;
+            mode = "1920x1080@60";
+            position = "0,0";
+          }
         ];
       }
       { profile.name = "docked-single-left";
@@ -82,7 +73,7 @@ in {
     '';
     config = rec {
       modifier = "Mod4";
-      terminal = "${pkgs.kitty}/bin/kitty";
+      terminal = "${pkgs.alacritty}/bin/alacritty";
       gaps.inner = 5;
       defaultWorkspace = "workspace number 1";
       startup = [
@@ -93,21 +84,29 @@ in {
       ];
       output = {
         eDP-1 = {
-          bg = "${wal-darkeye}/darkeye.jpg fill";
-          scale = "2";
+          bg = "${cfg.wallpapers.darkeye.imgJpg}/img.jpg fill";
+        };
+
+        "LG Electronics 32inch LG FHD 903NTRLA7270" = {
+          bg = "${cfg.wallpapers.grayabstract.imgPng}/img.png fill";
         };
       };
       keybindings = 
       let
         pactl = "${pkgs.pulseaudio}/bin/pactl";
+        brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
       in
         lib.mkOptionDefault {
-        "XF86AudioMute"        = "exec ${pactl} set-sink-mute @DEFAULT_SINK@ toggle";
-        "XF86AudioRaiseVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ +5%";
-        "XF86AudioLowerVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ -5%";
-        "XF86AudioMicMute"     = "exec ${pactl} set-sink-input-mute @DEFAULT_SINK@ toggle";
+        "XF86AudioMute"         = "exec ${pactl} set-sink-mute @DEFAULT_SINK@ toggle";
+        "XF86AudioRaiseVolume"  = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ +5%";
+        "XF86AudioLowerVolume"  = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ -5%";
+        "XF86AudioMicMute"      = "exec ${pactl} set-sink-input-mute @DEFAULT_SINK@ toggle";
 
-        "Mod4+d" = "exec ${pkgs.wofi}/bin/wofi --show drun";
+        "XF86MonBrightnessUp"   = "exec ${brightnessctl} set +5%";
+        "XF86MonBrightnessDown" = "exec ${brightnessctl} set 5%-";
+
+        "Mod4+d" = "exec ${pkgs.rofi}/bin/rofi -show drun";
+        "Mod4+period" = "exec ${pkgs.rofimoji}/bin/rofimoji";
       };
       bars = [
         { command = "${pkgs.waybar}/bin/waybar"; }
@@ -144,21 +143,21 @@ in {
       }
 
       window#waybar {
-        color: ${colors.primary};
-        background: ${colors.background};
+        color: ${cfg.wallpapers.darkeye.colors.primary};
+        background: ${cfg.wallpapers.darkeye.colors.background};
       }
 
       #workspaces button {
-        color: ${colors.tertiary};
-        background: ${colors.background};
+        color: ${cfg.wallpapers.darkeye.colors.tertiary};
+        background: ${cfg.wallpapers.darkeye.colors.background};
         padding-left: 3px;
         padding-right: 3px;
       }
       #workspaces button:hover {
-        color: ${colors.secondary};
+        color: ${cfg.wallpapers.darkeye.colors.secondary};
       }
       #workspaces button.visible {
-        color: ${colors.primary};
+        color: ${cfg.wallpapers.darkeye.colors.primary};
       }
 
       #clock {
@@ -180,7 +179,7 @@ in {
       }
 
       tooltip {
-        background: ${colors.background};
+        background: ${cfg.wallpapers.darkeye.colors.background};
         border-radius: 5px;
       }
     '';
@@ -242,10 +241,10 @@ in {
             mode = "year";
             mode-mon-col = 3;
             format = {
-              today = "<span color='${colors.primary}'><b><u>{}</u></b></span>";
-              weeks = "<span color='${colors.secondary}'>{}</span>";
-              days = "<span color='${colors.secondary}'>{}</span>";
-              months = "<span color='${colors.primary}'>{}</span>";
+              today = "<span color='${cfg.wallpapers.darkeye.colors.primary}'><b><u>{}</u></b></span>";
+              weeks = "<span color='${cfg.wallpapers.darkeye.colors.secondary}'>{}</span>";
+              days = "<span color='${cfg.wallpapers.darkeye.colors.secondary}'>{}</span>";
+              months = "<span color='${cfg.wallpapers.darkeye.colors.primary}'>{}</span>";
             };
           };
         };

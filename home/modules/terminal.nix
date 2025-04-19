@@ -6,10 +6,43 @@
 
   programs.zsh = {
     enable = true;
+    initExtra = ''
+      unsetopt BEEP
+      bindkey -e
+    '';
+    enableCompletion = true;
+    historySubstringSearch.enable = true;
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+  };
+
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      window = {
+        opacity = 0.9;
+        blur = true;
+      };
+      terminal.shell = {
+        program = "${pkgs.zsh}/bin/zsh";
+      };
+      font = {
+        size = 14;
+        normal = {
+          family = "Hurmit Nerd Font";
+          style = "Bold";
+        };
+      };
+      general = {
+        import = [
+          "${pkgs.alacritty-theme}/share/alacritty-theme/hyper.toml"
+        ];
+      };
+    };
   };
 
   programs.kitty = {
-    enable = true;
+    enable = false;
     font = {
       name = "Hurmit Nerd Font Mono";
       package = pkgs.nerd-fonts.hurmit;
