@@ -14,7 +14,22 @@
     hw = "home-manager switch --flake /etc/nixos#new-tlepine";
   };
   
-  xdg.enable = true;
+  xdg = {
+    enable = true;
+    portal = {
+      enable = true;
+      config = {
+        common = {
+          default = [
+            "gtk"
+          ];
+        };
+      };
+      extraPortals = [
+        pkgs.xdg-desktop-portal-wlr
+      ];
+    };
+  };
 
   services.wlsunset = {
     enable = true;
@@ -57,6 +72,42 @@
           { criteria = "LG Electronics 32inch LG FHD 903NTRLA7270";
             mode = "1920x1080@60";
             position = "960,0";
+          }
+        ];
+      }
+      # this profile is when I restart my laptop & DP-* have their original values
+      { profile.name = "plug-replug-dual-monitor";
+        profile.outputs = [
+          {
+            criteria = "DP-4";
+            position = "0,0";
+          }
+          {
+            criteria = "DP-5";
+            position = "1920,0";
+            transform = "270";
+          }
+          {
+            criteria = "eDP-1";
+            position = "3000,840";
+          }
+        ];
+      }
+      # this profile is when I plug back USB-C dock and DP-* are all fucked
+      { profile.name = "plug-replug-dual-monitor";
+        profile.outputs = [
+          {
+            criteria = "DP-6";
+            position = "0,0";
+          }
+          {
+            criteria = "DP-7";
+            position = "1920,0";
+            transform = "270";
+          }
+          {
+            criteria = "eDP-1";
+            position = "3000,840";
           }
         ];
       }
