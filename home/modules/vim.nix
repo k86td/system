@@ -19,6 +19,7 @@ in
     plugins = with pkgs.vimPlugins; [
       extraPlugins.vim-transparent
       nerdtree
+      vim-floaterm
 
       # markdown plugins
       vim-markdown
@@ -39,6 +40,9 @@ in
       autocmd FileType markdown set textwidth=50
 
       nmap <Space>e :NERDTreeToggle <Enter>
+
+      let g:floaterm_keymap_toggle = '<C-_>'
+      let g:floaterm_shell = 'zsh'
     '';
   };
 }
