@@ -48,6 +48,7 @@
   programs.rofi = {
     enable = true;
     theme = ./files/rofi/redSquared.rasi;
+    package = pkgs.rofi-wayland;
   };
 
   services.kanshi = {
@@ -156,7 +157,7 @@
         "XF86MonBrightnessUp"   = "exec ${brightnessctl} set +5%";
         "XF86MonBrightnessDown" = "exec ${brightnessctl} set 5%-";
 
-        "Mod4+d" = "exec ${pkgs.rofi}/bin/rofi -show drun";
+        "Mod4+d" = "exec ${pkgs.rofi}/bin/rofi -show drun -monitor -5";
         "Mod4+period" = "exec ${pkgs.rofimoji}/bin/rofimoji";
       };
       bars = [
