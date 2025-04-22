@@ -1,8 +1,8 @@
 { pkgs, ... }:
 {
-  home.packages = with pkgs; [
-    _1password-gui
-  ];
+  # home.packages = with pkgs; [
+  #   _1password-gui
+  # ];
 
   xdg.desktopEntries = {
     "1password" = {

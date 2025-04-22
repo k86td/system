@@ -91,6 +91,7 @@
           {
             criteria = "eDP-1";
             position = "3000,840";
+            scale = 2.0;
           }
         ];
       }
@@ -109,6 +110,7 @@
           {
             criteria = "eDP-1";
             position = "3000,840";
+            scale = 2.0;
           }
         ];
       }
