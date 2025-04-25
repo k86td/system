@@ -11,6 +11,16 @@ let
         sha256 = "sha256-zEH5A9CKaoN5DXJjmC0+j74kBZsfJm+Ztk1qFHeIzts=";
       };
     };
+
+    fuzzyy = pkgs.vimUtils.buildVimPlugin {
+      name = "fuzzyy";
+      src = pkgs.fetchFromGitHub {
+        owner = "Donaldttt";
+        repo = "fuzzyy";
+        rev = "f424831";
+        sha256 = "sha256-DzUsEHDOvelN0d1lymesopMI8nVtE5bjv6Zx6aYv2hI=";
+      };
+    };
   };
 in
 {
@@ -18,6 +28,7 @@ in
     enable = true;
     plugins = with pkgs.vimPlugins; [
       extraPlugins.vim-transparent
+      extraPlugins.fuzzyy
       nerdtree
       vim-floaterm
 
@@ -43,6 +54,11 @@ in
 
       let g:floaterm_keymap_toggle = '<C-_>'
       let g:floaterm_shell = 'zsh'
+      
+      let g:fuzzyy_enable_mappings = 0
+      nmap fb :FuzzyBuffers <Enter>
+      nmap ff :FuzzyFiles <Enter>
+      nmap fg :FuzzyGrep <Enter>
     '';
   };
 }

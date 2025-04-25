@@ -345,6 +345,13 @@
     enable = true;
   };
 
+  programs.chromium = {
+    enable = true;
+    extensions = [
+      "aeblfdkhhhdcdjpifhhbdiojplfjncoa"
+    ];
+  };
+
   programs.home-manager.enable = true;
 
   home.stateVersion = "24.11";

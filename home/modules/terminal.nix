@@ -16,6 +16,10 @@
     syntaxHighlighting.enable = true;
   };
 
+  programs.ripgrep = {
+    enable = true;
+  };
+
   programs.alacritty = {
     enable = true;
     settings = {
