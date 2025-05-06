@@ -1,5 +1,6 @@
 { config, pkgs, lib, ... }:
 {
+  # TODO: install Ltex-ls for grammar correction
   programs.neovim = {
     enable = true;
     withNodeJs = true;
@@ -9,6 +10,14 @@
 
       # additional plugins that we want to install need to be specified here
       which-key-nvim
+      neo-tree-nvim
+      flash-nvim
+      toggleterm-nvim
+    ];
+
+    extraPackages = with pkgs; [
+      lua-language-server
+      ltex-ls
     ];
 
     extraLuaConfig = ''
@@ -31,9 +40,58 @@
         },
         spec = {
           -- here's where you want to add plugins and stuffies
-          { import = "plugins" },
+          -- { import = "plugins" },
+          {
+            "folke/which-key.nvim",
+            event = "VeryLazy",
+            keys = {
+              {
+                "<leader>e",
+                "<cmd>Neotree toggle<cr>",
+                desc = "Open neo-tree",
+              },
+              {
+                "<leader>s",
+                mode =  { "n", "x", "o" },
+                function()
+                  require("flash").jump()
+                end,
+                desc = "Toggle flash search",
+              },
+              {
+                "<c-/>",
+                desc = "Toggle terminal",
+              },
+            },
+          },
+          {
+            "nvim-neo-tree/neo-tree.nvim",
+            lazy = false,
+          },
+          {
+            "folke/flash.nvim",
+            event = VeryLazy,
+          },
         },
       })
+
+      -- TODO: move this to its own LSP plugin
+      vim.lsp.config['luals'] = {
+        cmd = { 'lua-language-server' },
+        filetypes = { 'lua' },
+      }
+      vim.lsp.enable('luals')
+
+      vim.lsp.config['ltex'] = {
+        cmd = { 'ltex-ls' },
+        filetypes = { "typst", "markdown" },
+        settings = {
+          ltex = {
+            language = "fr",
+          },
+        },
+      }
+      vim.lsp.enable('ltex')
     '';
   };
 

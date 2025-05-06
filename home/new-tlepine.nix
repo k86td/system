@@ -122,6 +122,7 @@
   services.gnome-keyring.enable = true;
   wayland.windowManager.sway = {
     enable = true;
+    checkConfig = false;
     wrapperFeatures.gtk = true;
     extraSessionCommands = ''
       export ELECTRON_OZONE_PLATFORM_HINT=wayland
@@ -169,7 +170,7 @@
       input = {
         "type:keyboard" = {
           xkb_layout = "us,ca";
-          xkb_options = "grp:alt_shift_toggle";
+          xkb_options = "grp:win_space_toggle";
         };
 
         "type:touchpad" = {
@@ -327,7 +328,13 @@
     waypipe
 
     telegram-desktop
+
+    # work
     teams-for-linux
+
+    # writing/PDF
+    zathura
+    typst
   ];
 
   home.pointerCursor = {
