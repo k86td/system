@@ -1,5 +1,4 @@
-{ config, pkgs, lib, ... }:
-{
+{ config, pkgs, lib, ... }: {
   # TODO: install Ltex-ls for grammar correction
   programs.neovim = {
     enable = true;
@@ -13,14 +12,15 @@
       neo-tree-nvim
       flash-nvim
       toggleterm-nvim
+      nui-nvim
+      precognition-nvim
+      hardtime-nvim
     ];
 
-    extraPackages = with pkgs; [
-      lua-language-server
-      ltex-ls
-    ];
+    extraPackages = with pkgs; [ lua-language-server ltex-ls ];
 
     extraLuaConfig = ''
+      vim.wo.relativenumber = true
       vim.g.mapleader = " "
       vim.opt.rtp:prepend("${pkgs.vimPlugins.lazy-nvim}")
 
@@ -32,7 +32,10 @@
           },
         },
         dev = {
-          path = "${pkgs.vimUtils.packDir config.programs.neovim.finalPackage.passthru.packpathDirs}/pack/myNeovimPackages/start",
+          path = "${
+            pkgs.vimUtils.packDir
+            config.programs.neovim.finalPackage.passthru.packpathDirs
+          }/pack/myNeovimPackages/start",
           patterns = {""},
         },
         install = {
@@ -72,6 +75,42 @@
             "folke/flash.nvim",
             event = VeryLazy,
           },
+          {
+            "m4xshen/hardtime.nvim",
+            lazy = false,
+            dependencies = { "MunifTanjim/nui.nvim" },
+            opts = {},
+          },
+          {
+            "tris203/precognition.nvim",
+            --event = "VeryLazy",
+            opts = {
+            -- startVisible = true,
+            -- showBlankVirtLine = true,
+            -- highlightColor = { link = "Comment" },
+            -- hints = {
+            --      Caret = { text = "^", prio = 2 },
+            --      Dollar = { text = "$", prio = 1 },
+            --      MatchingPair = { text = "%", prio = 5 },
+            --      Zero = { text = "0", prio = 1 },
+            --      w = { text = "w", prio = 10 },
+            --      b = { text = "b", prio = 9 },
+            --      e = { text = "e", prio = 8 },
+            --      W = { text = "W", prio = 7 },
+            --      B = { text = "B", prio = 6 },
+            --      E = { text = "E", prio = 5 },
+            -- },
+            -- gutterHints = {
+            --     G = { text = "G", prio = 10 },
+            --     gg = { text = "gg", prio = 9 },
+            --     PrevParagraph = { text = "{", prio = 8 },
+            --     NextParagraph = { text = "}", prio = 8 },
+            -- },
+            -- disabled_fts = {
+            --     "startify",
+            -- },
+            },
+          }
         },
       })
 

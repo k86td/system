@@ -14,6 +14,10 @@
   home.shellAliases = {
     hw = "home-manager switch --flake /etc/nixos#new-tlepine";
   };
+
+  programs.qutebrowser = {
+    enable = true;
+  };
   
   xdg = {
     enable = true;
@@ -123,6 +127,7 @@
   wayland.windowManager.sway = {
     enable = true;
     checkConfig = false;
+    package = pkgs.swayfx;
     wrapperFeatures.gtk = true;
     extraSessionCommands = ''
       export ELECTRON_OZONE_PLATFORM_HINT=wayland
@@ -184,7 +189,16 @@
       };
     };
     extraConfig = ''
-      default_border pixel 2
+      default_border none
+      hide_edge_borders --i3 smart
+      smart_borders on
+      smart_gaps on
+
+      # swayfx
+      blur enable
+      blur_xray disable
+      blur_passes 2
+      blur_radius 5
     '';
   };
 
@@ -324,6 +338,8 @@
 
     go
     gopls
+
+    nixfmt-classic
 
     waypipe
 
