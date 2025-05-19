@@ -7,22 +7,33 @@
     plugins = with pkgs.vimPlugins; [
       lazy-nvim
 
+      # dependencies
+      plenary-nvim
+      nui-nvim
+
       # additional plugins that we want to install need to be specified here
       which-key-nvim
       neo-tree-nvim
       flash-nvim
       toggleterm-nvim
-      nui-nvim
       precognition-nvim
       hardtime-nvim
+      telescope-nvim
     ];
 
-    extraPackages = with pkgs; [ lua-language-server ltex-ls ];
+    extraPackages = with pkgs; [ lua-language-server ltex-ls ripgrep ];
 
     extraLuaConfig = ''
       vim.wo.relativenumber = true
       vim.g.mapleader = " "
       vim.opt.rtp:prepend("${pkgs.vimPlugins.lazy-nvim}")
+      vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, silent = true })
+
+
+      vim.opt.tabstop = 2
+      vim.opt.shiftwidth = 2
+      vim.opt.expandtab = true
+      vim.bo.softtabstop = 2
 
       require("lazy").setup({
         performance = {
@@ -63,8 +74,31 @@
               },
               {
                 "<c-/>",
+                "<cmd>ToggleTerm<cr>",
                 desc = "Toggle terminal",
               },
+
+              {
+                "<leader>f",
+                group = "file"
+              },
+              {
+                "<leader>ff",
+                desc = "Find files",
+                mode = { "n" },
+                function()
+                  require("telescope.builtin").find_files()
+                end
+              },
+              {
+                "<leader>fb",
+                desc = "Find buffers",
+                mode = { "n" },
+                function()
+                  require("telescope.builtin").buffers()
+                end
+              }
+
             },
           },
           {
@@ -110,7 +144,18 @@
             --     "startify",
             -- },
             },
-          }
+          },
+          {
+            "nvim-telescope/telescope.nvim",
+            event = "VeryLazy",
+            dependencies = { "nvim-lua/plenary.nvim" },
+            opts = {},
+          },
+          {
+            "akinsho/toggleterm.nvim",
+            event = "VeryLazy",
+            config = true,
+          },
         },
       })
 
