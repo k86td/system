@@ -13,6 +13,12 @@
       plenary-nvim
       nui-nvim
 
+      # auto-completion
+      nvim-cmp
+      cmp-nvim-lsp
+      cmp-buffer
+      cmp-path
+
       # additional plugins that we want to install need to be specified here
       which-key-nvim
       neo-tree-nvim
@@ -22,6 +28,7 @@
       hardtime-nvim
       telescope-nvim
       nvim-treesitter.withAllGrammars
+      autoclose-nvim
     ];
 
     extraPackages = with pkgs; [ lua-language-server ltex-ls ripgrep ];
@@ -176,28 +183,39 @@
               })
             end,
           },
+          {
+            "hrsh7th/nvim-cmp",
+            lazy = false,
+            config = function()
+              local cmp = require("cmp")
+              cmp.setup({
+                mapping = cmp.mapping.preset.insert({
+                  ["<CR>"] = cmp.mapping.confirm({ select = true }),
+                }),
+                sources = cmp.config.sources({
+                  { name = "nvim_lsp" },
+                  { name = "buffer" },
+                })
+              })
+
+              local capabilities = require("cmp_nvim_lsp").default_capabilities()
+              vim.lsp.config("gopls", {
+                capabilities = capabilities
+              })
+            end,
+          },
+          {
+            "m4xshen/autoclose.nvim",
+            config = function()
+              require("autoclose").setup({})
+            end,
+            event = "VeryLazy",
+          },
         },
       })
 
       -- TODO: move this to its own LSP plugin
       local lspconfig = require("lspconfig")
-      vim.opt.completeopt = { "menuone", "noselect", "popup" }
-      vim.api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], {expr = true, noremap = true})
-      vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], {expr = true, noremap = true})
-      vim.api.nvim_set_keymap("i", "<CR>", [[pumvisible() ? "\<C-y>" : "\<CR>"]], {expr = true, noremap = true})
-      
-      vim.api.nvim_set_keymap("i", "<C-Space>", "<C-x><C-o>", { noremap = true, silent = true })
-
-
-      vim.api.nvim_create_autocmd('LspAttach', {
-        callback = function(ev)
-          local client = vim.lsp.get_client_by_id(ev.data.client_id)
-          if client:supports_method('textDocument/completion') then
-            vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-          end
-        end,
-      })
-
       vim.lsp.config['luals'] = {
         cmd = { 'lua-language-server' },
         filetypes = { 'lua' },
@@ -233,6 +251,7 @@
         update_in_insert = false,
         severity_sort = true,
       })
+
     '';
   };
 
