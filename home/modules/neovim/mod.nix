@@ -6,6 +6,8 @@
 
     plugins = with pkgs.vimPlugins; [
       lazy-nvim
+      nvim-lspconfig
+      onedark-nvim
 
       # dependencies
       plenary-nvim
@@ -19,6 +21,7 @@
       precognition-nvim
       hardtime-nvim
       telescope-nvim
+      nvim-treesitter.withAllGrammars
     ];
 
     extraPackages = with pkgs; [ lua-language-server ltex-ls ripgrep ];
@@ -74,6 +77,7 @@
               },
               {
                 "<c-/>",
+                mode = { "n", "t" },
                 "<cmd>ToggleTerm<cr>",
                 desc = "Toggle terminal",
               },
@@ -97,7 +101,27 @@
                 function()
                   require("telescope.builtin").buffers()
                 end
-              }
+              },
+
+              {
+                "<leader>c",
+                group = "code",
+              },
+              {
+                "<leader>cd",
+                desc = "Show code diagnostics",
+                function()
+                  vim.diagnostic.open_float()
+                end,
+              },
+              {
+                "<C-space>",
+                mode = { "i" },
+                desc = "Trigger completion",
+                function()
+                  vim.lsp.completion.get()
+                end,
+              },
 
             },
           },
@@ -117,33 +141,8 @@
           },
           {
             "tris203/precognition.nvim",
-            --event = "VeryLazy",
-            opts = {
-            -- startVisible = true,
-            -- showBlankVirtLine = true,
-            -- highlightColor = { link = "Comment" },
-            -- hints = {
-            --      Caret = { text = "^", prio = 2 },
-            --      Dollar = { text = "$", prio = 1 },
-            --      MatchingPair = { text = "%", prio = 5 },
-            --      Zero = { text = "0", prio = 1 },
-            --      w = { text = "w", prio = 10 },
-            --      b = { text = "b", prio = 9 },
-            --      e = { text = "e", prio = 8 },
-            --      W = { text = "W", prio = 7 },
-            --      B = { text = "B", prio = 6 },
-            --      E = { text = "E", prio = 5 },
-            -- },
-            -- gutterHints = {
-            --     G = { text = "G", prio = 10 },
-            --     gg = { text = "gg", prio = 9 },
-            --     PrevParagraph = { text = "{", prio = 8 },
-            --     NextParagraph = { text = "}", prio = 8 },
-            -- },
-            -- disabled_fts = {
-            --     "startify",
-            -- },
-            },
+            event = "VeryLazy",
+            opts = {},
           },
           {
             "nvim-telescope/telescope.nvim",
@@ -156,13 +155,53 @@
             event = "VeryLazy",
             config = true,
           },
+          {
+            "navarasu/onedark.nvim",
+            priority = 1000,
+            config = function()
+              require("onedark").setup({
+                style = "deep"
+              })
+              require("onedark").load()
+            end,
+          },
+          {
+            "nvim-treesitter/nvim-treesitter",
+            lazy = false,
+            config = function()
+              require("nvim-treesitter.configs").setup({
+                highlight = {
+                  enable = true
+                },
+              })
+            end,
+          },
         },
       })
 
       -- TODO: move this to its own LSP plugin
+      local lspconfig = require("lspconfig")
+      vim.opt.completeopt = { "menuone", "noselect", "popup" }
+      vim.api.nvim_set_keymap("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], {expr = true, noremap = true})
+      vim.api.nvim_set_keymap("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], {expr = true, noremap = true})
+      vim.api.nvim_set_keymap("i", "<CR>", [[pumvisible() ? "\<C-y>" : "\<CR>"]], {expr = true, noremap = true})
+      
+      vim.api.nvim_set_keymap("i", "<C-Space>", "<C-x><C-o>", { noremap = true, silent = true })
+
+
+      vim.api.nvim_create_autocmd('LspAttach', {
+        callback = function(ev)
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          if client:supports_method('textDocument/completion') then
+            vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+          end
+        end,
+      })
+
       vim.lsp.config['luals'] = {
         cmd = { 'lua-language-server' },
         filetypes = { 'lua' },
+        capabilities = capabilities,
       }
       vim.lsp.enable('luals')
 
@@ -176,6 +215,24 @@
         },
       }
       vim.lsp.enable('ltex')
+
+      vim.lsp.config['gopls'] = {
+        cmd = { 'gopls' },
+        filetypes = { 'go' },
+        capabilities = capabilities,
+      }
+      vim.lsp.enable('gopls')
+
+      vim.diagnostic.config({
+        virtual_text = {
+          prefix = "●",  -- You can use "", "●", "■", "▶", etc.
+          spacing = 4,   -- Space between code and the message
+        },
+        signs = true,     -- Keeps the sign column indicators
+        underline = true,
+        update_in_insert = false,
+        severity_sort = true,
+      })
     '';
   };
 

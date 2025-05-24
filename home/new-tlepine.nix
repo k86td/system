@@ -71,13 +71,13 @@
       { profile.name = "docked-single-left";
         profile.outputs = [
           { criteria = "eDP-1";
-            scale = 2.0;
+            scale = 1.0;
             mode = "1920x1080@60";
             position = "0,270";
           }
           { criteria = "LG Electronics 32inch LG FHD 903NTRLA7270";
             mode = "1920x1080@60";
-            position = "960,0";
+            position = "1920,0";
           }
         ];
       }
@@ -96,7 +96,7 @@
           {
             criteria = "eDP-1";
             position = "3000,840";
-            scale = 2.0;
+            scale = 1.0;
           }
         ];
       }
@@ -115,7 +115,7 @@
           {
             criteria = "eDP-1";
             position = "3000,840";
-            scale = 2.0;
+            scale = 1.0;
           }
         ];
       }
@@ -335,6 +335,7 @@
     gcr
 
     vscode
+    kubectl
 
     go
     gopls
@@ -343,6 +344,7 @@
 
     waypipe
 
+    discord
     telegram-desktop
 
     # work
