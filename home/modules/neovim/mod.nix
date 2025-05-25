@@ -1,4 +1,18 @@
 { config, pkgs, lib, ... }: {
+
+  programs.neovide = {
+    enable = true;
+    settings = {
+      font = {
+        normal = [ {
+          family = "Hurmit Nerd Font";
+          style = "SemiBold";
+        } ];
+        size = 14.0;
+      };
+    };
+  };
+
   # TODO: install Ltex-ls for grammar correction
   programs.neovim = {
     enable = true;
@@ -8,6 +22,8 @@
       lazy-nvim
       nvim-lspconfig
       onedark-nvim
+      nvim-web-devicons
+      mini-icons
 
       # dependencies
       plenary-nvim
@@ -20,6 +36,8 @@
       cmp-path
 
       # additional plugins that we want to install need to be specified here
+      twilight-nvim
+      zen-mode-nvim
       which-key-nvim
       neo-tree-nvim
       flash-nvim
@@ -37,7 +55,11 @@
       vim.wo.relativenumber = true
       vim.g.mapleader = " "
       vim.opt.rtp:prepend("${pkgs.vimPlugins.lazy-nvim}")
+
+      -- TODO: move this into toggleterm configuration
+      -- allows to exit TERMINAL mode inside toggleterm with Esc
       vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, silent = true })
+      vim.o.mouse = ""
 
 
       vim.opt.tabstop = 2
@@ -129,6 +151,11 @@
                   vim.lsp.completion.get()
                 end,
               },
+              {
+                "<leader>cz",
+                desc = "Enable Zen mode",
+                "<cmd>ZenMode<cr>",
+              },
 
             },
           },
@@ -212,6 +239,12 @@
               require("autoclose").setup({})
             end,
             event = "VeryLazy",
+          },
+          {
+            "folke/twilight.nvim",
+          },
+          {
+            "folke/zen-mode.nvim",
           },
         },
       })
