@@ -339,6 +339,7 @@
 
     go
     gopls
+    gotools
 
     nixfmt-classic
 
