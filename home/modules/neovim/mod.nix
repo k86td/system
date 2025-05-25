@@ -160,7 +160,9 @@
           {
             "akinsho/toggleterm.nvim",
             event = "VeryLazy",
-            config = true,
+            opts = {
+              shell = "zsh"
+            },
           },
           {
             "navarasu/onedark.nvim",
