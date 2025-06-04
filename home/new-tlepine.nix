@@ -148,6 +148,10 @@
           bg = "${cfg.wallpapers.darkeye.imgJpg}/img.jpg fill";
         };
 
+        "BOE Display L56051794302" = {
+          bg = "${cfg.wallpapers.grayabstract.imgPng}/img.png fill";
+        };
+
         "LG Electronics 32inch LG FHD 903NTRLA7270" = {
           bg = "${cfg.wallpapers.grayabstract.imgPng}/img.png fill";
         };
@@ -340,6 +344,8 @@
     go
     gopls
     gotools
+
+    terraform-ls
 
     nixfmt-classic
 
