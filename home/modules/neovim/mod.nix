@@ -19,7 +19,6 @@
     withNodeJs = true;
 
     plugins = with pkgs.vimPlugins; [
-      pkgs.lazygit
       lazy-nvim
       nvim-lspconfig
       kanagawa-nvim
@@ -51,7 +50,7 @@
       autoclose-nvim
     ];
 
-    extraPackages = with pkgs; [ lua-language-server ltex-ls ripgrep ];
+    extraPackages = with pkgs; [ lua-language-server ltex-ls ripgrep lazygit ];
 
     extraLuaConfig = ''
       vim.wo.relativenumber = true
@@ -254,6 +253,7 @@
           {
             "kdheepak/lazygit.nvim",
             lazy = true,
+            event = "VeryLazy",
             dependencies = {
               "nvim-lua/plenary.nvim"
             }
