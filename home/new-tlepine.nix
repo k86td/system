@@ -104,18 +104,31 @@
       { profile.name = "plug-replug-dual-monitor";
         profile.outputs = [
           {
-            criteria = "DP-6";
+            criteria = "dp-6";
             position = "0,0";
           }
           {
-            criteria = "DP-7";
+            criteria = "dp-7";
             position = "1920,0";
             transform = "270";
           }
           {
-            criteria = "eDP-1";
+            criteria = "edp-1";
             position = "3000,840";
             scale = 1.0;
+          }
+        ];
+      }
+      { profile.name = "docked-external-monitor";
+        profile.outputs = [
+          { criteria = "eDP-1";
+            scale = 1.0;
+            mode = "1920x1080@60";
+            position = "1920,0";
+          }
+          { criteria = "BOE Display L56051794302";
+            mode = "1920x1080@60";
+            position = "0,270";
           }
         ];
       }
@@ -332,6 +345,7 @@
     wl-clipboard
     mako
     libnotify
+    claude-code
 
     # minimal browser with vim-like bindings
     nyxt

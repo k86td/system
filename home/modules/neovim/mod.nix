@@ -19,9 +19,10 @@
     withNodeJs = true;
 
     plugins = with pkgs.vimPlugins; [
+      pkgs.lazygit
       lazy-nvim
       nvim-lspconfig
-      onedark-nvim
+      kanagawa-nvim
       nvim-web-devicons
       mini-icons
 
@@ -36,6 +37,7 @@
       cmp-path
 
       # additional plugins that we want to install need to be specified here
+      lazygit-nvim
       twilight-nvim
       zen-mode-nvim
       which-key-nvim
@@ -156,6 +158,11 @@
                 desc = "Enable Zen mode",
                 "<cmd>ZenMode<cr>",
               },
+              {
+                "<leader>gg",
+                desc = "LazyGit",
+                "<cmd>LazyGit<cr>",
+              },
 
             },
           },
@@ -192,13 +199,11 @@
             },
           },
           {
-            "navarasu/onedark.nvim",
+            "rebelot/kanagawa.nvim",
             priority = 1000,
             config = function()
-              require("onedark").setup({
-                style = "deep"
-              })
-              require("onedark").load()
+              require("kanagawa").setup()
+              vim.cmd("colorscheme kanagawa-wave")
             end,
           },
           {
@@ -246,6 +251,13 @@
           {
             "folke/zen-mode.nvim",
           },
+          {
+            "kdheepak/lazygit.nvim",
+            lazy = true,
+            dependencies = {
+              "nvim-lua/plenary.nvim"
+            }
+          },
         },
       })
 
@@ -268,6 +280,8 @@
         },
       }
       vim.lsp.enable('ltex')
+
+      require'lspconfig'.terraformls.setup{}
 
       vim.lsp.config['gopls'] = {
         cmd = { 'gopls' },
