@@ -310,8 +310,15 @@
           },
           {
             "coder/claude-code.nvim",
-            config = true,
+            config = function()
+              require("claude-code").setup({
+                window = {
+                  position = "rightbelow vsplit",
+                }
+              })
+            end,
             dependencies = {
+              "nvim-lua/plenary.nvim",
               "folke/snacks.nvim"
             },
           },
