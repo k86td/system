@@ -16,7 +16,12 @@
   outputs = { self, nixpkgs, nixos-hardware, home-manager, ...}@attrs:
   let
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs = import nixpkgs {
+      inherit system;
+      overlays = [
+        (final: prev: import ./pkgs { pkgs = prev; })
+      ];
+    };
 
     cfg = {
       repoDecrypted = builtins.hashFile "sha256" ./secrets/state == builtins.hashString "sha256" "decrypted\n";

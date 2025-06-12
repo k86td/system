@@ -1,4 +1,4 @@
 { pkgs, ... }:
 {
-  vimPlugins = pkgs.vimPlugins // (import ./vimPlugins { inherit pkgs; });
+  vimPlugins = pkgs.vimPlugins // (pkgs.callPackage ./vimPlugins { });
 }
