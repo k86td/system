@@ -62,8 +62,14 @@
       vim.opt.rtp:prepend("${pkgs.vimPlugins.lazy-nvim}")
 
       -- TODO: move this into toggleterm configuration
-      -- allows to exit TERMINAL mode inside toggleterm with Esc
-      vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, silent = true })
+      -- allows to exit TERMINAL mode inside toggleterm with Esc (but not lazygit)
+      vim.keymap.set('t', '<Esc>', function()
+        if vim.bo.filetype == 'lazygit' then
+          return '<Esc>'
+        else
+          return [[<C-\><C-n>]]
+        end
+      end, { noremap = true, silent = true, expr = true })
       vim.o.mouse = ""
 
 
