@@ -111,6 +111,24 @@
                 "<cmd>ToggleTerm<cr>",
                 desc = "Toggle terminal",
               },
+              {
+                "<C-S-/>",
+                mode = { "n", "t" },
+                function()
+                  local terms = require('toggleterm.terminal')
+                  local term = terms.get(1)
+                  if term and term:is_open() then
+                    if term.display_name == "fullscreen" then
+                      term:resize(math.floor(vim.o.lines * 0.3), nil)
+                      term.display_name = "normal"
+                    else
+                      term:resize(vim.o.lines - 2, vim.o.columns)
+                      term.display_name = "fullscreen"
+                    end
+                  end
+                end,
+                desc = "Toggle terminal fullscreen",
+              },
 
               {
                 "<leader>f",
