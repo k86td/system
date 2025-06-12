@@ -3,7 +3,7 @@
   imports = [
     ./modules/terminal.nix
     ./modules/vim.nix
-    ./modules/neovim/mod.nix
+    ./modules/neovim
     ./modules/1password.nix
   ];
 
