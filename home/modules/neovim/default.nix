@@ -62,6 +62,7 @@
       vim.opt.rtp:prepend("${pkgs.vimPlugins.lazy-nvim}")
 
       if vim.g.neovide then
+        vim.g.neovide_scale_factor = 0.75
         vim.o.guifont = "Hurmit Nerd Font:h14"
       end
 
@@ -317,7 +318,7 @@
             }
           },
           {
-            "coder/claudecode.nvim",
+            "coder/claude-code.nvim",
             config = true,
             dependencies = {
               "folke/snacks.nvim"
