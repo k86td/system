@@ -39,6 +39,11 @@ rec {
 
     lua-language-server
 
+    go
+    gopls
+    operator-sdk
+    kind
+
     openssh
     code-server
     gcc
