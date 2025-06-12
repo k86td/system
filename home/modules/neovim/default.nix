@@ -2,15 +2,6 @@
 
   programs.neovide = {
     enable = true;
-    settings = {
-      font = {
-        normal = [ {
-          family = "Hurmit Nerd Font";
-          style = "SemiBold";
-        } ];
-        size = 14.0;
-      };
-    };
   };
 
   # TODO: install Ltex-ls for grammar correction
