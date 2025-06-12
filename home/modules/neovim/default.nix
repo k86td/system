@@ -26,7 +26,7 @@
       mini-icons
       snacks-nvim
 
-      claudecode-nvim
+      claude-code-nvim
 
       # dependencies
       plenary-nvim
@@ -54,12 +54,16 @@
       nvim-surround
     ];
 
-    extraPackages = with pkgs; [ lua-language-server ltex-ls ripgrep lazygit ];
+    extraPackages = with pkgs; [ lua-language-server ltex-ls ripgrep lazygit claude-code ];
 
     extraLuaConfig = ''
       vim.wo.relativenumber = true
       vim.g.mapleader = " "
       vim.opt.rtp:prepend("${pkgs.vimPlugins.lazy-nvim}")
+
+      if vim.g.neovide then
+        vim.o.guifont = "Hurmit Nerd Font:h14"
+      end
 
       -- TODO: move this into toggleterm configuration
       -- allows to exit TERMINAL mode inside toggleterm with Esc (but not lazygit)

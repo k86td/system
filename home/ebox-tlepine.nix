@@ -20,6 +20,7 @@ rec {
     ./modules/vim.nix
     ./modules/taskwarrior.nix
     ./modules/nushell.nix
+    ./modules/neovim
   ];
 
   nixpkgs = {
@@ -69,10 +70,6 @@ rec {
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
-    "${homeDirectory}/.config/nvim" = {
-      source = ./files/nvim;
-      recursive = true;
-    };
     "${homeDirectory}/.config/nix" = {
         source = ./files/nix;
         recursive = true;
@@ -92,10 +89,6 @@ rec {
   };
 
   programs.nushell = {
-    shellAliases = {
-      sw = "home-manager --flake /etc/nixos#ebox-tlepine switch";
-      dev = "nix develop -c $env.SHELL";
-    };
     extraConfig = ''
       $env.STARSHIP_SHELL = "nu"
 
