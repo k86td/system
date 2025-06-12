@@ -51,6 +51,7 @@
       telescope-nvim
       nvim-treesitter.withAllGrammars
       autoclose-nvim
+      nvim-surround
     ];
 
     extraPackages = with pkgs; [ lua-language-server ltex-ls ripgrep lazygit ];
@@ -311,6 +312,14 @@
             dependencies = {
               "folke/snacks.nvim"
             },
+          },
+          {
+            "kylechui/nvim-surround",
+            version = "*",
+            event = "VeryLazy",
+            config = function()
+              require("nvim-surround").setup({})
+            end
           }
         },
       })
