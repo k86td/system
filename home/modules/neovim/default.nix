@@ -112,7 +112,7 @@
                 desc = "Toggle terminal",
               },
               {
-                "<C-S-/>",
+                "<M-/>",
                 mode = { "n", "t" },
                 function()
                   local terms = require('toggleterm.terminal')
