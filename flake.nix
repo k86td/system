@@ -18,6 +18,9 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
+      overlays = [
+        (final: prev: import ./pkgs { pkgs = prev; })
+      ];
     };
 
     cfg = {

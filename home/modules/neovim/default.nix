@@ -16,8 +16,9 @@
       nvim-web-devicons
       mini-icons
       snacks-nvim
+      nvim-treesitter-context
 
-      claude-code-nvim
+      claudecode-nvim
 
       # dependencies
       plenary-nvim
@@ -58,7 +59,7 @@
       end
 
       -- TODO: move this into toggleterm configuration
-      -- allows to exit TERMINAL mode inside toggleterm with Esc (but not lazygit)
+      -- allows to exit TERMINAL mode inside toggleterm with Esc (but not lazygit or claudecode)
       vim.keymap.set('t', '<Esc>', function()
         if vim.bo.filetype == 'lazygit' then
           return '<Esc>'
@@ -212,6 +213,12 @@
                 mode = "v",
                 desc = "Send to Claude",
               },
+              {
+                "<C-,>",
+                "<cmd>ClaudeCode<cr>",
+                mode = { "n", "t" },
+                desc = "Toggle Claude",
+              },
 
             },
           },
@@ -267,6 +274,13 @@
             end,
           },
           {
+            "nvim-treesitter/nvim-treesitter-context",
+            lazy = false,
+            config = function()
+              require("treesitter-context").setup{}
+            end,
+          },
+          {
             "hrsh7th/nvim-cmp",
             lazy = false,
             config = function()
@@ -309,16 +323,9 @@
             }
           },
           {
-            "coder/claude-code.nvim",
-            config = function()
-              require("claude-code").setup({
-                window = {
-                  position = "rightbelow vsplit",
-                }
-              })
-            end,
+            "coder/claudecode.nvim",
+            config = true,
             dependencies = {
-              "nvim-lua/plenary.nvim",
               "folke/snacks.nvim"
             },
           },
