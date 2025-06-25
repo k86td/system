@@ -17,6 +17,7 @@
       mini-icons
       snacks-nvim
       nvim-treesitter-context
+      gitsigns-nvim
 
       claudecode-nvim
 
@@ -299,6 +300,13 @@
               vim.lsp.config("gopls", {
                 capabilities = capabilities
               })
+            end,
+          },
+          {
+            "lewis6991/gitsigns.nvim",
+            event = "VeryLazy",
+            config = function()
+              require('gitsigns').setup{}
             end,
           },
           {
