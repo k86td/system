@@ -15,10 +15,10 @@
     hw = "home-manager switch --flake /etc/nixos#new-tlepine";
   };
 
-  programs.qutebrowser = {
+  programs.dconf = {
     enable = true;
   };
-  
+
   xdg = {
     enable = true;
     portal = {

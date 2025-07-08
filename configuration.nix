@@ -116,6 +116,11 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  services.geoclue2 = {
+    enable = true;
+    enableNmea = false;
+  };
+
   # Enable sound.
   # hardware.pulseaudio.enable = false;
   # nixpkgs.config.pulseaudio = false;
