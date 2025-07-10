@@ -164,6 +164,10 @@
         "LG Electronics 32inch LG FHD 903NTRLA7270" = {
           bg = "${cfg.wallpapers.grayabstract.imgPng}/img.png fill";
         };
+
+        "Acer Technologies V277 TC0AA0018522" = {
+          bg = "${cfg.wallpapers.grayabstract.imgPng}/img.png fill";
+        };
       };
       keybindings = 
       let
