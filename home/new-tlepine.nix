@@ -15,10 +15,6 @@
     hw = "home-manager switch --flake /etc/nixos#new-tlepine";
   };
 
-  programs.dconf = {
-    enable = true;
-  };
-
   xdg = {
     enable = true;
     portal = {
@@ -85,18 +81,18 @@
       { profile.name = "plug-replug-dual-monitor";
         profile.outputs = [
           {
-            criteria = "DP-4";
+            criteria = "DP-5";
             position = "0,0";
           }
           {
-            criteria = "DP-5";
+            criteria = "DP-4";
             position = "1920,0";
             transform = "270";
           }
           {
             criteria = "eDP-1";
             position = "3000,840";
-            scale = 1.0;
+            scale = 2.0;
           }
         ];
       }
@@ -104,18 +100,18 @@
       { profile.name = "plug-replug-dual-monitor";
         profile.outputs = [
           {
-            criteria = "dp-6";
+            criteria = "DP-7";
             position = "0,0";
           }
           {
-            criteria = "dp-7";
+            criteria = "DP-6";
             position = "1920,0";
             transform = "270";
           }
           {
             criteria = "edp-1";
             position = "3000,840";
-            scale = 1.0;
+            scale = 2.0;
           }
         ];
       }
