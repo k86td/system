@@ -45,6 +45,7 @@
       nvim-treesitter.withAllGrammars
       autoclose-nvim
       nvim-surround
+      conform-nvim
     ];
 
     extraPackages = with pkgs; [ lua-language-server ltex-ls ripgrep lazygit claude-code pyright ];
@@ -344,6 +345,32 @@
             config = function()
               require("nvim-surround").setup({})
             end
+          },
+          {
+            "stevearc/conform.nvim",
+            event = { "BufWritePre" },
+            cmd = { "ConformInfo" },
+            keys = {
+              {
+                "<leader>cf",
+                function()
+                  require("conform").format({ async = true, lsp_fallback = true })
+                end,
+                mode = "",
+                desc = "Format buffer",
+              },
+            },
+            opts = {
+              formatters_by_ft = {
+                lua = { "stylua" },
+                python = { "isort", "black" },
+                go = { "goimports", "gofmt" },
+                javascript = { { "prettierd", "prettier" } },
+                typescript = { { "prettierd", "prettier" } },
+                nix = { "nixpkgs-fmt" },
+              },
+              format_on_save = { timeout_ms = 500, lsp_fallback = true },
+            },
           }
         },
       })
