@@ -47,7 +47,7 @@
       nvim-surround
     ];
 
-    extraPackages = with pkgs; [ lua-language-server ltex-ls ripgrep lazygit claude-code ];
+    extraPackages = with pkgs; [ lua-language-server ltex-ls ripgrep lazygit claude-code pyright ];
 
     extraLuaConfig = ''
       vim.wo.relativenumber = true
@@ -376,6 +376,13 @@
         capabilities = capabilities,
       }
       vim.lsp.enable('gopls')
+
+      vim.lsp.config['pyright'] = {
+        cmd = { 'pyright-langserver', '--stdio' },
+        filetypes = { 'python' },
+        capabilities = capabilities,
+      }
+      vim.lsp.enable('pyright')
 
       vim.diagnostic.config({
         virtual_text = {
