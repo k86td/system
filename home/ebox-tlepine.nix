@@ -34,8 +34,14 @@ rec {
 
   home.stateVersion = "24.05";
 
+  programs.nh = {
+    enable = true;
+    flake = "/etc/nixos";
+  };
+
   home.packages = with pkgs; [
     rustup
+    nix-output-monitor
 
     lua-language-server
 
