@@ -42,7 +42,7 @@ in
       bind-key -T copy-mode C-y send-keys -X copy-selection-and-cancel
       bind -n C-p paste-buffer
 
-      set -g default-terminal "screen-256color"
+      set -ga terminal-overrides ",xterm-256color:Tc"
 
       set -sg escape-time 0
     '';

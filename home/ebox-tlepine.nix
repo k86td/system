@@ -3,13 +3,6 @@ let
   username = "tlepine";
   homeDirectory = "/home/${username}";
 
-  zsh-utilities = pkgs.fetchFromGitHub {
-    owner = "k86td";
-    repo = "zsh-utilities";
-    rev = "main";
-    sha256 = "sha256-e7rKVh63IJ0ErA/FTTbtDrJcHIL4YGtSCtC/BGp2En4=";
-  };
-
   python3Pkg = pkgs.python312.withPackages(ps: [
     pkgs.python312Packages.kubernetes
   ]);
@@ -42,6 +35,7 @@ rec {
   home.packages = with pkgs; [
     rustup
     nix-output-monitor
+    claude-code
 
     lua-language-server
 
@@ -96,7 +90,7 @@ rec {
 
   home.shellAliases = {
     sw = "home-manager --flake /etc/nixos#ebox-tlepine switch";
-    dev = "nix develop -c $SHELL";
+    dev = "nix develop -c $env.SHELL";
   };
 
   programs.nushell = {
@@ -114,20 +108,6 @@ rec {
     enable = true;
     enableBashIntegration = true;
     enableZshIntegration = true;
-  };
-
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    initExtra = ''
-      source ~/.profile
-      export LANG=C.UTF-8
-    '';
-    oh-my-zsh = {
-      enable = true;
-      custom = "${zsh-utilities}";
-      theme = "half-kubernetes";
-    };
   };
 
   programs.lazygit = {
