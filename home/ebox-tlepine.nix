@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, cfg, ... }:
 let
   username = "tlepine";
   homeDirectory = "/home/${username}";
@@ -6,6 +6,9 @@ let
   python3Pkg = pkgs.python312.withPackages(ps: [
     pkgs.python312Packages.kubernetes
   ]);
+
+  # Import secret environment variables if repo is decrypted
+  secretEnvVars = if cfg.repoDecrypted then import ../secrets/env-vars.nix else {};
 in
 rec {
   imports = [
@@ -87,7 +90,7 @@ rec {
     };
   };
 
-  home.sessionVariables = {
+  home.sessionVariables = secretEnvVars // {
     # EDITOR = "emacs";
   };
 

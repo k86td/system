@@ -50,6 +50,11 @@
 
     homeConfigurations."ebox-tlepine" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
+      
+      extraSpecialArgs = {
+        inherit cfg;
+      };
+      
       modules = [
         ./home/ebox-tlepine.nix
       ];
