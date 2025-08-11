@@ -33,6 +33,7 @@ rec {
   };
 
   home.packages = with pkgs; [
+    git-crypt
     rustup
     nix-output-monitor
     claude-code
