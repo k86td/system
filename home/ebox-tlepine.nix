@@ -6,9 +6,6 @@ let
   python3Pkg = pkgs.python312.withPackages(ps: [
     pkgs.python312Packages.kubernetes
   ]);
-
-  # Import secret environment variables if repo is decrypted
-  secretEnvVars = if cfg.repoDecrypted then import ../secrets/env-vars.nix else {};
 in
 rec {
   imports = [
@@ -90,7 +87,7 @@ rec {
     };
   };
 
-  home.sessionVariables = secretEnvVars // {
+  home.sessionVariables = {
     # EDITOR = "emacs";
   };
 
@@ -104,6 +101,14 @@ rec {
       $env.STARSHIP_SHELL = "nu"
 
       $env.PATH = '/home/tlepine/.nix-profile/bin' | append '/usr/bin' | append '/bin' | append '/mnt/wsl/docker-desktop/cli-tools/usr/bin'
+      
+      # TODO: use something more secure than writing to conf file
+      # business env variable secrets
+      ${builtins.concatStringsSep "\n" (builtins.attrValues 
+        (
+          builtins.mapAttrs (name: value: "$env.${name} = \"${toString value}\"") 
+          (if cfg.repoDecrypted then import ../secrets/govc.nix else {} )
+        ))}
     '';
   };
 
