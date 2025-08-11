@@ -37,6 +37,8 @@ rec {
     nix-output-monitor
     claude-code
 
+    govc
+
     lua-language-server
 
     go
