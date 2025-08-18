@@ -39,6 +39,8 @@ rec {
     claude-code
 
     govc
+    talosctl
+    cilium-cli
 
     lua-language-server
 
@@ -46,6 +48,7 @@ rec {
     gopls
     operator-sdk
     kind
+    kubernetes-helm
 
     openssh
     code-server
