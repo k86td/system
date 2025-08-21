@@ -41,6 +41,7 @@ rec {
     govc
     talosctl
     cilium-cli
+    butane
 
     lua-language-server
 
