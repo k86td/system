@@ -15,6 +15,7 @@ let
     netaddr       # IP address manipulation
     dnspython     # DNS lookups
     hvac          # HashiCorp Vault integration
+    pip           # Python package installer
   ]);
 in
 rec {
@@ -107,6 +108,9 @@ rec {
     };
     "${homeDirectory}/.config/starship.toml" = {
         source = ./files/starship.toml;
+    };
+    "${homeDirectory}/.claude/settings.json" = {
+        source = ./files/claude/settings.json;
     };
   };
 
