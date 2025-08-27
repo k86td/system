@@ -3,8 +3,18 @@ let
   username = "tlepine";
   homeDirectory = "/home/${username}";
 
-  python3Pkg = pkgs.python312.withPackages(ps: [
-    pkgs.python312Packages.kubernetes
+  # Python environment with ansible-related packages
+  python3WithAnsible = pkgs.python312.withPackages(ps: with ps; [
+    kubernetes
+    ansible-core  # Core ansible functionality
+    pyyaml        # YAML processing (essential for ansible)
+    jmespath      # JSON processing for ansible filters
+    paramiko      # SSH connections
+    cryptography  # Encryption/decryption support
+    requests      # HTTP requests
+    netaddr       # IP address manipulation
+    dnspython     # DNS lookups
+    hvac          # HashiCorp Vault integration
   ]);
 in
 rec {
@@ -43,6 +53,17 @@ rec {
     cilium-cli
     butane
 
+    # Ansible and related tools (using Python environment exclusively)
+    ansible-lint      # Ansible playbook linting
+    yamllint         # YAML file linting
+    python3WithAnsible  # Python environment with ansible packages
+
+    # Additional useful tools for ansible workflows
+    jq               # JSON processing
+    yq-go            # YAML processing
+    sshpass          # Non-interactive SSH password auth
+    rsync            # File synchronization
+    
     lua-language-server
 
     go
@@ -75,8 +96,6 @@ rec {
     nixd
 
     #argocd
-    # ansible
-    # python3Pkg
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
