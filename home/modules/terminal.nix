@@ -6,7 +6,7 @@
 
   programs.zsh = {
     enable = true;
-    initExtra = ''
+    initContent = ''
       unsetopt BEEP
       bindkey -e
     '';

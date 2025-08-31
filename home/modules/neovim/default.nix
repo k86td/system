@@ -40,7 +40,7 @@
       flash-nvim
       toggleterm-nvim
       precognition-nvim
-      hardtime-nvim
+      # hardtime-nvim
       telescope-nvim
       nvim-treesitter.withAllGrammars
       autoclose-nvim
@@ -48,7 +48,25 @@
       conform-nvim
     ];
 
-    extraPackages = with pkgs; [ lua-language-server ltex-ls ripgrep lazygit claude-code pyright ];
+    # TODO: create optional modules for every languages, would need to check how to do this with
+    # the lua scripts smartly
+    extraPackages = with pkgs; [
+      lua-language-server
+      ltex-ls
+      ripgrep
+      lazygit
+      claude-code
+      pyright
+
+      # rust
+      rust-analyzer
+      cargo
+      rustc
+
+      # typescript/javascript/vue
+      vtsls
+      vue-language-server
+    ];
 
     extraLuaConfig = ''
       vim.wo.relativenumber = true
@@ -172,6 +190,13 @@
                 end,
               },
               {
+                "<leader>ca",
+                desc = "Code actions",
+                function()
+                  vim.lsp.buf.code_action()
+                end,
+              },
+              {
                 "<C-space>",
                 mode = { "i" },
                 desc = "Trigger completion",
@@ -230,13 +255,7 @@
           },
           {
             "folke/flash.nvim",
-            event = VeryLazy,
-          },
-          {
-            "m4xshen/hardtime.nvim",
-            lazy = false,
-            dependencies = { "MunifTanjim/nui.nvim" },
-            opts = {},
+            event = "VeryLazy",
           },
           {
             "tris203/precognition.nvim",
@@ -367,6 +386,7 @@
                 go = { "goimports", "gofmt" },
                 javascript = { { "prettierd", "prettier" } },
                 typescript = { { "prettierd", "prettier" } },
+                vue = { { "prettierd", "prettier" } },
                 nix = { "nixpkgs-fmt" },
               },
               format_on_save = { timeout_ms = 500, lsp_fallback = true },
@@ -410,6 +430,43 @@
         capabilities = capabilities,
       }
       vim.lsp.enable('pyright')
+
+      vim.lsp.config['rust_analyzer'] = {
+        cmd = { 'rust-analyzer' },
+        filetypes = { 'rust' },
+        capabilities = capabilities,
+      }
+      vim.lsp.enable('rust_analyzer')
+
+      vim.lsp.config['vtsls'] = {
+        cmd = { 'vtsls', '--stdio' },
+        filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+        capabilities = capabilities,
+        settings = {
+          vtsls = {
+            autoUseWorkspaceTsdk = true,
+            tsserver = {
+
+              globalPlugins = {
+                {
+                  name = '@vue/typescript-plugin',
+                  location = '${pkgs.vue-language-server}/lib/language-tools/extensions/vscode/node_modules/@vue/language-server',
+                  languages = { 'vue' },
+                  configNamespaces = 'typescript',
+                },
+              },
+            }
+          }
+        }
+      }
+      vim.lsp.enable('vtsls')
+
+      vim.lsp.config['vue_ls'] = {
+        cmd = { 'vue-language-server', '--stdio' },
+        filetypes = { 'vue' },
+        capabilities = capabilities,
+      }
+      vim.lsp.enable('vue_ls')
 
       vim.diagnostic.config({
         virtual_text = {
