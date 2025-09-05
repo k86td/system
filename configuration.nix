@@ -100,8 +100,11 @@
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-      # vpl-gpu-rt
-      intel-media-sdk
+      intel-media-driver
+      intel-vaapi-driver
+      libvdpau-va-gl
+      mesa
+      vpl-gpu-rt
     ];
   };
 
@@ -264,7 +267,7 @@
     hyprlock
     wlogout
     xdg-utils
-    (pkgs.buildFHSUserEnv {
+    (pkgs.buildFHSEnv {
       name = "javafhs";
       runScript = "bash";
       targetPkgs = pkgs: with pkgs; [
@@ -281,7 +284,7 @@
         runelite
       ];
     })
-    (pkgs.buildFHSUserEnv {
+    (pkgs.buildFHSEnv {
       name = "renpyfhs310";
       runScript = "bash";
       targetPkgs = pkgs: with pkgs; [
@@ -323,13 +326,14 @@
   fonts.packages = with pkgs; [
     nerd-fonts.fira-code
     nerd-fonts.hurmit
+    fonts-tiempos
   ];
 
   services.greetd = {
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd sway";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd sway";
         user = "tlepine";
       };
     };

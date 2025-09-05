@@ -5,6 +5,7 @@
     ./modules/vim.nix
     ./modules/neovim
     ./modules/1password.nix
+    ./modules/tmux.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -109,7 +110,7 @@
             transform = "270";
           }
           {
-            criteria = "edp-1";
+            criteria = "eDP-1";
             position = "3000,840";
             scale = 2.0;
           }
@@ -199,6 +200,7 @@
           tap = "enabled";
           drag = "enabled";
           natural_scroll = "enabled";
+          accel_profile = "flat";
         };
         "1118:2354:Microsoft_Arc_Mouse" = {
           pointer_accel = "-0.7";
@@ -339,18 +341,39 @@
     ];
   };
 
+  home.sessionVariables = {
+    ELECTRON_ENABLE_SYSTEM_DIALOGS = "1";
+    GTK_USE_PORTAL = "1";
+  };
+
   home.packages = with pkgs; [
+    xdg-desktop-portal-wlr
+
+    obsidian
+
     grim
     slurp
     wl-clipboard
     mako
     libnotify
     claude-code
+    brave
+    zen-browser
 
     # minimal browser with vim-like bindings
     nyxt
 
     gcr
+
+    # rust
+    pkg-config
+    openssl
+    rustup
+    codecrafters-cli
+    # rust-analyzer
+    # cargo
+    # rustc
+    # rustfmt
 
     vscode
     kubectl

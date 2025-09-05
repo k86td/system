@@ -197,6 +197,13 @@
                 end,
               },
               {
+                "<leader>cr",
+                desc = "LSP rename",
+                function()
+                  vim.lsp.buf.rename()
+                end,
+              },
+              {
                 "<C-space>",
                 mode = { "i" },
                 desc = "Trigger completion",
