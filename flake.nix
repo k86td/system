@@ -17,8 +17,9 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
+      config.allowUnfree = true;
       overlays = [
-        (final: prev: import ./pkgs { pkgs = prev; })
+        (final: prev: import ./pkgs prev)
       ];
     };
 
@@ -30,11 +31,17 @@
   {
     nixosConfigurations = {
       superthinker = nixpkgs.lib.nixosSystem {
+        inherit system;
         # this sends down to the imported modules the variables inherited
         specialArgs = {
           inherit cfg;
         };
         modules = [
+          {
+            nixpkgs.overlays = [
+              (import ./pkgs)
+            ];
+          }
           ./configuration.nix
           nixos-hardware.nixosModules.lenovo-thinkpad-t490
         ];
