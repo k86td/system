@@ -10,6 +10,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, nixos-hardware, home-manager, ...}@attrs:
@@ -19,7 +23,7 @@
       inherit system;
       config.allowUnfree = true;
       overlays = [
-        (final: prev: import ./pkgs prev)
+        (import ./pkgs)
       ];
     };
 
@@ -71,6 +75,7 @@
 
       extraSpecialArgs = {
         inherit cfg;
+        inputs = attrs;
       };
 
       modules = [

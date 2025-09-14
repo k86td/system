@@ -1,4 +1,4 @@
-{ cfg, lib, pkgs, ... }:
+{ cfg, lib, pkgs, inputs, ... }:
 {
   imports = [
     ./modules/terminal.nix
@@ -6,6 +6,8 @@
     ./modules/neovim
     ./modules/1password.nix
     ./modules/tmux.nix
+
+    inputs.zen-browser.homeModules.beta
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -15,6 +17,8 @@
   home.shellAliases = {
     hw = "home-manager switch --flake /etc/nixos#new-tlepine";
   };
+
+  programs.zen-browser.enable = true;
 
   xdg = {
     enable = true;
@@ -358,7 +362,6 @@
     libnotify
     claude-code
     brave
-    zen-browser
 
     # minimal browser with vim-like bindings
     nyxt
