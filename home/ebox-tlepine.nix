@@ -110,9 +110,9 @@ rec {
         source = ./files/nix;
         recursive = true;
     };
-    "${homeDirectory}/.config/starship.toml" = {
-        source = lib.mkForce ./files/starship.toml;
-    };
+    # "${homeDirectory}/.config/starship.toml" = {
+    #     source = lib.mkForce ./files/starship.toml;
+    # };
     "${homeDirectory}/.claude/settings.json" = {
         source = ./files/claude/settings.json;
     };

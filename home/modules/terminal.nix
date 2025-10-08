@@ -56,7 +56,6 @@
 
   programs.starship = {
     enable = true;
-    enableZshIntegration = true;
     settings = {
       format = ''$hostname$directory$git_branch$git_status$kubernetes$nix_shell
 $character$cmd_duration
@@ -79,6 +78,7 @@ $character$cmd_duration
       };
       nix_shell = {
         disabled = false;
+        symbol = "✦ ";
       };
     };
   };

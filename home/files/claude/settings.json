@@ -3,5 +3,9 @@
   "statusLine": {
     "type": "command",
     "command": "input=$(cat); cwd=$(echo \"$input\" | jq -r '.workspace.current_dir'); branch=$(cd \"$cwd\" 2>/dev/null && git branch --show-current 2>/dev/null || echo 'no-git'); k8s=$(kubectl config current-context 2>/dev/null || echo 'no-k8s'); echo \"\\033[36m$cwd\\033[0m \\033[90m::\\033[0m \\033[32m$branch\\033[0m \\033[90m::\\033[0m \\033[33m$k8s\\033[0m\""
+  },
+  "permissions": {
+    "read": "always-allow",
+    "webSearch": "always-allow"
   }
 }
