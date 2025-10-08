@@ -1,9 +1,5 @@
 { pkgs, lib, ... }:
 {
-  home.shellAliases = {
-    "hw" = "home-manager switch --flake /etc/nixos#new-tlepine"; 
-  };
-
   programs.zsh = {
     enable = true;
     initContent = ''
@@ -62,7 +58,7 @@
     enable = true;
     enableZshIntegration = true;
     settings = {
-      format = ''$hostname$directory$git_branch$git_status$kubernetes
+      format = ''$hostname$directory$git_branch$git_status$kubernetes$nix_shell
 $character$cmd_duration
       '';
       add_newline = false;
@@ -80,6 +76,9 @@ $character$cmd_duration
       kubernetes = {
         disabled = false;
         format = "[󱃾 $context](yellow) ";
+      };
+      nix_shell = {
+        disabled = false;
       };
     };
   };

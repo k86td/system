@@ -1,4 +1,4 @@
-{ config, pkgs, cfg, ... }:
+{ config, pkgs, cfg, lib, ... }:
 let
   username = "tlepine";
   homeDirectory = "/home/${username}";
@@ -25,6 +25,7 @@ rec {
     ./modules/taskwarrior.nix
     ./modules/nushell.nix
     ./modules/neovim
+    ./modules/terminal.nix
   ];
 
   nixpkgs = {
@@ -48,11 +49,14 @@ rec {
     rustup
     nix-output-monitor
     claude-code
+    nodejs_22
 
     govc
     talosctl
     cilium-cli
     butane
+
+    glab
 
     # Ansible and related tools (using Python environment exclusively)
     ansible-lint      # Ansible playbook linting
@@ -107,7 +111,7 @@ rec {
         recursive = true;
     };
     "${homeDirectory}/.config/starship.toml" = {
-        source = ./files/starship.toml;
+        source = lib.mkForce ./files/starship.toml;
     };
     "${homeDirectory}/.claude/settings.json" = {
         source = ./files/claude/settings.json;
