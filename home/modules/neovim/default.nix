@@ -1,4 +1,5 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, ... }:
+{
 
   programs.neovide = {
     enable = true;
@@ -55,7 +56,7 @@
       lazygit
       claude-code
       pyright
-      nil
+      nixd
 
       # rust
       rust-analyzer
@@ -86,10 +87,7 @@
           },
         },
         dev = {
-          path = "${
-            pkgs.vimUtils.packDir
-            config.programs.neovim.finalPackage.passthru.packpathDirs
-          }/pack/myNeovimPackages/start",
+          path = "${pkgs.vimUtils.packDir config.programs.neovim.finalPackage.passthru.packpathDirs}/pack/myNeovimPackages/start",
           patterns = {""},
         },
         install = {
