@@ -220,8 +220,10 @@
       # swayfx
       blur enable
       blur_xray disable
-      blur_passes 2
-      blur_radius 5
+      blur_passes 3
+      blur_radius 8
+
+      for_window [floating] blur enable
     '';
   };
 

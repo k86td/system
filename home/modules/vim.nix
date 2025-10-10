@@ -21,6 +21,16 @@ let
         sha256 = "sha256-DzUsEHDOvelN0d1lymesopMI8nVtE5bjv6Zx6aYv2hI=";
       };
     };
+
+    srcery-vim = pkgs.vimUtils.buildVimPlugin {
+      name = "srcery-vim";
+      src = pkgs.fetchFromGitHub {
+        owner = "srcery-colors";
+        repo = "srcery-vim";
+        rev = "3eaa685c0f425d1d414a87655776e8e1e9a00fda";
+        sha256 = "sha256-lChTwlcJ69Cjvg7l7KsPn/3b16cInwxvYFriWT1BmqE=";
+      };
+    };
   };
 in
 {
@@ -29,8 +39,10 @@ in
     plugins = with pkgs.vimPlugins; [
       extraPlugins.vim-transparent
       extraPlugins.fuzzyy
+      extraPlugins.srcery-vim
       nerdtree
       vim-floaterm
+      vim-surround
 
       # markdown plugins
       vim-markdown
@@ -45,7 +57,7 @@ in
       set termguicolors
       set number
 
-      colorscheme industry
+      colorscheme srcery
       set conceallevel=2
 
       autocmd FileType markdown set textwidth=50

@@ -42,7 +42,12 @@ in
       bind-key -T copy-mode C-y send-keys -X copy-selection-and-cancel
       bind -n C-p paste-buffer
 
-      set -ga terminal-overrides ",xterm-256color:Tc"
+      set -g default-terminal "tmux-256color"
+      set -ga terminal-overrides ",alacritty:RGB"
+      set -ga terminal-overrides ",*256col*:Tc"
+
+      set -g set-titles on
+      set -g set-titles-string "tmux - #S"
 
       set -sg escape-time 0
     '';

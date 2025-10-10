@@ -22,6 +22,7 @@
       window = {
         opacity = 0.7;
         blur = true;
+        dynamic_title = true;
       };
       terminal.shell = {
         program = "${pkgs.zsh}/bin/zsh";
@@ -33,10 +34,35 @@
           style = "Bold";
         };
       };
-      general = {
-        import = [
-          "${pkgs.alacritty-theme}/share/alacritty-theme/hyper.toml"
-        ];
+      colors = {
+        primary = {
+          background = "#1c1b19";
+          foreground = "#fce8c3";
+        };
+        cursor = {
+          text = "CellBackground";
+          cursor = "#fbb829";
+        };
+        normal = {
+          black = "#1c1b19";
+          red = "#ef2f27";
+          green = "#519f50";
+          yellow = "#fbb829";
+          blue = "#2c78bf";
+          magenta = "#e02c6d";
+          cyan = "#0aaeb3";
+          white = "#baa67f";
+        };
+        bright = {
+          black = "#918175";
+          red = "#f75341";
+          green = "#98bc37";
+          yellow = "#fed06e";
+          blue = "#68a8e4";
+          magenta = "#ff5c8f";
+          cyan = "#2be4d0";
+          white = "#fce8c3";
+        };
       };
     };
   };
