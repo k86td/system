@@ -100,11 +100,8 @@
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-      intel-media-driver
-      intel-vaapi-driver
-      libvdpau-va-gl
-      mesa
-      vpl-gpu-rt
+      intel-media-driver  # Modern Intel VA-API driver
+      mesa                # OpenGL/Vulkan support
     ];
   };
 
@@ -262,7 +259,7 @@
     gcc
     waybar
     kanshi
-    rofi-wayland
+    rofi
     inetutils
     hyprlock
     wlogout
@@ -375,7 +372,7 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
   networking.firewall = {
-    enable = false;
+    enable = true;
   };
 
   system.stateVersion = "24.11"; # Did you read the comment?

@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware/master";
     };
@@ -16,14 +17,18 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager, ...}@attrs:
+  outputs = { self, nixpkgs, nixpkgs-stable, nixos-hardware, home-manager, ...}@attrs:
   let
     system = "x86_64-linux";
+    pkgs-stable = import nixpkgs-stable {
+      inherit system;
+      config.allowUnfree = true;
+    };
     pkgs = import nixpkgs {
       inherit system;
       config.allowUnfree = true;
       overlays = [
-        (import ./pkgs)
+        (import ./pkgs { inherit pkgs-stable; })
       ];
     };
 
@@ -43,7 +48,7 @@
         modules = [
           {
             nixpkgs.overlays = [
-              (import ./pkgs)
+              (import ./pkgs { inherit pkgs-stable; })
             ];
           }
           ./configuration.nix
