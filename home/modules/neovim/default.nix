@@ -48,8 +48,6 @@
       conform-nvim
     ];
 
-    # TODO: create optional modules for every languages, would need to check how to do this with
-    # the lua scripts smartly
     extraPackages = with pkgs; [
       lua-language-server
       ltex-ls
@@ -57,6 +55,7 @@
       lazygit
       claude-code
       pyright
+      nil
 
       # rust
       rust-analyzer
