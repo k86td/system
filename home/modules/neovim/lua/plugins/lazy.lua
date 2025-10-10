@@ -12,7 +12,7 @@ return {
       },
       {
         "<leader>s",
-        mode =  { "n", "x", "o" },
+        mode = { "n", "x", "o" },
         function()
           require("flash").jump()
         end,
@@ -191,7 +191,7 @@ return {
     "nvim-treesitter/nvim-treesitter-context",
     lazy = false,
     config = function()
-      require("treesitter-context").setup{}
+      require("treesitter-context").setup {}
     end,
   },
   {
@@ -219,7 +219,7 @@ return {
     "lewis6991/gitsigns.nvim",
     event = "VeryLazy",
     config = function()
-      require('gitsigns').setup{}
+      require('gitsigns').setup {}
     end,
   },
   {
@@ -288,6 +288,13 @@ return {
   {
     "j-hui/fidget.nvim",
     event = "LspAttach",
-    opts = {},
+    opts = {
+      notification = {
+        window = {
+          winblend = 10,             -- 75% opacity (0 = opaque, 100 = fully transparent)
+          normal_hl = "NormalFloat", -- Use Normal highlight group for background
+        },
+      },
+    },
   }
 }
