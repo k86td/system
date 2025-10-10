@@ -17,6 +17,7 @@
       snacks-nvim
       nvim-treesitter-context
       gitsigns-nvim
+      fidget-nvim
 
       claudecode-nvim
 

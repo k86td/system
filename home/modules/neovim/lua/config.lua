@@ -11,6 +11,7 @@ require("config.keymaps")
 require("config.diagnostics")
 
 -- Load LSP configurations
+require("lsp.lua")
 require("lsp.ltex")
 require("lsp.gopls")
 require("lsp.pyright")
