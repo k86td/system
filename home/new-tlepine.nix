@@ -54,7 +54,7 @@
   programs.rofi = {
     enable = true;
     theme = ./files/rofi/redSquared.rasi;
-    package = pkgs.rofi-wayland;
+    package = pkgs.rofi;
   };
 
   services.kanshi = {
@@ -354,6 +354,8 @@
     xdg-desktop-portal-wlr
 
     obsidian
+    vlc
+    lazygit
 
     grim
     slurp
