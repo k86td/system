@@ -36,16 +36,6 @@
     powerOnBoot = true;
   };
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "steam"
-    "steam-original"
-    "steam-run"
-    "discord"
-    "vscode"
-    "steamcmd"
-    "obsidian"
-  ];
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
