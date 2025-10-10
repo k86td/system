@@ -5,6 +5,15 @@
     initContent = ''
       unsetopt BEEP
       bindkey -e
+
+      # Key bindings for special keys
+      bindkey "^[[1;5C" forward-word           # Ctrl+Right
+      bindkey "^[[1;5D" backward-word          # Ctrl+Left
+      bindkey "^[[3~" delete-char              # Delete
+      bindkey "^[[H" beginning-of-line         # Home
+      bindkey "^[[F" end-of-line               # End
+      bindkey "^[[1~" beginning-of-line        # Home (alternate)
+      bindkey "^[[4~" end-of-line              # End (alternate)
     '';
     enableCompletion = true;
     historySubstringSearch.enable = true;
