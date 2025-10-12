@@ -367,6 +367,9 @@
     claude-code
     brave
 
+    inkscape
+    inkscape-extensions.textext
+
     # minimal browser with vim-like bindings
     nyxt
 
