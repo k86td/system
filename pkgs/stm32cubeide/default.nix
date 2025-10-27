@@ -4,9 +4,14 @@
 , makeWrapper
 , unzip
 , gtk3
-, webkitgtk
+, webkitgtk_4_1
 , libsecret
 , libXtst
+, ncurses5
+, qt6
+, alsa-lib
+, libxkbcommon
+, libXxf86vm
 }:
 
 stdenv.mkDerivation rec {
@@ -20,13 +25,40 @@ stdenv.mkDerivation rec {
     autoPatchelfHook
     makeWrapper
     unzip
+    qt6.wrapQtAppsHook
   ];
 
   buildInputs = [
     gtk3
-    webkitgtk
+    webkitgtk_4_1
     libsecret
     libXtst
+    ncurses5
+    qt6.qtwayland
+    alsa-lib
+    libxkbcommon
+    libXxf86vm
+    stdenv.cc.cc.lib  # libstdc++
+  ];
+
+  # Ignore missing optional libraries (mostly ffmpeg plugins that aren't critical)
+  autoPatchelfIgnoreMissingDeps = [
+    "libavcodec.so.54"
+    "libavcodec.so.56"
+    "libavcodec.so.57"
+    "libavcodec.so.58"
+    "libavcodec.so.59"
+    "libavcodec.so.60"
+    "libavformat.so.54"
+    "libavformat.so.56"
+    "libavformat.so.57"
+    "libavformat.so.58"
+    "libavformat.so.59"
+    "libavformat.so.60"
+    "libavcodec-ffmpeg.so.56"
+    "libavformat-ffmpeg.so.56"
+    "libpcsclite.so.1"        # Smart card support (optional)
+    "libxerces-c-3.2.so"      # XML library (optional)
   ];
 
   unpackPhase = ''
@@ -42,9 +74,34 @@ stdenv.mkDerivation rec {
     chmod +x *.sh
     bash ./st-stm32cubeide_*.sh --noexec --target extract
 
-    mkdir -p $out
+    # Extract the main tar.gz directly (skip interactive installer)
+    cd extract
+    tar xzf st-stm32cubeide_*.tar.gz
+
+    echo "=== After tar extraction ==="
     ls -la
-    ls -la extract/
+
+    # Find the extracted directory
+    extracted_dir=$(find . -maxdepth 1 -type d -name "stm32cubeide*" | head -1)
+    echo "Found directory: $extracted_dir"
+
+    # Install to $out/libexec (we'll create a wrapper)
+    mkdir -p $out/libexec/stm32cubeide
+    if [ -d "$extracted_dir" ]; then
+      cp -r "$extracted_dir"/* $out/libexec/stm32cubeide/
+    else
+      echo "No stm32cubeide directory found, copying everything"
+      cp -r . $out/libexec/stm32cubeide/
+    fi
+
+    # Make the main binary executable
+    chmod +x $out/libexec/stm32cubeide/stm32cubeide
+
+    # Create wrapper script
+    mkdir -p $out/bin
+    makeWrapper $out/libexec/stm32cubeide/stm32cubeide $out/bin/stm32cubeide \
+      --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath buildInputs}" \
+      --set WEBKIT_DISABLE_DMABUF_RENDERER 1
 
     runHook postInstall
   '';

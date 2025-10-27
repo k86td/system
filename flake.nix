@@ -15,6 +15,9 @@
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    gaul-tooling = {
+      url = "github:k86td/gaul-tooling";
+    };
   };
 
   outputs = { self, nixpkgs, nixpkgs-stable, nixos-hardware, home-manager, ...}@attrs:
@@ -84,8 +87,17 @@
       };
 
       modules = [
+        attrs.gaul-tooling.homeModules.default
         ./home/new-tlepine.nix
+        {
+          nixpkgs.config.allowUnfree = true;
+          gaul.enable = true;
+        }
       ];
+    };
+
+    packages.${system} = {
+      inherit (pkgs) stm32cubeide;
     };
 
   };
