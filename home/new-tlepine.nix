@@ -355,6 +355,8 @@
   home.packages = with pkgs; [
     xdg-desktop-portal-wlr
 
+    ticktick
+
     obsidian
     vlc
     lazygit
