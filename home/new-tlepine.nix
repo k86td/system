@@ -356,6 +356,8 @@
     xdg-desktop-portal-wlr
 
     ticktick
+    appimage-run
+    capacities
 
     obsidian
     vlc

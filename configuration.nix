@@ -49,6 +49,7 @@
     enable = true;
     device = "nodev";
     efiSupport = true;
+    configurationLimit = 5;  # limit boot entries
   };
 
   networking.hostName = "superthinker"; # Define your hostname.
@@ -371,6 +372,13 @@
   # networking.firewall.enable = false;
   networking.firewall = {
     enable = true;
+  };
+
+  environment.etc."1password/custom_allowed_browsers" = {
+    mode = "0644";
+    text = ''
+      zen
+    '';
   };
 
   system.stateVersion = "24.11"; # Did you read the comment?
