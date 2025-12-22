@@ -94,6 +94,7 @@ rec {
 
     kubectl
     kubelogin-oidc
+    cmctl # cert-manager
     k9s
     kind
     ripgrep
