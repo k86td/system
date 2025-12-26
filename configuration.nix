@@ -335,6 +335,8 @@
     };
   };
 
+  programs.nix-ld.enable = true;
+
   # this is to avoid spamming log messages while tuigreet is open
   systemd.services.greetd.serviceConfig = {
     Type = "idle";

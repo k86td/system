@@ -33,6 +33,7 @@
       };
       extraPortals = [
         pkgs.xdg-desktop-portal-wlr
+        pkgs.xdg-desktop-portal-gnome
       ];
     };
   };
@@ -60,6 +61,34 @@
   services.kanshi = {
     enable = true;
     settings = [
+      { profile.name = "television";
+        profile.outputs = [
+          { criteria = "eDP-1";
+            scale = 2.0;
+            mode = "1920x1080@60";
+            position = "0,270";
+          }
+          { criteria = "Planar Systems, Inc. SLM65 0x01010101";
+            scale = 1.0;
+            mode = "1920x1080@60";
+            position = "1920,0";
+          }
+        ];
+      }
+      { profile.name = "television";
+        profile.outputs = [
+          { criteria = "eDP-1";
+            scale = 2.0;
+            mode = "1920x1080@60";
+            position = "0,270";
+          }
+          { criteria = "Toshiba America Info Systems Inc TOSHIBA-TV 0x01010101";
+            scale = 1.0;
+            mode = "1920x1080@60";
+            position = "1920,0";
+          }
+        ];
+      }
       { profile.name = "undocked";
         profile.outputs = [
           { criteria = "eDP-1";
@@ -355,10 +384,14 @@
   home.packages = with pkgs; [
     xdg-desktop-portal-wlr
 
+    inputs.claude-desktop.packages.${system}.claude-desktop-with-fhs
+    uv
+    logseq
     ticktick
     appimage-run
     capacities
 
+    postman
     obsidian
     vlc
     lazygit
@@ -391,10 +424,16 @@
 
     vscode
     kubectl
+    ninja
+    gcc-arm-embedded
 
     go
     gopls
     gotools
+
+    zig
+    zls
+
 
     terraform-ls
 
