@@ -18,6 +18,10 @@
     gaul-tooling = {
       url = "github:k86td/gaul-tooling";
     };
+    claude-desktop = {
+      url = "github:k3d3/claude-desktop-linux-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, nixpkgs-stable, nixos-hardware, home-manager, ...}@attrs:
