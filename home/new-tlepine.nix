@@ -58,6 +58,30 @@
     package = pkgs.rofi;
   };
 
+  services.swayidle = {
+    enable = true;
+    events = [
+      { 
+        event = "before-sleep"; 
+        command = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock"; 
+      }
+      { 
+        event = "lock"; 
+        command = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock"; 
+      }
+    ];
+    timeouts = [
+      { 
+        timeout = 300; 
+        command = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock"; 
+      }
+      { 
+        timeout = 600; 
+        command = "${pkgs.systemd}/bin/systemctl suspend"; 
+      }
+    ];
+  };
+
   services.kanshi = {
     enable = true;
     settings = [
@@ -166,6 +190,10 @@
   };
 
   # TODO: move this to its own module
+  xdg.configFile."niri/config.kdl".source = ./files/niri/config.kdl;
+  xdg.configFile."niri/dms-binds.kdl".source = ./files/niri/dms-binds.kdl;
+
+  # TODO: move this to its own module
   services.gnome-keyring.enable = true;
   wayland.windowManager.sway = {
     enable = true;
@@ -257,7 +285,7 @@
   };
 
   programs.waybar = {
-    enable = true;
+    enable = false;
     style = ''
       * {
         font-family: Hurmit Nerd Font;
@@ -390,6 +418,8 @@
     ticktick
     appimage-run
     capacities
+    fuzzel
+    quickshell
 
     postman
     obsidian

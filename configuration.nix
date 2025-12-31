@@ -83,6 +83,17 @@
     dedicatedServer.openFirewall = true;
   };
 
+  programs.niri = {
+    enable = true;
+  };
+
+  programs.dms-shell = {
+    enable = true;
+  };
+
+  services.upower.enable = true;
+  services.power-profiles-daemon.enable = true;
+
   # Enable the X11 windowing system.
   # services.xserver = {
   #   enable = true;
