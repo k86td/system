@@ -195,214 +195,6 @@
 
   # TODO: move this to its own module
   services.gnome-keyring.enable = true;
-  wayland.windowManager.sway = {
-    enable = true;
-    checkConfig = false;
-    package = pkgs.swayfx;
-    wrapperFeatures.gtk = true;
-    extraSessionCommands = ''
-      export ELECTRON_OZONE_PLATFORM_HINT=wayland
-    '';
-    config = rec {
-      modifier = "Mod4";
-      terminal = "${pkgs.alacritty}/bin/alacritty";
-      gaps.inner = 5;
-      defaultWorkspace = "workspace number 1";
-      startup = [
-        {
-          command = "${pkgs.kanshi}";
-          always = true;
-        }
-      ];
-      output = {
-        eDP-1 = {
-          bg = "${cfg.wallpapers.darkeye.imgJpg}/img.jpg fill";
-        };
-
-        "BOE Display L56051794302" = {
-          bg = "${cfg.wallpapers.grayabstract.imgPng}/img.png fill";
-        };
-
-        "LG Electronics 32inch LG FHD 903NTRLA7270" = {
-          bg = "${cfg.wallpapers.grayabstract.imgPng}/img.png fill";
-        };
-
-        "Acer Technologies V277 TC0AA0018522" = {
-          bg = "${cfg.wallpapers.grayabstract.imgPng}/img.png fill";
-        };
-      };
-      keybindings = 
-      let
-        pactl = "${pkgs.pulseaudio}/bin/pactl";
-        brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
-      in
-        lib.mkOptionDefault {
-        "XF86AudioMute"         = "exec ${pactl} set-sink-mute @DEFAULT_SINK@ toggle";
-        "XF86AudioRaiseVolume"  = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ +5%";
-        "XF86AudioLowerVolume"  = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ -5%";
-        "XF86AudioMicMute"      = "exec ${pactl} set-sink-input-mute @DEFAULT_SINK@ toggle";
-
-        "XF86MonBrightnessUp"   = "exec ${brightnessctl} set +5%";
-        "XF86MonBrightnessDown" = "exec ${brightnessctl} set 5%-";
-
-        "Mod4+d" = "exec ${pkgs.rofi}/bin/rofi -show drun -monitor -5";
-        "Mod4+period" = "exec ${pkgs.rofimoji}/bin/rofimoji";
-      };
-      bars = [
-        { command = "${pkgs.waybar}/bin/waybar"; }
-      ];
-      input = {
-        "type:keyboard" = {
-          xkb_layout = "us,ca";
-          xkb_options = "grp:win_space_toggle";
-        };
-
-        "type:touchpad" = {
-          tap = "enabled";
-          drag = "enabled";
-          natural_scroll = "enabled";
-          accel_profile = "flat";
-        };
-        "1118:2354:Microsoft_Arc_Mouse" = {
-          pointer_accel = "-0.7";
-        };
-      };
-    };
-    extraConfig = ''
-      default_border none
-      hide_edge_borders --i3 smart
-      smart_borders on
-      smart_gaps on
-
-      # swayfx
-      blur enable
-      blur_xray disable
-      blur_passes 3
-      blur_radius 8
-
-      for_window [floating] blur enable
-    '';
-  };
-
-  programs.waybar = {
-    enable = false;
-    style = ''
-      * {
-        font-family: Hurmit Nerd Font;
-        font-size: 1em;
-        border: none;
-        border-radius: 0;
-      }
-
-      window#waybar {
-        color: ${cfg.wallpapers.darkeye.colors.primary};
-        background: ${cfg.wallpapers.darkeye.colors.background};
-      }
-
-      #workspaces button {
-        color: ${cfg.wallpapers.darkeye.colors.tertiary};
-        background: ${cfg.wallpapers.darkeye.colors.background};
-        padding-left: 3px;
-        padding-right: 3px;
-      }
-      #workspaces button:hover {
-        color: ${cfg.wallpapers.darkeye.colors.secondary};
-      }
-      #workspaces button.visible {
-        color: ${cfg.wallpapers.darkeye.colors.primary};
-      }
-
-      #clock {
-        margin-left: 1em;
-      }
-
-      #battery, #network, #pulseaudio {
-        font-size: 1.25em; 
-        margin-left: 0.2em;
-        margin-right: 0.2em;
-      }
-
-      .modules-left {
-        padding-left: 1em;
-      }
-
-      .modules-right {
-        padding-right: 1em;
-      }
-
-      tooltip {
-        background: ${cfg.wallpapers.darkeye.colors.background};
-        border-radius: 5px;
-      }
-    '';
-    settings = [
-      {
-        layer = "top";
-        position = "top"; 
-        modules-left = [ "sway/workspaces" "sway/mode" ];
-        modules-center = [ "sway/window" ];
-        modules-right = [ "pulseaudio#output" "battery" "network" "clock" ];
-
-
-        "pulseaudio#output" = {
-          format = "{icon} ";
-          tooltip-format = "{volume}% {desc}";
-          format-icons = {
-            default = [
-              "󰕿"
-              "󰖀"
-              "󰕾"
-            ];
-            default-muted = "󰖁";
-            headphone = "󰋋";
-            headphone-muted = "󰟎";
-          };
-        };
-        "battery" = {
-          bat = "BAT0"; 
-          format = "{icon} ";
-          format-icons = {
-            default = [
-              "󰂎"
-              "󱊡"
-              "󱊢"
-              "󱊣"
-            ];
-            charging = [
-              "󰢟"
-              "󱊤"
-              "󱊥"
-              "󱊦"
-            ];
-          };
-        };
-        "network" = {
-          format-wifi = "{icon} "; 
-          tooltip-format = "{essid} ({signalStrength}%)";
-          format-icons = [
-            "󰤯"
-            "󰤟"
-            "󰤢"
-            "󰤨"
-          ];
-        };
-        "clock" = {
-          format = "{:%b %d, %H:%M}";
-          tooltip-format = "{calendar}";
-          calendar = {
-            mode = "year";
-            mode-mon-col = 3;
-            format = {
-              today = "<span color='${cfg.wallpapers.darkeye.colors.primary}'><b><u>{}</u></b></span>";
-              weeks = "<span color='${cfg.wallpapers.darkeye.colors.secondary}'>{}</span>";
-              days = "<span color='${cfg.wallpapers.darkeye.colors.secondary}'>{}</span>";
-              months = "<span color='${cfg.wallpapers.darkeye.colors.primary}'>{}</span>";
-            };
-          };
-        };
-      } 
-    ];
-  };
 
   home.sessionVariables = {
     ELECTRON_ENABLE_SYSTEM_DIALOGS = "1";
@@ -420,6 +212,7 @@
     capacities
     fuzzel
     quickshell
+    xwayland-satellite
 
     postman
     obsidian
@@ -477,9 +270,14 @@
     # work
     teams-for-linux
 
+    # reMarkable
+    rmapi
+
     # writing/PDF
     zathura
     typst
+
+    runelite
   ];
 
   home.pointerCursor = {

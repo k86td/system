@@ -11,6 +11,9 @@ include "dms-binds.kdl"
 input {
     keyboard {
         xkb {
+          layout "us,ca"
+          options "grp:win_space_toggle"
+
             // You can set rules, model, layout, variant and options.
             // For more information, see xkeyboard-config(7).
 

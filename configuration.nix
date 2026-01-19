@@ -60,6 +60,12 @@
     plugins = [ pkgs.networkmanager-openvpn ];
   };
 
+  virtualisation.vmware.host.enable = true;
+  virtualisation.waydroid = {
+    enable = true;
+    package = pkgs.waydroid-nftables;
+  };
+
   systemd.services.NetworkManager-wait-online.enable = false;
 
   # Set your time zone.
@@ -267,7 +273,6 @@
     wl-clipboard-rs
     alacritty
     gcc
-    waybar
     kanshi
     rofi
     inetutils
@@ -340,7 +345,7 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd sway";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri-session";
         user = "tlepine";
       };
     };
