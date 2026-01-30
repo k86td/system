@@ -14,6 +14,8 @@
       bindkey "^[[F" end-of-line               # End
       bindkey "^[[1~" beginning-of-line        # Home (alternate)
       bindkey "^[[4~" end-of-line              # End (alternate)
+
+      eval "$(direnv hook zsh)"
     '';
     enableCompletion = true;
     historySubstringSearch.enable = true;

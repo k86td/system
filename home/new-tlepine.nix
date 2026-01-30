@@ -230,6 +230,8 @@
     inkscape
     inkscape-extensions.textext
 
+    direnv
+
     # minimal browser with vim-like bindings
     nyxt
 
@@ -278,6 +280,9 @@
     typst
 
     runelite
+
+    # ai
+    ollama-cpu
   ];
 
   home.pointerCursor = {
