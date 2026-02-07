@@ -5,6 +5,10 @@
     enable = true;
   };
 
+  home.sessionVariables = {
+    # For command-line compilation and LSP
+  };
+
   programs.neovim = {
     enable = true;
     withNodeJs = true;
