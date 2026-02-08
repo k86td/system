@@ -1,4 +1,4 @@
-{ cfg, lib, pkgs, inputs, ... }:
+{ cfg, lib, pkgs, ... }:
 {
   imports = [
     ./modules/terminal.nix
@@ -6,8 +6,6 @@
     ./modules/neovim
     ./modules/1password.nix
     ./modules/tmux.nix
-
-    inputs.zen-browser.homeModules.beta
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -70,16 +68,16 @@
         command = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock"; 
       }
     ];
-    timeouts = [
-      { 
-        timeout = 300; 
-        command = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock"; 
-      }
-      { 
-        timeout = 600; 
-        command = "${pkgs.systemd}/bin/systemctl suspend"; 
-      }
-    ];
+    # timeouts = [
+    #   { 
+    #     timeout = 300; 
+    #     command = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock"; 
+    #   }
+    #   { 
+    #     timeout = 600; 
+    #     command = "${pkgs.systemd}/bin/systemctl suspend"; 
+    #   }
+    # ];
   };
 
   services.kanshi = {
@@ -204,7 +202,6 @@
   home.packages = with pkgs; [
     xdg-desktop-portal-wlr
 
-    inputs.claude-desktop.packages.${system}.claude-desktop-with-fhs
     uv
     logseq
     ticktick
@@ -250,7 +247,7 @@
     vscode
     kubectl
     ninja
-    gcc-arm-embedded
+    # gcc-arm-embedded
 
     go
     gopls

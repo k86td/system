@@ -1,4 +1,11 @@
-{ config, lib, pkgs, cfg, ... }: {
+{ config, lib, pkgs, ... }:
+
+let
+  # Check if secrets directory exists to determine if repo is decrypted
+  repoDecrypted = builtins.pathExists ./secrets/trusted-ca1.pem;
+in
+
+{
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -26,7 +33,7 @@
 
   # TODO: figure out what this is
   security.polkit.enable = true;
-  security.pki.certificateFiles = if cfg.repoDecrypted then [
+  security.pki.certificateFiles = if repoDecrypted then [
     ./secrets/trusted-ca1.pem
   ] else [];
 
@@ -245,7 +252,7 @@
   #   histSize = 10000;
   # };
 
-  services.openvpn.servers = if cfg.repoDecrypted then {
+  services.openvpn.servers = if repoDecrypted then {
     BOSS = {
       config = builtins.readFile ./secrets/vpn/ebox-boss.ovpn;
       autoStart = false;
@@ -342,7 +349,7 @@
   fonts.packages = with pkgs; [
     nerd-fonts.fira-code
     nerd-fonts.hurmit
-    fonts-tiempos
+    # fonts-tiempos  # Not available in nixpkgs
   ];
 
   services.greetd = {
