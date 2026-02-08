@@ -12,7 +12,21 @@
 
         programs.openclaw = {
           enable = true;
-          documents = config.users.users.tlepine.home + "/code/openclaw-documents";
+          documents = pkgs.runCommand "openclaw-documents" { } ''
+            mkdir -p $out
+            cat <<EOF > $out/AGENTS.md
+            # Agents
+            Define your agents here.
+            EOF
+            cat <<EOF > $out/SOUL.md
+            # Soul
+            Define your agent's soul/personality here.
+            EOF
+            cat <<EOF > $out/TOOLS.md
+            # Tools
+            Define available tools here.
+            EOF
+          '';
 
           config = {
             gateway = {
@@ -34,6 +48,8 @@
             ];
           };
         };
+
+        home.file."Documents/openclaw".source = config.home-manager.users.tlepine.programs.openclaw.documents;
       };
     };
   };
