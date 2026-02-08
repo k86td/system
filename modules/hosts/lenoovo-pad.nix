@@ -4,6 +4,7 @@
     modules = [
       ../../hosts/lenoovo-pad/configuration.nix
       inputs.determinate.nixosModules.default
+      inputs.self.nixosModules.openclaw
     ];
   };
 }
