@@ -60,6 +60,8 @@
       };
     };
   };
+  
+
 
   hardware.graphics = {
     enable = true;
@@ -122,6 +124,16 @@
     enable = true;
     settings = {
       PasswordAuthentication = true;
+    };
+  };
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
     };
   };
 
