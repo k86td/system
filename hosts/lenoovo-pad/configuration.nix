@@ -64,7 +64,7 @@
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-      intel-media-sdk
+      intel-media-driver
     ];
   };
 
@@ -86,6 +86,7 @@
     ];
   };
 
+
   # programs.firefox.enable = true;
 
   # List packages installed in system profile. To search, run:
@@ -97,8 +98,11 @@
     curl
   ];
 
+  # setup fonts
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" "Hermit" ]; })
+    nerd-fonts.fira-code
+    nerd-fonts.hurmit
+    # fonts-tiempos  # Not available in nixpkgs
   ];
 
   security.polkit.enable = true;
