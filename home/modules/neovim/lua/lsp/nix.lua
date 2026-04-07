@@ -1,29 +1,23 @@
 -- Nix language server (nixd)
 local capabilities = require('lsp.capabilities').capabilities
 
-vim.lsp.config['nixd'] = {
-  cmd = { 'nixd' },
+vim.lsp.config['nil_ls'] = {
+  cmd = { 'nil' },
   filetypes = { 'nix' },
   capabilities = capabilities,
   settings = {
-    nixd = {
+    ["nil"] = {
+      flake = {
+        autoArchive = true,
+        autoEvalInputs = true
+      },
       formatting = {
-        command = { "nixpkgs-fmt" },
+        command = { "nixfmt" }
       },
-      options = {
-        nixos = {
-          expr = '(builtins.getFlake "/etc/nixos").nixosConfigurations.superthinker.options',
-        },
-        home_manager = {
-          expr = '(builtins.getFlake "/etc/nixos").homeConfigurations."new-tlepine".options',
-        },
-      },
-      diagnostic = {
-        suppress = {
-          "sema-escaping-with",
-        },
-      },
-    },
+      nix = {
+        binary = "nix"
+      }
+    }
   },
 }
-vim.lsp.enable('nixd')
+vim.lsp.enable('nil_ls')

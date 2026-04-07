@@ -18,21 +18,19 @@
 
   programs.zen-browser.enable = true;
 
-  xdg = {
+  xdg.portal = {
     enable = true;
-    portal = {
-      enable = true;
-      config = {
-        common = {
-          default = [
-            "gtk"
-          ];
-        };
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gnome
+      pkgs.xdg-desktop-portal-gtk # Required for fallback (file pickers, settings)
+    ];
+    config = {
+      # Target 'niri' specifically, not just common
+      niri = {
+        default = [ "gnome" "gtk" ];
+        # Ensure secrets (required for some TLS auth) are handled
+        "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ]; 
       };
-      extraPortals = [
-        pkgs.xdg-desktop-portal-wlr
-        pkgs.xdg-desktop-portal-gnome
-      ];
     };
   };
 
@@ -202,6 +200,7 @@
   home.packages = with pkgs; [
     xdg-desktop-portal-wlr
 
+    google-chrome
     uv
     logseq
     ticktick
@@ -210,6 +209,9 @@
     fuzzel
     quickshell
     xwayland-satellite
+
+    # image processing
+    darktable
 
     postman
     obsidian

@@ -1,0 +1,27 @@
+{
+    "nixEnvSelector.suggestion": false,
+    "nix.enableLanguageServer": true,
+    "nix.serverPath": "nixd",
+    "nix.serverSettings": {
+        "nixd": {
+            "formatting": {
+                "command": ["nixfmt"]
+            },
+            "eval": {
+                "depth": 10,
+                "workers": 4
+            },
+            "nixpkgs": {
+                "expr": "import (builtins.getFlake \"/etc/nixos\").inputs.nixpkgs { }"
+            },
+            "options": {
+                "nixos": {
+                    "expr": "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.superthinker.options"
+                },
+                "home-manager": {
+                    "expr": "(builtins.getFlake \"/etc/nixos\").homeConfigurations.tlepine.options"
+                }
+            }
+        }
+    }
+}

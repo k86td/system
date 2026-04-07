@@ -6,6 +6,7 @@
     ./modules/tmux.nix
     ./modules/vim.nix
     ./modules/nushell.nix
+    ./modules/neovim
   ];
 
   nixpkgs = {
@@ -51,24 +52,12 @@
     ansible
     zed-editor
 
-    # neovim lazyvim deps
-    go
-    gopls
-    gofumpt
-    gotools
-    shfmt
-    stylua
-
     dart
     # games
     runelite
   ];
 
   home.file = {
-    "/home/tlepine/.config/nvim" = {
-      source = ./files/nvim;
-      recursive = true;
-    };
     "/home/tlepine/.config/starship.toml" = {
         source = ./files/starship.toml;
     };

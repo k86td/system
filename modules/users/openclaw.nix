@@ -1,4 +1,4 @@
-{ inputs, withSystem, ... }: builtins.trace "Evaluating openclaw.nix" {
+{ inputs, withSystem, ... }: {
   flake.homeConfigurations.openclaw = withSystem "x86_64-linux" ({ system, ... }:
     let
       pkgs = import inputs.nixpkgs {

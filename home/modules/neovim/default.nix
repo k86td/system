@@ -61,6 +61,8 @@
       claude-code
       pyright
       nixd
+      nil
+      nixfmt
 
       # rust
       rust-analyzer

@@ -8,7 +8,7 @@ return {
       {
         "<leader>e",
         "<cmd>Neotree toggle<cr>",
-        desc = "Open neo-tree",
+        desc = "Open neo-tree"
       },
       {
         "<leader>s",
@@ -48,7 +48,7 @@ return {
         group = "file"
       },
       {
-        "<leader>ff",
+        "<leader>fg",
         desc = "Find files",
         mode = { "n" },
         function()
@@ -56,11 +56,22 @@ return {
         end
       },
       {
+        "<leader>ff",
+        desc = "Find live grep",
+        mode = { "n" },
+        function()
+          require("telescope.builtin").live_grep()
+        end
+      },
+      {
         "<leader>fb",
         desc = "Find buffers",
         mode = { "n" },
         function()
-          require("telescope.builtin").buffers()
+          require("telescope.builtin").buffers({
+            sort_mru = true,
+            ignore_current_buffer = true
+          })
         end
       },
 
@@ -145,6 +156,15 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     lazy = false,
+    config = function()
+      require("neo-tree").setup({
+        window = {
+          mappings = {
+            ["P"] = { "toggle_preview", config = { use_float = true } }
+          }
+        }
+      })
+    end
   },
   {
     "folke/flash.nvim",
@@ -179,13 +199,6 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        highlight = {
-          enable = true
-        },
-      })
-    end,
   },
   {
     "nvim-treesitter/nvim-treesitter-context",

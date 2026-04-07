@@ -3,28 +3,20 @@
 let
   # Check if secrets directory exists to determine if repo is decrypted
   repoDecrypted = builtins.pathExists ./secrets/trusted-ca1.pem;
-in
 
-{
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      # <nixos-hardware/lenovo/thinkpad/t490>
-      # (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
-    ];
+in {
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    # <nixos-hardware/lenovo/thinkpad/t490>
+    # (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
+  ];
 
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-    };
-  };
+  nixpkgs = { config = { allowUnfree = true; }; };
 
   nix = {
     settings = {
-      substituters = [
-        "https://nix-community.cachix.org"
-        "https://cache.nixos.org/"
-      ];
+      substituters =
+        [ "https://nix-community.cachix.org" "https://cache.nixos.org/" ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
@@ -33,9 +25,8 @@ in
 
   # TODO: figure out what this is
   security.polkit.enable = true;
-  security.pki.certificateFiles = if repoDecrypted then [
-    ./secrets/trusted-ca1.pem
-  ] else [];
+  security.pki.certificateFiles =
+    if repoDecrypted then [ ./secrets/trusted-ca1.pem ] else [ ];
 
   # enable bluetooth
   hardware.bluetooth = {
@@ -47,17 +38,16 @@ in
   boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   boot.loader.grub = {
     enable = true;
     device = "nodev";
     efiSupport = true;
-    configurationLimit = 5;  # limit boot entries
+    configurationLimit = 5; # limit boot entries
   };
+
+  boot.loader.grub.memtest86.enable = true;
 
   networking.hostName = "superthinker"; # Define your hostname.
   # Pick only one of the below networking options.
@@ -71,6 +61,10 @@ in
   virtualisation.waydroid = {
     enable = true;
     package = pkgs.waydroid-nftables;
+  };
+
+  environment.sessionVariables = {
+    GIO_EXTRA_MODULES = [ "${pkgs.glib-networking}/lib/gio/modules" ];
   };
 
   systemd.services.NetworkManager-wait-online.enable = false;
@@ -96,13 +90,9 @@ in
     dedicatedServer.openFirewall = true;
   };
 
-  programs.niri = {
-    enable = true;
-  };
+  programs.niri = { enable = true; };
 
-  programs.dms-shell = {
-    enable = true;
-  };
+  programs.dms-shell = { enable = true; };
 
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;
@@ -118,8 +108,8 @@ in
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-      intel-media-driver  # Modern Intel VA-API driver
-      mesa                # OpenGL/Vulkan support
+      intel-media-driver # Modern Intel VA-API driver
+      mesa # OpenGL/Vulkan support
     ];
   };
 
@@ -149,7 +139,7 @@ in
   # nixpkgs.config.pulseaudio = false;
 
   services.pipewire = {
-    enable = true; 
+    enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
@@ -183,45 +173,47 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tlepine = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "wireshark" "render" "video" ];
-    packages = with pkgs; [
-      home-manager
+    extraGroups =
+      [ "wheel" "docker" "wireshark" "render" "video" "dialout" "plugdev" ];
+    packages = with pkgs;
+      [
+        home-manager
 
-      # htop
-      # firefox
-      # remmina
-      # tio
-      # git
-      # gh
-      # gnumake
-      # brightnessctl
-      # docker-compose
-      # # kubectl
-      # kind
-      # # calibre
-      # swww
-      # kubernetes-helm
-      # discord
-      # libreoffice-qt
-      # containerlab
-      # hyprshot
-      # prismlauncher
-      # rpi-imager
-      # vscode
-      # arduino
-      # steamcmd
-      # pulseview
-      # telegram-desktop
-      # ruby
-      # k9s
-      # lazygit
-      # taskwarrior3
-      # taskwarrior-tui
-      # rofimoji
-      # obsidian
-      # nwg-displays
-      # hyprpaper
-    ];
+        # htop
+        # firefox
+        # remmina
+        # tio
+        # git
+        # gh
+        # gnumake
+        # brightnessctl
+        # docker-compose
+        # # kubectl
+        # kind
+        # # calibre
+        # swww
+        # kubernetes-helm
+        # discord
+        # libreoffice-qt
+        # containerlab
+        # hyprshot
+        # prismlauncher
+        # rpi-imager
+        # vscode
+        # arduino
+        # steamcmd
+        # pulseview
+        # telegram-desktop
+        # ruby
+        # k9s
+        # lazygit
+        # taskwarrior3
+        # taskwarrior-tui
+        # rofimoji
+        # obsidian
+        # nwg-displays
+        # hyprpaper
+      ];
   };
 
   programs.neovim = {
@@ -229,9 +221,7 @@ in
     defaultEditor = true;
   };
 
-  programs.wireshark = {
-    enable = true;
-  };
+  programs.wireshark = { enable = true; };
 
   # programs.zsh = {
   #   enable = true;
@@ -257,7 +247,8 @@ in
       config = builtins.readFile ./secrets/vpn/ebox-boss.ovpn;
       autoStart = false;
     };
-  } else {};
+  } else
+    { };
 
   hardware.opentabletdriver.enable = true;
   hardware.uinput.enable = true;
@@ -269,13 +260,15 @@ in
     git
     git-crypt
 
+    glib-networking
+    gnome-network-displays
     networkmanager-openvpn
     wget
     playerctl
     # unstable.hyprcursor # not working:(
-    niv		# nixos dependency manager, alternative to Flakes
-    st		# minimal terminal
-    sbctl 	# this is a tool to manage SecureBoot keys
+    niv # nixos dependency manager, alternative to Flakes
+    st # minimal terminal
+    sbctl # this is a tool to manage SecureBoot keys
     curl
     dmenu
     xorg.xinit
@@ -293,44 +286,32 @@ in
     (pkgs.buildFHSEnv {
       name = "javafhs";
       runScript = "bash";
-      targetPkgs = pkgs: with pkgs; [
-        jdk21
-        xorg.libXxf86vm
-        libGL
-        glib
-        gtk3
-        xorg.libXtst
-        xorg.xwininfo
-        xorg.xprop
-        maven
-        temurin-jre-bin
-        runelite
-      ];
-    })
-    (pkgs.buildFHSEnv {
-      name = "renpyfhs310";
-      runScript = "bash";
-      targetPkgs = pkgs: with pkgs; [
-        libGL
-        python310
-        alsa-lib
-      ];
+      targetPkgs = pkgs:
+        with pkgs; [
+          jdk21
+          xorg.libXxf86vm
+          libGL
+          glib
+          gtk3
+          xorg.libXtst
+          xorg.xwininfo
+          xorg.xprop
+          maven
+          temurin-jre-bin
+          runelite
+        ];
     })
   ];
 
   security.sudo = {
     enable = true;
-    extraRules = [
-      {
-        commands = [
-          {
-            options = [ "NOPASSWD" ];
-            command = "ALL";
-          }
-        ];
-        users = [ "tlepine" ];
-      }
-    ];
+    extraRules = [{
+      commands = [{
+        options = [ "NOPASSWD" ];
+        command = "ALL";
+      }];
+      users = [ "tlepine" ];
+    }];
   };
 
   programs.bash.shellAliases = {
@@ -343,7 +324,6 @@ in
     enable = true;
   };
   virtualisation.podman.enable = true;
-  
 
   # setup fonts
   fonts.packages = with pkgs; [
@@ -356,7 +336,8 @@ in
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri-session";
+        command =
+          "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri-session";
         user = "tlepine";
       };
     };
@@ -399,9 +380,7 @@ in
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-  networking.firewall = {
-    enable = true;
-  };
+  networking.firewall = { enable = false; };
 
   environment.etc."1password/custom_allowed_browsers" = {
     mode = "0644";
@@ -409,6 +388,8 @@ in
       zen
     '';
   };
+
+  services.udev.packages = [ pkgs.platformio-core.udev ];
 
   system.stateVersion = "24.11"; # Did you read the comment?
 
