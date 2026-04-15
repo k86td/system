@@ -1,9 +1,6 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, ... }: {
 
-  programs.neovide = {
-    enable = true;
-  };
+  programs.neovide = { enable = true; };
 
   home.sessionVariables = {
     # For command-line compilation and LSP
@@ -64,6 +61,9 @@
       nil
       nixfmt
 
+      # quickshell
+      kdePackages.qtdeclarative
+
       # rust
       rust-analyzer
       cargo
@@ -93,7 +93,10 @@
           },
         },
         dev = {
-          path = "${pkgs.vimUtils.packDir config.programs.neovim.finalPackage.passthru.packpathDirs}/pack/myNeovimPackages/start",
+          path = "${
+            pkgs.vimUtils.packDir
+            config.programs.neovim.finalPackage.passthru.packpathDirs
+          }/pack/myNeovimPackages/start",
           patterns = {""},
         },
         install = {
