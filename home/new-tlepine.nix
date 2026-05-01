@@ -1,4 +1,9 @@
-{ cfg, lib, pkgs, ... }:
+{
+  cfg,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ./modules/terminal.nix
@@ -27,9 +32,12 @@
     config = {
       # Target 'niri' specifically, not just common
       niri = {
-        default = [ "gnome" "gtk" ];
+        default = [
+          "gnome"
+          "gtk"
+        ];
         # Ensure secrets (required for some TLS auth) are handled
-        "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ]; 
+        "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
       };
     };
   };
@@ -37,7 +45,7 @@
   services.wlsunset = {
     enable = true;
     latitude = 45.34;
-    longitude = -73.54 ;
+    longitude = -73.54;
   };
 
   programs.wofi = {
@@ -57,23 +65,23 @@
   services.swayidle = {
     enable = true;
     events = [
-      { 
-        event = "before-sleep"; 
-        command = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock"; 
+      {
+        event = "before-sleep";
+        command = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock";
       }
-      { 
-        event = "lock"; 
-        command = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock"; 
+      {
+        event = "lock";
+        command = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock";
       }
     ];
     # timeouts = [
-    #   { 
-    #     timeout = 300; 
-    #     command = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock"; 
+    #   {
+    #     timeout = 300;
+    #     command = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock";
     #   }
-    #   { 
-    #     timeout = 600; 
-    #     command = "${pkgs.systemd}/bin/systemctl suspend"; 
+    #   {
+    #     timeout = 600;
+    #     command = "${pkgs.systemd}/bin/systemctl suspend";
     #   }
     # ];
   };
@@ -81,58 +89,70 @@
   services.kanshi = {
     enable = true;
     settings = [
-      { profile.name = "television";
+      {
+        profile.name = "television";
         profile.outputs = [
-          { criteria = "eDP-1";
+          {
+            criteria = "eDP-1";
             scale = 2.0;
             mode = "1920x1080@60";
             position = "0,270";
           }
-          { criteria = "Planar Systems, Inc. SLM65 0x01010101";
+          {
+            criteria = "Planar Systems, Inc. SLM65 0x01010101";
             scale = 1.0;
             mode = "1920x1080@60";
             position = "1920,0";
           }
         ];
       }
-      { profile.name = "television";
+      {
+        profile.name = "television";
         profile.outputs = [
-          { criteria = "eDP-1";
+          {
+            criteria = "eDP-1";
             scale = 2.0;
             mode = "1920x1080@60";
             position = "0,270";
           }
-          { criteria = "Toshiba America Info Systems Inc TOSHIBA-TV 0x01010101";
+          {
+            criteria = "Toshiba America Info Systems Inc TOSHIBA-TV 0x01010101";
             scale = 1.0;
             mode = "1920x1080@60";
             position = "1920,0";
           }
         ];
       }
-      { profile.name = "undocked";
+      {
+        profile.name = "undocked";
         profile.outputs = [
-          { criteria = "eDP-1";
+          {
+            criteria = "eDP-1";
             scale = 1.0;
             mode = "1920x1080@60";
             position = "0,0";
           }
         ];
       }
-      { profile.name = "docked-single-left";
+      {
+        profile.name = "docked-single-left";
         profile.outputs = [
-          { criteria = "eDP-1";
+          {
+            criteria = "eDP-1";
             scale = 1.0;
             mode = "1920x1080@60";
             position = "0,270";
           }
-          { criteria = "LG Electronics 32inch LG FHD 903NTRLA7270";
+          {
+            criteria = "LG Electronics 32inch LG FHD 903NTRLA7270";
             mode = "1920x1080@60";
             position = "1920,0";
           }
         ];
       }
       # this profile is when I restart my laptop & DP-* have their original values
-      { profile.name = "plug-replug-dual-monitor";
+      {
+        profile.name = "plug-replug-dual-monitor";
         profile.outputs = [
           {
             criteria = "DP-5";
@@ -151,7 +171,8 @@
         ];
       }
       # this profile is when I plug back USB-C dock and DP-* are all fucked
-      { profile.name = "plug-replug-dual-monitor";
+      {
+        profile.name = "plug-replug-dual-monitor";
         profile.outputs = [
           {
             criteria = "DP-7";
@@ -169,14 +190,17 @@
           }
         ];
       }
-      { profile.name = "docked-external-monitor";
+      {
+        profile.name = "docked-external-monitor";
         profile.outputs = [
-          { criteria = "eDP-1";
+          {
+            criteria = "eDP-1";
             scale = 1.0;
             mode = "1920x1080@60";
             position = "1920,0";
           }
-          { criteria = "BOE Display L56051794302";
+          {
+            criteria = "BOE Display L56051794302";
             mode = "1920x1080@60";
             position = "0,270";
           }
@@ -252,12 +276,10 @@
     # gcc-arm-embedded
 
     go
-    gopls
     gotools
 
     zig
     zls
-
 
     terraform-ls
 
@@ -282,6 +304,11 @@
 
     # ai
     ollama-cpu
+
+    # quickshell
+    qt6.qtdeclarative
+    qt6.qtbase
+    qt6.qttools
   ];
 
   home.pointerCursor = {
@@ -302,9 +329,7 @@
 
   programs.chromium = {
     enable = true;
-    extensions = [
-      "aeblfdkhhhdcdjpifhhbdiojplfjncoa"
-    ];
+    extensions = [ "aeblfdkhhhdcdjpifhhbdiojplfjncoa" ];
   };
 
   programs.home-manager.enable = true;

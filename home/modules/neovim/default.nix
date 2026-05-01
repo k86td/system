@@ -62,7 +62,9 @@
       nixfmt
 
       # quickshell
-      kdePackages.qtdeclarative
+      qt6.qtdeclarative
+      qt6.qtbase
+      qt6.qttools
 
       # rust
       rust-analyzer

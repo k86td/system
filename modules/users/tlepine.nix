@@ -6,6 +6,7 @@
         modules = [
           ../../home/new-tlepine.nix
           ../../home/modules/neovim
+          ../../home/modules/helix.nix
           inputs.zen-browser.homeModules.beta
         ];
       });
