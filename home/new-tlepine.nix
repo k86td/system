@@ -64,16 +64,10 @@
 
   services.swayidle = {
     enable = true;
-    events = [
-      {
-        event = "before-sleep";
-        command = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock";
-      }
-      {
-        event = "lock";
-        command = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock";
-      }
-    ];
+    events = {
+      before-sleep = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock";
+      lock = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock";
+    };
     # timeouts = [
     #   {
     #     timeout = 300;
@@ -287,7 +281,7 @@
 
     terraform-ls
 
-    nixfmt-classic
+    nixfmt
 
     waypipe
 
@@ -323,8 +317,10 @@
 
   programs.git = {
     enable = true;
-    userName = "Tristan Lepine";
-    userEmail = "tristanlepine14@gmail.com";
+    settings.user = {
+      name = "Tristan Lepine";
+      email = "tristanlepine14@gmail.com";
+    };
   };
 
   programs.firefox = {
@@ -338,6 +334,6 @@
 
   programs.home-manager.enable = true;
 
-  home.stateVersion = "24.11";
+  home.stateVersion = "26.05";
 
 }
