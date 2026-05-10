@@ -234,6 +234,9 @@
     quickshell
     xwayland-satellite
 
+    jq
+    nodejs
+
     # image processing
     darktable
 
@@ -248,6 +251,7 @@
     mako
     libnotify
     claude-code
+    gemini-cli
     brave
 
     inkscape

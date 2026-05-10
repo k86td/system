@@ -8,7 +8,6 @@
       packages = with pkgs; [
         nixd # Le LSP pour Nix
         alejandra # Le formateur de code
-        nil
       ];
 
       # Optionnel : variables d'environnement ou scripts de bienvenue

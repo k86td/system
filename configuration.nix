@@ -1,14 +1,6 @@
-{ config, lib, pkgs, ... }:
-
-let
-  # Check if secrets directory exists to determine if repo is decrypted
-  repoDecrypted = builtins.pathExists ./secrets/trusted-ca1.pem;
-
-in {
+{ config, lib, pkgs, ... }: {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    # <nixos-hardware/lenovo/thinkpad/t490>
-    # (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
   ];
 
   nixpkgs = { config = { allowUnfree = true; }; };
@@ -25,8 +17,6 @@ in {
 
   # TODO: figure out what this is
   security.polkit.enable = true;
-  security.pki.certificateFiles =
-    if repoDecrypted then [ ./secrets/trusted-ca1.pem ] else [ ];
 
   # enable bluetooth
   hardware.bluetooth = {
@@ -51,7 +41,6 @@ in {
 
   networking.hostName = "superthinker"; # Define your hostname.
   # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager = {
     enable = true;
     plugins = [ pkgs.networkmanager-openvpn ];
@@ -72,18 +61,6 @@ in {
   # Set your time zone.
   time.timeZone = "America/Toronto";
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
-
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
@@ -97,14 +74,6 @@ in {
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;
 
-  # Enable the X11 windowing system.
-  # services.xserver = {
-  #   enable = true;
-  #   libinput.touchpad.naturalScrolling = true;
-  #   windowManager.dwm.enable = true;
-  #   displayManager.startx.enable = true;
-  # };
-
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
@@ -112,14 +81,6 @@ in {
       mesa # OpenGL/Vulkan support
     ];
   };
-
-  # services.xserver.windowManager.dwm.package = pkgs.dwm.overrideAttrs {
-  #   src = /etc/dwm/source;
-  # };
-
-  # Configure keymap in X11
-  # services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -134,10 +95,6 @@ in {
     enableNmea = false;
   };
 
-  # Enable sound.
-  # hardware.pulseaudio.enable = false;
-  # nixpkgs.config.pulseaudio = false;
-
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -151,11 +108,8 @@ in {
       , ATTRS{manufacturer}=="reMarkable" \
       , ATTRS{idProduct}=="4010" \
       , ATTRS{idVendor}=="04b3" \
-      , NAME="reMarkable_USB" 
+      , NAME="reMarkable_USB"
   '';
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   services = {
     openssh = {
@@ -165,9 +119,6 @@ in {
         PasswordAuthentication = true;
       };
     };
-    # vscode-server = {
-    #   enable = true;
-    # };
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -178,41 +129,6 @@ in {
     packages = with pkgs;
       [
         home-manager
-
-        # htop
-        # firefox
-        # remmina
-        # tio
-        # git
-        # gh
-        # gnumake
-        # brightnessctl
-        # docker-compose
-        # # kubectl
-        # kind
-        # # calibre
-        # swww
-        # kubernetes-helm
-        # discord
-        # libreoffice-qt
-        # containerlab
-        # hyprshot
-        # prismlauncher
-        # rpi-imager
-        # vscode
-        # arduino
-        # steamcmd
-        # pulseview
-        # telegram-desktop
-        # ruby
-        # k9s
-        # lazygit
-        # taskwarrior3
-        # taskwarrior-tui
-        # rofimoji
-        # obsidian
-        # nwg-displays
-        # hyprpaper
       ];
   };
 
@@ -222,33 +138,6 @@ in {
   };
 
   programs.wireshark = { enable = true; };
-
-  # programs.zsh = {
-  #   enable = true;
-  #   enableCompletion = true;
-  #   autosuggestions.enable = true;
-  #   syntaxHighlighting.enable = true;
-
-  #   shellAliases = {
-  #     sw = "sudo nixos-rebuild --flake /etc/nixos#superthinker switch";
-  #   };
-
-  #   ohMyZsh = {
-  #     # bureau
-  #     enable = true;
-  #     theme = "afowler";
-  #   };
-
-  #   histSize = 10000;
-  # };
-
-  services.openvpn.servers = if repoDecrypted then {
-    BOSS = {
-      config = builtins.readFile ./secrets/vpn/ebox-boss.ovpn;
-      autoStart = false;
-    };
-  } else
-    { };
 
   hardware.opentabletdriver.enable = true;
   hardware.uinput.enable = true;
@@ -265,14 +154,12 @@ in {
     networkmanager-openvpn
     wget
     playerctl
-    # unstable.hyprcursor # not working:(
     niv # nixos dependency manager, alternative to Flakes
     st # minimal terminal
     sbctl # this is a tool to manage SecureBoot keys
     curl
     dmenu
     xorg.xinit
-    # unstable.alacritty # when version 0.13.1 is stable, remove from unstable
     smile
     wl-clipboard-rs
     alacritty
@@ -329,7 +216,6 @@ in {
   fonts.packages = with pkgs; [
     nerd-fonts.fira-code
     nerd-fonts.hurmit
-    # fonts-tiempos  # Not available in nixpkgs
   ];
 
   services.greetd = {
@@ -362,24 +248,6 @@ in {
     polkitPolicyOwners = [ "tlepine" ];
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
   networking.firewall = { enable = false; };
 
   environment.etc."1password/custom_allowed_browsers" = {
