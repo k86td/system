@@ -76,7 +76,7 @@
       vue-language-server
     ];
 
-    extraLuaConfig = ''
+    initLua = ''
       -- Prepend lazy.nvim to runtime path (requires Nix interpolation)
       vim.opt.rtp:prepend("${pkgs.vimPlugins.lazy-nvim}")
 
