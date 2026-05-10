@@ -37,7 +37,7 @@ rec {
   home.username = "${username}";
   home.homeDirectory = "${homeDirectory}";
 
-  home.stateVersion = "24.05";
+  home.stateVersion = "26.05";
 
   programs.nh = {
     enable = true;
@@ -159,8 +159,10 @@ rec {
 
   programs.git = {
     enable = true;
-    userName = "Tristan Lepine";
-    userEmail = "tristan.lepine@ebox.ca";
+    settings.user = {
+      name = "Tristan Lepine";
+      email = "tristan.lepine@ebox.ca";
+    };
   };
 
   programs.neovim = {
