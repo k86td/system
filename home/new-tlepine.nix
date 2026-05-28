@@ -310,6 +310,16 @@
     qt6.qttools
 
     rclone
+
+    obs-studio
+
+    (pkgs.prismlauncher.override {
+      jdks = [
+        pkgs.zulu8
+        pkgs.zulu17
+        pkgs.zulu21
+      ];
+    })
   ];
 
   systemd.user.services.rclone-bisync-gdrive = {

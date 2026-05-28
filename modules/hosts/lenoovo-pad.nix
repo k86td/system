@@ -4,8 +4,11 @@
     modules = [
       ../../hosts/lenoovo-pad/configuration.nix
       inputs.determinate.nixosModules.default
+      inputs.disko.nixosModules.disko
+      inputs.impermanence.nixosModules.impermanence
       inputs.self.nixosModules.caches
       inputs.self.nixosModules.containers
+      inputs.self.nixosModules.homelab
     ];
   };
 }

@@ -29,6 +29,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.extra-sandbox-paths = [ "/dev/kvm" ];
 
   boot.loader.grub = {
     enable = true;

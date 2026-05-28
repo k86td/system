@@ -2,6 +2,16 @@
 
 This repository manages my NixOS systems and home environments using a **Dendritic** (tree-like) modular structure powered by [flake-parts](https://github.com/hercules-ci/flake-parts) and [import-tree](https://github.com/vic/import-tree).
 
+## To-Do
+
+- [ ] Fix this error on superthinker:
+
+    :! took 5s ssh tlepine@lenoovo-pad.local
+    ssh: Could not resolve hostname lenoovo-pad.local: Device or resource busy
+
+- [ ] lenoovo-pad configuration as server
+    (headless + somer homelab svcs)
+
 ## 🌳 The Dendritic Pattern
 
 Unlike traditional Nix configurations that require manual tracking of `imports = [ ... ]`, this repository uses `import-tree` to automatically traverse the `modules/` directory.
