@@ -15,7 +15,7 @@
 
   fileSystems."/" =
     { device = "/dev/disk/by-label/NIXROOT";
-      fsType = "ext4";
+      fsType = "btrfs";
     };
 
   fileSystems."/boot" =
