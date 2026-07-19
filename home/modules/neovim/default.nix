@@ -1,6 +1,9 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
 
-  programs.neovide = { enable = true; };
+  programs.neovide = {
+    enable = true;
+  };
 
   home.sessionVariables = {
     # For command-line compilation and LSP
@@ -41,7 +44,6 @@
       neo-tree-nvim
       flash-nvim
       toggleterm-nvim
-      precognition-nvim
       # hardtime-nvim
       telescope-nvim
       nvim-treesitter.withAllGrammars
@@ -95,10 +97,7 @@
           },
         },
         dev = {
-          path = "${
-            pkgs.vimUtils.packDir
-            config.programs.neovim.finalPackage.passthru.packpathDirs
-          }/pack/myNeovimPackages/start",
+          path = "${pkgs.vimUtils.packDir config.programs.neovim.finalPackage.passthru.packpathDirs}/pack/myNeovimPackages/start",
           patterns = {""},
         },
         install = {

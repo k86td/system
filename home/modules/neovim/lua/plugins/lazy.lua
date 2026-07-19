@@ -171,11 +171,6 @@ return {
     event = "VeryLazy",
   },
   {
-    "tris203/precognition.nvim",
-    event = "VeryLazy",
-    opts = {},
-  },
-  {
     "nvim-telescope/telescope.nvim",
     event = "VeryLazy",
     dependencies = { "nvim-lua/plenary.nvim" },
