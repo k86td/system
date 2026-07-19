@@ -4,7 +4,9 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
-    nixos-hardware = { url = "github:NixOS/nixos-hardware/master"; };
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -13,7 +15,9 @@
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    gaul-tooling = { url = "github:k86td/gaul-tooling"; };
+    gaul-tooling = {
+      url = "github:k86td/gaul-tooling";
+    };
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     nix-openclaw.url = "github:openclaw/nix-openclaw";
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -25,11 +29,8 @@
     impermanence.url = "github:nix-community/impermanence";
     nixos-images = {
       url = "github:nix-community/nixos-images";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; }
-    (inputs.import-tree ./modules);
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 }
