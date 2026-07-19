@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -14,7 +19,10 @@
 
   time.timeZone = "America/Toronto";
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   zramSwap = {
     enable = true;
@@ -73,6 +81,7 @@
   services.avahi = {
     enable = true;
     nssmdns4 = true;
+    openFirewall = true;
     publish = {
       enable = true;
       addresses = true;
@@ -80,7 +89,10 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 22 8123 ];
+  networking.firewall.allowedTCPPorts = [
+    22
+    8123
+  ];
 
   system.stateVersion = "24.11";
 }
