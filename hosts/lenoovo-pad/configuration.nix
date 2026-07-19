@@ -30,6 +30,7 @@
     memoryPercent = 50;
   };
 
+  networking.networkmanager.wifi.powersave = false;
   networking.networkmanager.ensureProfiles = {
     environmentFiles = [
       "/persist/secrets/wifi.env"
