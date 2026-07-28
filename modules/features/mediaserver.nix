@@ -27,11 +27,13 @@
       services.jellyfin = {
         enable = true;
         openFirewall = true;
+        group = "media";
       };
 
       services.radarr = {
         enable = true;
         openFirewall = true;
+        group = "media";
       };
 
       services.prowlarr = {
@@ -42,6 +44,7 @@
       services.sonarr = {
         enable = true;
         openFirewall = true;
+        group = "media";
       };
 
       services.flaresolverr = {
@@ -50,10 +53,7 @@
       };
 
       users.groups.media = { };
-      users.users.jellyfin.extraGroups = [ "media" ];
       users.users.qbittorrent.extraGroups = [ "media" ];
-      users.users.sonarr.extraGroups = [ "media" ];
-      users.users.radarr.extraGroups = [ "media" ];
 
       systemd.tmpfiles.rules = [
         "d /persist/media          0775 root media - -"
