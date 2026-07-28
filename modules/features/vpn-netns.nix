@@ -147,6 +147,7 @@ let
                   chmod 0400 "$KEYFILE"
                   printf '%s' "$PRIVKEY" > "$KEYFILE"
 
+                  ip -n ${ns} link del wg0 2>/dev/null || true
                   ip -n ${ns} link add wg0 type wireguard
 
                   IFS=',' read -ra ADDRS <<< "$ADDR"
