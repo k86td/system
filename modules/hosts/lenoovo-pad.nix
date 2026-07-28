@@ -8,8 +8,7 @@
       inputs.disko.nixosModules.disko
       inputs.impermanence.nixosModules.impermanence
       inputs.self.nixosModules.caches
-      inputs.self.nixosModules.containers
-      inputs.self.nixosModules.homelab
+      inputs.self.nixosModules.mediaserver
     ];
   };
 }
