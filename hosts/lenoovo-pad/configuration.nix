@@ -121,7 +121,7 @@
                                                                               | $$                          
                                                                               |__/                          
 
-Rebuild this system with: sudo nixos-rebuild switch --flake github:k86td/system#lenoovo-pad
+Rebuild this system with: sudo nixos-rebuild switch --flake github:k86td/system#lenoovo-pad --refresh
   '';
 
   services.avahi = {
