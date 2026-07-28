@@ -79,6 +79,7 @@
       "/var/lib/private/prowlarr"
       "/var/lib/private/sonarr"
       "/var/lib/qbittorrent"
+      "/etc/netns"
     ];
     files = [
       "/etc/machine-id"

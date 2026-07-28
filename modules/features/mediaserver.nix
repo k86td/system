@@ -1,9 +1,26 @@
-{ ... }: {
-  flake.nixosModules.mediaserver = { pkgs, ... }: {
+{ inputs, ... }: {
+  flake.nixosModules.mediaserver = { pkgs, lib, ... }: {
+    imports = [ inputs.self.nixosModules.vpnNetns ];
+
     config = {
+      services.vpnNetns = {
+        enable = true;
+        wgConfPath = "/persist/secrets/surfshark-wg.conf";
+        dns = [ "162.252.172.57" "149.154.159.92" ];
+        forwards = [ { hostPort = 8080; nsPort = 8080; } ];
+      };
+
+      systemd.services.qbittorrent = {
+        bindsTo = [ "wg-vpn.service" ];
+        after   = [ "wg-vpn.service" ];
+        serviceConfig = {
+          NetworkNamespacePath = "/var/run/netns/vpn";
+          RestrictNamespaces   = false;
+        };
+      };
+
       services.qbittorrent = {
         enable = true;
-        openFirewall = true;
       };
 
       services.jellyfin = {
