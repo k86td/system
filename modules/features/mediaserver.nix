@@ -15,7 +15,7 @@
         after   = [ "wg-vpn.service" ];
         serviceConfig = {
           NetworkNamespacePath = "/var/run/netns/vpn";
-          RestrictNamespaces   = false;
+          RestrictNamespaces   = lib.mkForce false;
         };
       };
 
