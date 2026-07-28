@@ -16,16 +16,17 @@ let
         value = {
           description = "Forward :${toString fwd.hostPort} into ${ns} netns :${toString fwd.nsPort}";
           bindsTo = [ "wg-${ns}.service" ];
+          partOf  = [ "wg-${ns}.service" ];
           after = [ "wg-${ns}.service" ];
-          wantedBy = [ "multi-user.target" ];
+          wantedBy = [ "multi-user.target" "wg-${ns}.service" ];
           path = [
             pkgs.socat
             pkgs.iproute2
           ];
           serviceConfig = {
             Type = "simple";
-            Restart = "on-failure";
-            RestartSec = 2;
+            Restart = "always";
+            RestartSec = 5;
             ExecStart = pkgs.writeShellScript "netns-forward-${toString fwd.hostPort}" ''
               exec socat \
                 TCP-LISTEN:${toString fwd.hostPort},fork,reuseaddr,bind=${fwd.hostAddress} \

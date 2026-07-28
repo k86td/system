@@ -12,6 +12,7 @@
 
       systemd.services.qbittorrent = {
         bindsTo = [ "wg-vpn.service" ];
+        partOf  = [ "wg-vpn.service" ];
         after   = [ "wg-vpn.service" ];
         serviceConfig = {
           NetworkNamespacePath = "/var/run/netns/vpn";
