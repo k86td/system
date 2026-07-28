@@ -21,9 +21,16 @@
         openFirewall = true;
       };
 
+      services.sonarr = {
+        enable = true;
+        openFirewall = true;
+      };
+
       users.groups.media = { };
       users.users.jellyfin.extraGroups = [ "media" ];
       users.users.qbittorrent.extraGroups = [ "media" ];
+      users.users.sonarr.extraGroups = [ "media" ];
+      users.users.radarr.extraGroups = [ "media" ];
 
       systemd.tmpfiles.rules = [
         "d /persist/media          0775 root media - -"
@@ -74,6 +81,17 @@
               <service>
                 <type>_http._tcp</type>
                 <port>9696</port>
+              </service>
+            </service-group>
+          '';
+          sonarr = pkgs.writeText "sonarr.service" ''
+            <?xml version="1.0" standalone='no'?>
+            <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+            <service-group>
+              <name replace-wildcards="yes">Sonarr on %h</name>
+              <service>
+                <type>_http._tcp</type>
+                <port>8989</port>
               </service>
             </service-group>
           '';
