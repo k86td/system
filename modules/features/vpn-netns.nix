@@ -123,7 +123,7 @@ let
               path = [
                 pkgs.iproute2
                 pkgs.wireguard-tools
-                pkgs.gawk
+                pkgs.gnused
                 pkgs.coreutils
               ];
               serviceConfig = {
@@ -133,10 +133,10 @@ let
                   set -eu
                   CONF=${cfg.wgConfPath}
 
-                  PRIVKEY=$(awk -F' *= *' '/^PrivateKey/ {print $2; exit}' "$CONF")
-                  ADDR=$(   awk -F' *= *' '/^Address/    {print $2; exit}' "$CONF")
-                  PEER=$(   awk -F' *= *' '/^PublicKey/  {print $2; exit}' "$CONF")
-                  ENDPT=$(  awk -F' *= *' '/^Endpoint/   {print $2; exit}' "$CONF")
+                  PRIVKEY=$(sed -n 's/^PrivateKey[[:space:]]*=[[:space:]]*//p' "$CONF" | head -n1)
+                  ADDR=$(   sed -n 's/^Address[[:space:]]*=[[:space:]]*//p'    "$CONF" | head -n1)
+                  PEER=$(   sed -n 's/^PublicKey[[:space:]]*=[[:space:]]*//p'  "$CONF" | head -n1)
+                  ENDPT=$(  sed -n 's/^Endpoint[[:space:]]*=[[:space:]]*//p'   "$CONF" | head -n1)
 
                   if [ -z "$PRIVKEY" ] || [ -z "$ADDR" ] || [ -z "$PEER" ] || [ -z "$ENDPT" ]; then
                     echo "wg-${ns}: missing field in $CONF" >&2
