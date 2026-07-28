@@ -1,4 +1,5 @@
 {
+  inputs,
   cfg,
   lib,
   pkgs,
@@ -11,6 +12,7 @@
     ./modules/neovim
     ./modules/1password.nix
     ./modules/tmux.nix
+    ./modules/herdr.nix
   ];
 
   nixpkgs.config.allowUnfree = true;

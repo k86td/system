@@ -1,14 +1,27 @@
-{ config, lib, pkgs, ... }: {
-  imports = [ # Include the results of the hardware scan.
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  imports = [
+    # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
 
-  nixpkgs = { config = { allowUnfree = true; }; };
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+    };
+  };
 
   nix = {
     settings = {
-      substituters =
-        [ "https://nix-community.cachix.org" "https://cache.nixos.org/" ];
+      substituters = [
+        "https://nix-community.cachix.org"
+        "https://cache.nixos.org/"
+      ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
@@ -28,7 +41,10 @@
   boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   nix.settings.extra-sandbox-paths = [ "/dev/kvm" ];
 
   boot.loader.grub = {
@@ -68,9 +84,13 @@
     dedicatedServer.openFirewall = true;
   };
 
-  programs.niri = { enable = true; };
+  programs.niri = {
+    enable = true;
+  };
 
-  programs.dms-shell = { enable = true; };
+  programs.dms-shell = {
+    enable = true;
+  };
 
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;
@@ -125,12 +145,18 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tlepine = {
     isNormalUser = true;
-    extraGroups =
-      [ "wheel" "docker" "wireshark" "render" "video" "dialout" "plugdev" ];
-    packages = with pkgs;
-      [
-        home-manager
-      ];
+    extraGroups = [
+      "wheel"
+      "docker"
+      "wireshark"
+      "render"
+      "video"
+      "dialout"
+      "plugdev"
+    ];
+    packages = with pkgs; [
+      home-manager
+    ];
   };
 
   programs.neovim = {
@@ -138,7 +164,9 @@
     defaultEditor = true;
   };
 
-  programs.wireshark = { enable = true; };
+  programs.wireshark = {
+    enable = true;
+  };
 
   hardware.opentabletdriver.enable = true;
   hardware.uinput.enable = true;
@@ -174,8 +202,8 @@
     (pkgs.buildFHSEnv {
       name = "javafhs";
       runScript = "bash";
-      targetPkgs = pkgs:
-        with pkgs; [
+      targetPkgs =
+        pkgs: with pkgs; [
           jdk21
           xorg.libXxf86vm
           libGL
@@ -193,13 +221,17 @@
 
   security.sudo = {
     enable = true;
-    extraRules = [{
-      commands = [{
-        options = [ "NOPASSWD" ];
-        command = "ALL";
-      }];
-      users = [ "tlepine" ];
-    }];
+    extraRules = [
+      {
+        commands = [
+          {
+            options = [ "NOPASSWD" ];
+            command = "ALL";
+          }
+        ];
+        users = [ "tlepine" ];
+      }
+    ];
   };
 
   programs.bash.shellAliases = {
@@ -223,8 +255,7 @@
     enable = true;
     settings = {
       default_session = {
-        command =
-          "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri-session";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri-session";
         user = "tlepine";
       };
     };
@@ -249,7 +280,9 @@
     polkitPolicyOwners = [ "tlepine" ];
   };
 
-  networking.firewall = { enable = false; };
+  networking.firewall = {
+    enable = false;
+  };
 
   environment.etc."1password/custom_allowed_browsers" = {
     mode = "0644";

@@ -21,6 +21,17 @@
         openFirewall = true;
       };
 
+      users.groups.media = { };
+      users.users.jellyfin.extraGroups = [ "media" ];
+      users.users.qbittorrent.extraGroups = [ "media" ];
+
+      systemd.tmpfiles.rules = [
+        "d /persist/media          0775 root media - -"
+        "d /persist/media/shows    0775 root media - -"
+        "d /persist/media/movies   0775 root media - -"
+        "d /persist/media/download 0775 root media - -"
+      ];
+
       environment.systemPackages = with pkgs; [ vlc ];
 
       services.avahi = {

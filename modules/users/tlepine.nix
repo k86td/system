@@ -1,13 +1,16 @@
-{ inputs, withSystem, ... }: {
-  flake.homeConfigurations.tlepine = withSystem "x86_64-linux"
-    ({ pkgs, system, ... }:
-      inputs.home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-          ../../home/new-tlepine.nix
-          ../../home/modules/neovim
-          ../../home/modules/helix.nix
-          inputs.zen-browser.homeModules.beta
-        ];
-      });
+{ inputs, withSystem, ... }:
+{
+  flake.homeConfigurations.tlepine = withSystem "x86_64-linux" (
+    { pkgs, system, ... }:
+    inputs.home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+      extraSpecialArgs = { inherit inputs; };
+      modules = [
+        ../../home/new-tlepine.nix
+        ../../home/modules/neovim
+        ../../home/modules/helix.nix
+        inputs.zen-browser.homeModules.beta
+      ];
+    }
+  );
 }

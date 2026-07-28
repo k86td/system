@@ -69,6 +69,12 @@
       "/var/lib/containers"
       "/var/lib/NetworkManager"
       "/etc/NetworkManager/system-connections"
+      "/var/lib/jellyfin"
+      "/var/lib/radarr"
+      "/var/lib/prowlarr"
+      "/var/lib/private/radarr"
+      "/var/lib/private/prowlarr"
+      "/var/lib/qbittorrent"
     ];
     files = [
       "/etc/machine-id"

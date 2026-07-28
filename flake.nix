@@ -30,6 +30,7 @@
     nixos-images = {
       url = "github:nix-community/nixos-images";
     };
+    herdr.url = "github:ogulcancelik/herdr";
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
