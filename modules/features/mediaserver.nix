@@ -17,6 +17,7 @@
         serviceConfig = {
           NetworkNamespacePath = "/var/run/netns/vpn";
           RestrictNamespaces   = lib.mkForce false;
+          BindReadOnlyPaths    = [ "/etc/netns/vpn/resolv.conf:/etc/resolv.conf" ];
         };
       };
 
