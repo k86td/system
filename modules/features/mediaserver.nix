@@ -26,6 +26,11 @@
         openFirewall = true;
       };
 
+      services.flaresolverr = {
+        enable = true;
+        openFirewall = true;
+      };
+
       users.groups.media = { };
       users.users.jellyfin.extraGroups = [ "media" ];
       users.users.qbittorrent.extraGroups = [ "media" ];
@@ -103,6 +108,17 @@
               <service>
                 <type>_http._tcp</type>
                 <port>8080</port>
+              </service>
+            </service-group>
+          '';
+          flaresolverr = pkgs.writeText "flaresolverr.service" ''
+            <?xml version="1.0" standalone='no'?>
+            <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+            <service-group>
+              <name replace-wildcards="yes">FlareSolverr on %h</name>
+              <service>
+                <type>_http._tcp</type>
+                <port>8191</port>
               </service>
             </service-group>
           '';
