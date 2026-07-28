@@ -91,6 +91,8 @@ let
 
         networking.firewall.allowedTCPPorts = map (f: f.hostPort) cfg.forwards;
 
+        networking.networkmanager.unmanaged = [ "interface-name:wg0" ];
+
         systemd.services =
           {
             "netns-${ns}" = {
@@ -149,19 +151,23 @@ let
                   printf '%s' "$PRIVKEY" > "$KEYFILE"
 
                   ip -n ${ns} link del wg0 2>/dev/null || true
-                  ip -n ${ns} link add wg0 type wireguard
+                  ip link del wg0 2>/dev/null || true
+
+                  ip link add wg0 type wireguard
+
+                  wg set wg0 \
+                    private-key "$KEYFILE" \
+                    peer "$PEER" endpoint "$ENDPT" \
+                    allowed-ips 0.0.0.0/0,::/0 \
+                    persistent-keepalive 25
+
+                  ip link set wg0 netns ${ns}
 
                   IFS=',' read -ra ADDRS <<< "$ADDR"
                   for a in "''${ADDRS[@]}"; do
                     a="''${a// /}"
                     ip -n ${ns} addr add "$a" dev wg0
                   done
-
-                  ip netns exec ${ns} wg set wg0 \
-                    private-key "$KEYFILE" \
-                    peer "$PEER" endpoint "$ENDPT" \
-                    allowed-ips 0.0.0.0/0,::/0 \
-                    persistent-keepalive 25
 
                   ip -n ${ns} link set wg0 up
                   ip -n ${ns} route add default dev wg0 || true
