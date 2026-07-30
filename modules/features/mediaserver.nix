@@ -29,7 +29,25 @@
         enable = true;
         openFirewall = true;
         group = "media";
+        hardwareAcceleration = {
+          enable = true;
+          type = "vaapi";
+          device = "/dev/dri/renderD128";
+        };
       };
+
+      hardware.graphics = {
+        enable = true;
+        extraPackages = with pkgs; [
+          intel-media-driver
+          intel-compute-runtime
+          libva-vdpau-driver
+        ];
+      };
+
+      systemd.services.jellyfin.environment.LIBVA_DRIVER_NAME = "iHD";
+
+      users.users.jellyfin.extraGroups = [ "video" "render" ];
 
       services.radarr = {
         enable = true;
