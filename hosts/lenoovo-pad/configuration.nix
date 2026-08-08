@@ -76,7 +76,7 @@
       "/etc/NetworkManager/system-connections"
       "/var/lib/jellyfin"
       "/var/lib/radarr"
-      "/var/lib/prowlarr"
+      "/var/lib/private/prowlarr"
       "/var/lib/sonarr"
       "/var/lib/qbittorrent"
       "/etc/netns"
