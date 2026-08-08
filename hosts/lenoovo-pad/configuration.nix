@@ -75,9 +75,9 @@
       "/var/lib/NetworkManager"
       "/etc/NetworkManager/system-connections"
       "/var/lib/jellyfin"
-      "/var/lib/private/radarr"
-      "/var/lib/private/prowlarr"
-      "/var/lib/private/sonarr"
+      "/var/lib/radarr"
+      "/var/lib/prowlarr"
+      "/var/lib/sonarr"
       "/var/lib/qbittorrent"
       "/etc/netns"
     ];
@@ -120,12 +120,12 @@
 
   users.motd = ''
 
-┓                   ┓
-┃┏┓┏┓┏┓┏┓┓┏┏┓━━┏┓┏┓┏┫
-┗┗ ┛┗┗┛┗┛┗┛┗┛  ┣┛┗┻┗┻
-               ┛
+    ┓                   ┓
+    ┃┏┓┏┓┏┓┏┓┓┏┏┓━━┏┓┏┓┏┫
+    ┗┗ ┛┗┗┛┗┛┗┛┗┛  ┣┛┗┻┗┻
+                   ┛
 
-Rebuild this system with: sudo nixos-rebuild switch --flake github:k86td/system#lenoovo-pad --refresh
+    Rebuild this system with: sudo nixos-rebuild switch --flake github:k86td/system#lenoovo-pad --refresh
   '';
 
   services.avahi = {
