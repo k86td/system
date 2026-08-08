@@ -301,6 +301,10 @@
     zathura
     typst
 
+    # task management
+    taskwarrior3
+    taskwarrior-tui
+
     runelite
 
     # ai
