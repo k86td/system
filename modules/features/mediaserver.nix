@@ -79,6 +79,12 @@
         "d /persist/media/shows    0775 root media - -"
         "d /persist/media/movies   0775 root media - -"
         "d /persist/media/download 0775 root media - -"
+
+        "d /persist/var/lib/private          0700 root        root        - -"
+        "Z /persist/var/lib/private/prowlarr 0750 prowlarr    prowlarr    - -"
+        "Z /persist/var/lib/radarr           0750 radarr      media       - -"
+        "Z /persist/var/lib/sonarr           0750 sonarr      media       - -"
+        "Z /persist/var/lib/qbittorrent      0750 qbittorrent qbittorrent - -"
       ];
 
       environment.systemPackages = with pkgs; [ vlc ];

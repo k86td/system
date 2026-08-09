@@ -59,11 +59,6 @@
     };
   };
 
-  systemd.tmpfiles.rules = [
-    "d /persist/var/lib/private          0700 root     root     - -"
-    "Z /persist/var/lib/private/prowlarr 0700 prowlarr prowlarr - -"
-  ];
-
   environment.persistence."/persist" = {
     hideMounts = true;
     directories = [
