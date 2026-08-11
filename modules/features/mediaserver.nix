@@ -98,7 +98,7 @@
           "Z /persist/var/lib/private/prowlarr 0750 prowlarr    prowlarr    - -"
           "Z /persist/var/lib/radarr           0750 radarr      media       - -"
           "Z /persist/var/lib/sonarr           0750 sonarr      media       - -"
-          "L+ /persist/var/lib/qBittorrent     -    -           -           - /var/lib/qBittorrent"
+          "L+ /var/lib/qBittorrent     - - - - /persist/var/lib/qBittorrent"
           "Z /persist/var/lib/qBittorrent      0750 qbittorrent qbittorrent - -"
         ];
 
