@@ -13,6 +13,7 @@
     ./modules/1password.nix
     ./modules/tmux.nix
     ./modules/herdr.nix
+    ./modules/taskwarrior.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -321,10 +322,6 @@
     # writing/PDF
     zathura
     typst
-
-    # task management
-    taskwarrior3
-    taskwarrior-tui
 
     runelite
 
