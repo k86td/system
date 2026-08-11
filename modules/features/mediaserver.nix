@@ -1,172 +1,187 @@
-{ inputs, ... }: {
-  flake.nixosModules.mediaserver = { pkgs, lib, ... }: {
-    imports = [ inputs.self.nixosModules.vpnNetns ];
+{ inputs, ... }:
+{
+  flake.nixosModules.mediaserver =
+    { pkgs, lib, ... }:
+    {
+      imports = [ inputs.self.nixosModules.vpnNetns ];
 
-    config = {
-      services.vpnNetns = {
-        enable = true;
-        wgConfPath = "/persist/secrets/surfshark-wg.conf";
-        dns = [ "162.252.172.57" "149.154.159.92" ];
-        forwards = [ { hostPort = 8080; nsPort = 8080; } ];
-      };
-
-      systemd.services.qbittorrent = {
-        bindsTo = [ "wg-vpn.service" ];
-        partOf  = [ "wg-vpn.service" ];
-        after   = [ "wg-vpn.service" ];
-        serviceConfig = {
-          NetworkNamespacePath = "/var/run/netns/vpn";
-          RestrictNamespaces   = lib.mkForce false;
-          BindReadOnlyPaths    = [ "/etc/netns/vpn/resolv.conf:/etc/resolv.conf" ];
-        };
-      };
-
-      services.qbittorrent = {
-        enable = true;
-      };
-
-      services.jellyfin = {
-        enable = true;
-        openFirewall = true;
-        group = "media";
-        hardwareAcceleration = {
+      config = {
+        services.vpnNetns = {
           enable = true;
-          type = "vaapi";
-          device = "/dev/dri/renderD128";
+          wgConfPath = "/persist/secrets/surfshark-wg.conf";
+          dns = [
+            "162.252.172.57"
+            "149.154.159.92"
+          ];
+          forwards = [
+            {
+              hostPort = 8080;
+              nsPort = 8080;
+            }
+          ];
         };
-      };
 
-      hardware.graphics = {
-        enable = true;
-        extraPackages = with pkgs; [
-          intel-media-driver
-          intel-compute-runtime
-          libva-vdpau-driver
+        systemd.services.qbittorrent = {
+          bindsTo = [ "wg-vpn.service" ];
+          partOf = [ "wg-vpn.service" ];
+          after = [ "wg-vpn.service" ];
+          serviceConfig = {
+            NetworkNamespacePath = "/var/run/netns/vpn";
+            RestrictNamespaces = lib.mkForce false;
+            BindReadOnlyPaths = [ "/etc/netns/vpn/resolv.conf:/etc/resolv.conf" ];
+          };
+        };
+
+        services.qbittorrent = {
+          enable = true;
+        };
+
+        services.jellyfin = {
+          enable = true;
+          openFirewall = true;
+          group = "media";
+          hardwareAcceleration = {
+            enable = true;
+            type = "vaapi";
+            device = "/dev/dri/renderD128";
+          };
+        };
+
+        hardware.graphics = {
+          enable = true;
+          extraPackages = with pkgs; [
+            intel-media-driver
+            intel-compute-runtime
+            libva-vdpau-driver
+          ];
+        };
+
+        systemd.services.jellyfin.environment.LIBVA_DRIVER_NAME = "iHD";
+
+        users.users.jellyfin.extraGroups = [
+          "video"
+          "render"
         ];
-      };
 
-      systemd.services.jellyfin.environment.LIBVA_DRIVER_NAME = "iHD";
-
-      users.users.jellyfin.extraGroups = [ "video" "render" ];
-
-      services.radarr = {
-        enable = true;
-        openFirewall = true;
-        group = "media";
-      };
-
-      services.prowlarr = {
-        enable = true;
-        openFirewall = true;
-      };
-
-      services.sonarr = {
-        enable = true;
-        openFirewall = true;
-        group = "media";
-      };
-
-      services.flaresolverr = {
-        enable = true;
-        openFirewall = true;
-      };
-
-      users.groups.media = { };
-      users.users.qbittorrent.extraGroups = [ "media" ];
-
-      systemd.tmpfiles.rules = [
-        "d /persist/media          0775 root media - -"
-        "d /persist/media/shows    0775 root media - -"
-        "d /persist/media/movies   0775 root media - -"
-        "d /persist/media/download 0775 root media - -"
-
-        "d /persist/var/lib/private          0700 root        root        - -"
-        "Z /persist/var/lib/private/prowlarr 0750 prowlarr    prowlarr    - -"
-        "Z /persist/var/lib/radarr           0750 radarr      media       - -"
-        "Z /persist/var/lib/sonarr           0750 sonarr      media       - -"
-        "Z /persist/var/lib/qbittorrent      0750 qbittorrent qbittorrent - -"
-      ];
-
-      environment.systemPackages = with pkgs; [ vlc ];
-
-      services.avahi = {
-        enable = true;
-        nssmdns4 = true;
-        openFirewall = true;
-        publish = {
+        services.radarr = {
           enable = true;
-          addresses = true;
-          userServices = true;
+          openFirewall = true;
+          group = "media";
         };
-        extraServiceFiles = {
-          jellyfin = pkgs.writeText "jellyfin.service" ''
-            <?xml version="1.0" standalone='no'?>
-            <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
-            <service-group>
-              <name replace-wildcards="yes">Jellyfin on %h</name>
-              <service>
-                <type>_http._tcp</type>
-                <port>8096</port>
-              </service>
-            </service-group>
-          '';
-          radarr = pkgs.writeText "radarr.service" ''
-            <?xml version="1.0" standalone='no'?>
-            <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
-            <service-group>
-              <name replace-wildcards="yes">Radarr on %h</name>
-              <service>
-                <type>_http._tcp</type>
-                <port>7878</port>
-              </service>
-            </service-group>
-          '';
-          prowlarr = pkgs.writeText "prowlarr.service" ''
-            <?xml version="1.0" standalone='no'?>
-            <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
-            <service-group>
-              <name replace-wildcards="yes">Prowlarr on %h</name>
-              <service>
-                <type>_http._tcp</type>
-                <port>9696</port>
-              </service>
-            </service-group>
-          '';
-          sonarr = pkgs.writeText "sonarr.service" ''
-            <?xml version="1.0" standalone='no'?>
-            <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
-            <service-group>
-              <name replace-wildcards="yes">Sonarr on %h</name>
-              <service>
-                <type>_http._tcp</type>
-                <port>8989</port>
-              </service>
-            </service-group>
-          '';
-          qbittorrent = pkgs.writeText "qbittorrent.service" ''
-            <?xml version="1.0" standalone='no'?>
-            <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
-            <service-group>
-              <name replace-wildcards="yes">qBittorrent on %h</name>
-              <service>
-                <type>_http._tcp</type>
-                <port>8080</port>
-              </service>
-            </service-group>
-          '';
-          flaresolverr = pkgs.writeText "flaresolverr.service" ''
-            <?xml version="1.0" standalone='no'?>
-            <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
-            <service-group>
-              <name replace-wildcards="yes">FlareSolverr on %h</name>
-              <service>
-                <type>_http._tcp</type>
-                <port>8191</port>
-              </service>
-            </service-group>
-          '';
+
+        services.prowlarr = {
+          enable = true;
+          openFirewall = true;
+        };
+
+        services.sonarr = {
+          enable = true;
+          openFirewall = true;
+          group = "media";
+        };
+
+        services.flaresolverr = {
+          enable = true;
+          openFirewall = true;
+        };
+
+        users.groups.media = { };
+        users.users.qbittorrent.extraGroups = [ "media" ];
+
+        systemd.tmpfiles.rules = [
+          "d /persist/media          0775 root media - -"
+          "d /persist/media/shows    0775 root media - -"
+          "d /persist/media/movies   0775 root media - -"
+          "d /persist/media/download 0775 root media - -"
+
+          "d /persist/var/lib/private          0700 root        root        - -"
+          "Z /persist/var/lib/private/prowlarr 0750 prowlarr    prowlarr    - -"
+          "Z /persist/var/lib/radarr           0750 radarr      media       - -"
+          "Z /persist/var/lib/sonarr           0750 sonarr      media       - -"
+          "L+ /persist/var/lib/qBittorrent     -    -           -           - /var/lib/qBittorrent"
+          "Z /persist/var/lib/qBittorrent      0750 qbittorrent qbittorrent - -"
+        ];
+
+        environment.systemPackages = with pkgs; [ vlc ];
+
+        services.avahi = {
+          enable = true;
+          nssmdns4 = true;
+          openFirewall = true;
+          publish = {
+            enable = true;
+            addresses = true;
+            userServices = true;
+          };
+          extraServiceFiles = {
+            jellyfin = pkgs.writeText "jellyfin.service" ''
+              <?xml version="1.0" standalone='no'?>
+              <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+              <service-group>
+                <name replace-wildcards="yes">Jellyfin on %h</name>
+                <service>
+                  <type>_http._tcp</type>
+                  <port>8096</port>
+                </service>
+              </service-group>
+            '';
+            radarr = pkgs.writeText "radarr.service" ''
+              <?xml version="1.0" standalone='no'?>
+              <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+              <service-group>
+                <name replace-wildcards="yes">Radarr on %h</name>
+                <service>
+                  <type>_http._tcp</type>
+                  <port>7878</port>
+                </service>
+              </service-group>
+            '';
+            prowlarr = pkgs.writeText "prowlarr.service" ''
+              <?xml version="1.0" standalone='no'?>
+              <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+              <service-group>
+                <name replace-wildcards="yes">Prowlarr on %h</name>
+                <service>
+                  <type>_http._tcp</type>
+                  <port>9696</port>
+                </service>
+              </service-group>
+            '';
+            sonarr = pkgs.writeText "sonarr.service" ''
+              <?xml version="1.0" standalone='no'?>
+              <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+              <service-group>
+                <name replace-wildcards="yes">Sonarr on %h</name>
+                <service>
+                  <type>_http._tcp</type>
+                  <port>8989</port>
+                </service>
+              </service-group>
+            '';
+            qbittorrent = pkgs.writeText "qbittorrent.service" ''
+              <?xml version="1.0" standalone='no'?>
+              <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+              <service-group>
+                <name replace-wildcards="yes">qBittorrent on %h</name>
+                <service>
+                  <type>_http._tcp</type>
+                  <port>8080</port>
+                </service>
+              </service-group>
+            '';
+            flaresolverr = pkgs.writeText "flaresolverr.service" ''
+              <?xml version="1.0" standalone='no'?>
+              <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+              <service-group>
+                <name replace-wildcards="yes">FlareSolverr on %h</name>
+                <service>
+                  <type>_http._tcp</type>
+                  <port>8191</port>
+                </service>
+              </service-group>
+            '';
+          };
         };
       };
     };
-  };
 }
