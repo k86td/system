@@ -217,6 +217,27 @@
     GTK_USE_PORTAL = "1";
   };
 
+  programs.zk = {
+    enable = true;
+    settings = {
+      notebook = {
+        dir = "~/notes";
+      };
+      format.markdown = {
+        hashtags = true;
+      };
+      tool = {
+        editor = "hx";
+      };
+    };
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+  };
+
   home.packages = with pkgs; [
     xdg-desktop-portal-wlr
 
@@ -327,40 +348,6 @@
       ];
     })
   ];
-
-  systemd.user.services.rclone-bisync-gdrive = {
-    Unit = {
-      Description = "rclone bisync Google Drive <-> ~/GoogleDrive";
-      After = [ "network-online.target" ];
-      Wants = [ "network-online.target" ];
-    };
-    Service = {
-      Type = "oneshot";
-      ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p %h/GoogleDrive %h/.local/state/rclone";
-      ExecStart = lib.concatStringsSep " " [
-        "${pkgs.rclone}/bin/rclone"
-        "bisync"
-        "pers:"
-        "%h/GoogleDrive"
-        "--resilient"
-        "--recover"
-        "--conflict-resolve=newer"
-        "--max-lock=2m"
-        "--log-file=%h/.local/state/rclone/bisync.log"
-        "--log-level=INFO"
-      ];
-    };
-  };
-
-  systemd.user.timers.rclone-bisync-gdrive = {
-    Unit.Description = "Hourly rclone bisync for Google Drive";
-    Timer = {
-      OnCalendar = "hourly";
-      Persistent = true;
-      RandomizedDelaySec = "2m";
-    };
-    Install.WantedBy = [ "timers.target" ];
-  };
 
   home.pointerCursor = {
     gtk.enable = true;
