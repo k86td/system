@@ -1,4 +1,8 @@
 
 .claude/*
+# Shared Claude Code setup is tracked; everything else under .claude/ (local settings,
+# session state) stays ignored by the rule above.
+!.claude/settings.json
+!.claude/hooks/
+!.claude/eval-host.sh
 .swp
-
