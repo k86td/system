@@ -11,6 +11,8 @@
       config = {
         services.nextcloud = {
           # Must be explicit: the module derives its default from system.stateVersion,
+          enable = true;
+
           # and 24.11 maps to nextcloud30, which no longer exists in nixpkgs.
           package = pkgs.nextcloud32;
 
@@ -95,7 +97,10 @@
         systemd.tmpfiles.rules = [
           "d /persist/var/lib/nextcloud       0750 nextcloud       nextcloud       - -"
           "d /persist/var/lib/postgresql      0750 postgres        postgres        - -"
-          "d /persist/var/lib/redis-nextcloud 0700 nextcloud       redis-nextcloud - -"
+          # The redis instance runs as nextcloud:nextcloud (services.redis.servers.<name>.group
+          # defaults to .user, so no redis-nextcloud user or group is ever created), but its
+          # StateDirectory is still named redis-nextcloud.
+          "d /persist/var/lib/redis-nextcloud 0700 nextcloud       nextcloud       - -"
         ];
       };
     };
