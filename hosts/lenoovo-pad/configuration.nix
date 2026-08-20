@@ -74,6 +74,9 @@
       "/var/lib/private/prowlarr"
       "/var/lib/sonarr"
       "/var/lib/qbittorrent"
+      "/var/lib/nextcloud"
+      "/var/lib/postgresql"
+      "/var/lib/redis-nextcloud"
       "/etc/netns"
     ];
     files = [
@@ -133,6 +136,11 @@
       workstation = true;
     };
   };
+
+  # Nextcloud is served over Tailscale HTTPS only (see modules/features/nextcloud.nix).
+  # TODO: replace with the real MagicDNS name once the node has joined the tailnet:
+  #   tailscale status --json | jq -r .MagicDNSSuffix
+  services.nextcloud.hostName = "lenoovo-pad.tailnet-name.ts.net";
 
   networking.firewall.allowedTCPPorts = [
     22
