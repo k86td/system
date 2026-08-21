@@ -18,7 +18,6 @@
 
           # `hostName` is the full MagicDNS name and is set per-host — it is only known
           # once the node has joined the tailnet.
-          hostName = "lenoovo-pad.caracal-bellatrix.ts.net";
 
           # TLS is terminated by tailscaled in front of nginx, so Nextcloud never sees
           # https itself and has to be told the public scheme.

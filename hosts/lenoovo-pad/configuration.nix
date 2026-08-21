@@ -140,7 +140,7 @@
   # Nextcloud is served over Tailscale HTTPS only (see modules/features/nextcloud.nix).
   # TODO: replace with the real MagicDNS name once the node has joined the tailnet:
   #   tailscale status --json | jq -r .MagicDNSSuffix
-  services.nextcloud.hostName = "lenoovo-pad.tailnet-name.ts.net";
+  services.nextcloud.hostName = "lenoovo-pad.caracal-bellatrix.ts.net";
 
   networking.firewall.allowedTCPPorts = [
     22
