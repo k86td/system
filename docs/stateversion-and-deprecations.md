@@ -16,7 +16,7 @@ were blocked in the audit sandbox), `nixpkgs` swapped for the current channel ta
 | Does `system.stateVersion` need bumping? | **No. Leave it at `24.11`.** Proven no-op — see below. |
 | Does bumping it change anything at all? | **Nothing.** Byte-identical system derivations for 24.11 / 25.05 / 25.11 / 26.05. |
 | Does `home.stateVersion` matter? | **Yes** — and it is already at `26.05` for both live users, so that migration is done. |
-| What actually breaks on `nix flake update`? | 2 hard failures (openclaw, logseq) + 4 deprecation warnings. See §3. |
+| What actually breaks on `nix flake update`? | Both hard failures (openclaw, logseq) have since been removed from the repo; 4 deprecation warnings remain. See §3. |
 
 ---
 
@@ -111,7 +111,7 @@ Diffing the generated files for `tlepine` between 24.11 and 26.05:
 - **Firefox profile path** — at `< 26.05` `programs.firefox.configPath` is `.mozilla/firefox`;
   at `>= 26.05` it becomes `${xdg.configHome}/mozilla/firefox` (i.e. `~/.config/mozilla/firefox`).
 
-`home/new-tlepine.nix:374` and `home/ebox-tlepine.nix:40` already declare `26.05`, and the
+`home/new-tlepine.nix:370` and `home/ebox-tlepine.nix:40` already declare `26.05`, and the
 currently-pinned home-manager (`61e2c96`, 2026-05-28) already contains all three gates —
 so these changes are **already live on your machine**, not pending. Nothing to do.
 
@@ -126,12 +126,12 @@ The full set of HM `stateVersion` gates that could still bite you later:
 | `programs.yazi`, `misc/gtk4`, `xdg.userDirs`, `hyprland` | 26.05 | default changes |
 | `misc/fontconfig` | **26.11** | upcoming — will apply if you ever raise to 26.11 |
 
-### 2.1 One real inconsistency
+### 2.1 Consistency
 
-`modules/users/openclaw.nix:17` still sets `home.stateVersion = "24.11"` while the other two
-home configs are at `26.05`. The openclaw profile uses none of the gated modules, so it is
-cosmetic today — but it's an inconsistency worth resolving deliberately rather than by
-accident (bumping it there is safe: no gated module is in use).
+The audit originally found `modules/users/openclaw.nix` sitting at `home.stateVersion =
+"24.11"` while the other two home configs were at `26.05`. That file has since been removed
+(§3.1), so both remaining home configs — `home/new-tlepine.nix` and the orphaned
+`home/ebox-tlepine.nix` — now agree on `26.05`.
 
 ---
 
@@ -141,25 +141,20 @@ Current state was verified first: **all three `nixosConfigurations` evaluate cle
 today's unstable, with zero `config.warnings` on every host.** No renamed or removed NixOS
 option is in use anywhere in the repo. The problems are all package-level or home-level.
 
-### 3.1 Hard failures (evaluation stops)
+### 3.1 Hard failures — resolved by removal (2026-08-20)
+
+Two configurations failed outright against current upstream. Both have since been deleted
+from the repo, since neither was in use. Recorded here for the history.
 
 **(a) `homeConfigurations.openclaw` — `programs.openclaw.documents` was removed**
 
-`modules/users/openclaw.nix:22-38` sets `programs.openclaw.documents`. At the pinned
-`nix-openclaw` rev (`773708b`) that option works. At upstream HEAD it is a stub that fires a
-hard assertion:
+`modules/users/openclaw.nix` set `programs.openclaw.documents`. At the pinned `nix-openclaw`
+rev (`773708b`) that option worked; at upstream HEAD it is a stub that fires a hard assertion
+directing you to `programs.openclaw.workspace.bootstrapFiles` / `workspace.files`.
 
-```
-- programs.openclaw.documents was removed. Use
-  programs.openclaw.workspace.bootstrapFiles = {
-    agents = ./AGENTS.md; soul = ./SOUL.md; tools = ./TOOLS.md;
-    identity = ./IDENTITY.md; user = ./USER.md;
-  };
-  and programs.openclaw.workspace.files for non-bootstrap workspace files.
-```
-
-Also affected: `home.file."documents".source = config.programs.openclaw.documents;`
-(`modules/users/openclaw.nix:63`) needs to go — the workspace module manages those files now.
+**Resolved:** `modules/users/openclaw.nix`, `modules/features/openclaw.nix` and the
+`nix-openclaw` flake input were removed. If OpenClaw comes back, it needs the
+`workspace.*` API, not `documents`.
 
 **(b) `homeConfigurations.tlepine` — `logseq` is marked insecure**
 
@@ -168,12 +163,14 @@ error: Refusing to evaluate package 'electron-39.8.10' … because it is marked 
 Known issues: Electron version 39.8.10 is EOL
 ```
 
-`logseq` (`home/new-tlepine.nix:247`) is pinned to `electron_39`, which is now EOL. Options,
-best first:
+**Resolved:** `logseq` was dropped from `home/new-tlepine.nix`. If it comes back it will need
+`nixpkgs.config.permittedInsecurePackages = [ "electron-39.8.10" ]`, re-pinned on every
+electron bump — or an upstream electron bump in the `logseq` derivation.
 
-1. Drop `logseq` — you already carry `obsidian`, `capacities`, and `programs.zk` for notes.
-2. Keep it and accept the risk: `nixpkgs.config.permittedInsecurePackages = [ "electron-39.8.10" ]`
-   (needs re-pinning each time the electron version bumps).
+**Current status:** with those two gone, all four flake outputs (`superthinker`,
+`lenoovo-pad`, `kexec-wifi`, `homeConfigurations.tlepine`) evaluate cleanly against
+`nixos-unstable` @ `ffb3c9b` and home-manager master, with no `NIXPKGS_ALLOW_INSECURE` and
+no assertion failures. Only the §3.2 warnings remain.
 
 ### 3.2 Deprecation warnings (build succeeds, fix at leisure)
 
@@ -181,8 +178,8 @@ best first:
 | --- | --- | --- | --- |
 | 1 | `configuration.nix:191,208,212,213,214` | `The xorg package set has been deprecated` | `xorg.xinit`→`xinit`, `xorg.libXxf86vm`→`libxxf86vm`, `xorg.libXtst`→`libxtst`, `xorg.xwininfo`→`xwininfo`, `xorg.xprop`→`xprop` |
 | 2 | `home/modules/herdr.nix:4` | `'system' has been renamed to/replaced by 'stdenv.hostPlatform.system'` | `inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.default` |
-| 3 | `home/new-tlepine.nix:349` | `Relying on 'home.pointerCursor' to enable cursor config generation is deprecated` | add `enable = true;` inside the block |
-| 4 | `home/new-tlepine.nix:273`, `modules/features/openclaw.nix:10` | `gemini-cli … has the following problem: removal` — replaced upstream by Antigravity CLI | switch to `antigravity-cli` (present in nixpkgs, 1.1.13) or drop it |
+| 3 | `home/new-tlepine.nix:345` | `Relying on 'home.pointerCursor' to enable cursor config generation is deprecated` | add `enable = true;` inside the block |
+| 4 | `home/new-tlepine.nix` (`gemini-cli`) | `gemini-cli … has the following problem: removal` — replaced upstream by Antigravity CLI | switch to `antigravity-cli` (present in nixpkgs, 1.1.13) or drop it |
 
 The `xorg` alias set was added 2026-01-29 and currently only warns; nixpkgs converts such
 aliases to hard `throw`s after roughly a year, so item 1 has a deadline of about 2027-01.
@@ -233,14 +230,15 @@ These aren't `stateVersion` matters, but they're real and cheap to fix:
    `vimPlugins.claudecode-nvim` (0.3.0-unstable-2026-06-25); the local derivation pins v0.1.0.
    Because the overlay is dead (see 1), `home/modules/neovim/default.nix:27` is already
    resolving to the *upstream* plugin. Delete the local copy.
-3. **Home Manager aliases point at output names that don't exist.** The flake exposes
-   `homeConfigurations.tlepine` and `.openclaw`, but `home/new-tlepine.nix:24` aliases
-   `home-manager switch --flake /etc/nixos#new-tlepine` and `home/ebox-tlepine.nix:127` uses
-   `#ebox-tlepine`. Both fail. Should be `#tlepine`.
+3. ~~**Home Manager aliases point at output names that don't exist.**~~ Fixed 2026-08-20 by
+   deleting both broken aliases (`hw` in `home/new-tlepine.nix`, `sw` in
+   `home/ebox-tlepine.nix`) — they pointed at `#new-tlepine` / `#ebox-tlepine`, but the only
+   home output is `tlepine`. Re-add as `home-manager switch --flake /etc/nixos#tlepine` if
+   you want the shortcut back.
 4. **`home/ebox-tlepine.nix` is orphaned and would not evaluate.** No flake output references
    it, and it uses `cfg.repoDecrypted` plus `import ../secrets/govc.nix` — `secrets/` does not
    exist in the repo. Wire it up with the missing pieces, or delete it.
-5. **`home/new-tlepine.nix:6` takes a `cfg` module argument that is never provided.** It works
+5. **`home/new-tlepine.nix:3` takes a `cfg` module argument that is never provided.** It works
    only because the module system binds unknown args to a lazy `throw`, and nothing in that
    file reads `cfg`. It is a landmine — remove the argument.
 6. **`home/modules/shells.nix` is an empty module** that binds `config.myself.shells`, an
@@ -259,23 +257,17 @@ These aren't `stateVersion` matters, but they're real and cheap to fix:
 system.stateVersion = "24.11";
 ```
 
-**Step 1 — clear the update blockers (before running `nix flake update`).**
+**Step 1 — clear the update blockers.** Done 2026-08-20: OpenClaw and `logseq` removed
+(§3.1). Nothing else blocks an update.
 
-- Migrate `modules/users/openclaw.nix` from `programs.openclaw.documents` to
-  `programs.openclaw.workspace.bootstrapFiles` + `workspace.files`, and drop the
-  `home.file."documents"` line.
-- Decide on `logseq`: remove it, or add the `permittedInsecurePackages` entry.
-
-**Step 2 — `nix flake update`, then evaluate all five outputs before switching:**
+**Step 2 — `nix flake update`, then evaluate every output before switching:**
 
 ```bash
 nix flake update
 for h in superthinker lenoovo-pad kexec-wifi; do
   nix eval .#nixosConfigurations.$h.config.system.build.toplevel.drvPath
 done
-for u in tlepine openclaw; do
-  nix eval .#homeConfigurations.$u.activationPackage.drvPath
-done
+nix eval .#homeConfigurations.tlepine.activationPackage.drvPath
 ```
 
 **Step 3 — clear the four deprecation warnings** (§3.2). All are mechanical one-liners.
@@ -289,7 +281,8 @@ entry rename), then `superthinker`.
 
 ## Appendix — how this was verified
 
-- Nix 2.35.2, single-user install; all five flake outputs evaluated.
+- Nix 2.35.2, single-user install; every flake output evaluated (five before the OpenClaw
+  removal, four after).
 - `stateVersion` sensitivity measured with `nixosConfigurations.<host>.extendModules` forcing
   each candidate value and comparing `system.build.toplevel.drvPath`.
 - Home Manager differences measured the same way, then narrowed by diffing
