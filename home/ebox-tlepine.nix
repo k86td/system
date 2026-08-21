@@ -124,7 +124,6 @@ rec {
   };
 
   home.shellAliases = {
-    sw = "home-manager --flake /etc/nixos#ebox-tlepine switch";
     dev = "nix develop -c $env.SHELL";
   };
 

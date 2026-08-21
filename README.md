@@ -30,10 +30,9 @@ Top-level `configuration.nix` is the shared NixOS base imported by host modules 
 This directory is the core of the flake. Every file here is auto-imported.
 - **`flake-parts.nix`**: Wires `home-manager.flakeModules.default` and declares `systems = [ "x86_64-linux" ]`.
 - **`hosts/`**: Defines `nixosConfigurations` (e.g., `lenoovo-pad`, `superthinker`).
-- **`users/`**: Defines `homeConfigurations` (e.g., `tlepine`, `openclaw`).
+- **`users/`**: Defines `homeConfigurations` (e.g., `tlepine`).
 - **`features/`**: Reusable NixOS modules exposed via `flake.nixosModules`.
   - `caches.nix`: Binary cache settings.
-  - `openclaw.nix`: OpenClaw agent and user configuration.
   - `mdns.nix`: Multicast DNS setup.
   - `mediaserver.nix`: Media services configuration.
 - **`developmentShell.nix`**: Defines the `nix develop` environment.
