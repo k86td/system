@@ -20,9 +20,6 @@
 
   home.username = "tlepine";
   home.homeDirectory = "/home/tlepine";
-  home.shellAliases = {
-    hw = "home-manager switch --flake /etc/nixos#new-tlepine";
-  };
 
   programs.zen-browser.enable = true;
 
@@ -244,7 +241,6 @@
 
     google-chrome
     uv
-    logseq
     ticktick
     appimage-run
     capacities
