@@ -130,6 +130,8 @@
       , ATTRS{idProduct}=="4010" \
       , ATTRS{idVendor}=="04b3" \
       , NAME="reMarkable_USB"
+
+    ACTION=="add", SUBSYSTEM=="input", KERNEL=="event*", ATTRS{idVendor}=="044f", ATTRS{idProduct}=="b696", RUN+="${pkgs.linuxConsoleTools}/bin/evdev-joystick --evdev /dev/input/%k --deadzone 0 --axis 0"
   '';
 
   services = {
