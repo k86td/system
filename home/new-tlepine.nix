@@ -242,6 +242,9 @@
   home.packages = with pkgs; [
     xdg-desktop-portal-wlr
 
+    # math plotting library
+    octaveFull
+
     google-chrome
     uv
     logseq
