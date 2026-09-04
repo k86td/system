@@ -9,6 +9,8 @@
       inputs.impermanence.nixosModules.impermanence
       inputs.self.nixosModules.caches
       inputs.self.nixosModules.mediaserver
+      inputs.self.nixosModules.tailscale
+      inputs.self.nixosModules.nextcloud
     ];
   };
 }

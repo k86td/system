@@ -9,8 +9,9 @@ This repository manages my NixOS systems and home environments using a **Dendrit
     :! took 5s ssh tlepine@lenoovo-pad.local
     ssh: Could not resolve hostname lenoovo-pad.local: Device or resource busy
 
-- [ ] lenoovo-pad configuration as server
+- [x] lenoovo-pad configuration as server
     (headless + somer homelab svcs)
+- [ ] Backups for `/persist` on lenoovo-pad (Nextcloud data now lives there)
 
 ## 🌳 The Dendritic Pattern
 
@@ -36,6 +37,9 @@ This directory is the core of the flake. Every file here is auto-imported.
   - `openclaw.nix`: OpenClaw agent and user configuration.
   - `mdns.nix`: Multicast DNS setup.
   - `mediaserver.nix`: Media services configuration.
+  - `nextcloud.nix`: Nextcloud + PostgreSQL + Redis, fronted by nginx on localhost
+    (see `docs/nextcloud.md`).
+  - `tailscale.nix`: Tailscale mesh VPN, also used to terminate TLS for Nextcloud.
 - **`developmentShell.nix`**: Defines the `nix develop` environment.
 
 ### 🖥️ Machine Configs (`hosts/`)
