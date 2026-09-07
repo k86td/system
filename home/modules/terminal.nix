@@ -42,7 +42,7 @@
         size = 14;
         normal = {
           family = "3270 Nerd Font Propo";
-          style = "regular";
+          style = "Regular";
         };
       };
       colors = {
