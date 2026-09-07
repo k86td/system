@@ -51,6 +51,10 @@
     longitude = -73.54;
   };
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-39.8.10"
+  ];
+
   programs.wofi = {
     enable = false;
     # this can be helpful when debugging
@@ -245,9 +249,11 @@
     # math plotting library
     octaveFull
 
+    # java
+    openjdk25
+
     google-chrome
     uv
-    logseq
     ticktick
     appimage-run
     capacities

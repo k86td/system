@@ -255,6 +255,7 @@
   fonts.packages = with pkgs; [
     nerd-fonts.fira-code
     nerd-fonts.hurmit
+    nerd-fonts._3270
   ];
 
   services.greetd = {

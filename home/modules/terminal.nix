@@ -41,8 +41,8 @@
       font = {
         size = 14;
         normal = {
-          family = "Hurmit Nerd Font";
-          style = "Bold";
+          family = "3270 Nerd Font Propo";
+          style = "regular";
         };
       };
       colors = {
@@ -94,8 +94,9 @@
   programs.starship = {
     enable = true;
     settings = {
-      format = ''$hostname$directory$git_branch$git_status$kubernetes$nix_shell
-$character$cmd_duration
+      format = ''
+        $hostname$directory$git_branch$git_status$kubernetes$nix_shell
+        $character$cmd_duration
       '';
       add_newline = false;
       character = {
