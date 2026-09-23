@@ -72,13 +72,13 @@
   services.swayidle = {
     enable = true;
     events = {
-      before-sleep = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock";
-      lock = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock";
+      before-sleep = "${pkgs.dms-shell}/bin/dms ipc call lock lock";
+      lock = "${pkgs.dms-shell}/bin/dms ipc call lock lock";
     };
     # timeouts = [
     #   {
     #     timeout = 300;
-    #     command = "${pkgs.quickshell}/bin/qs -c dms ipc call lock lock";
+    #     command = "${pkgs.dms-shell}/bin/dms ipc call lock lock";
     #   }
     #   {
     #     timeout = 600;
@@ -265,7 +265,6 @@
     ticktick
     appimage-run
     capacities
-    fuzzel
     quickshell
     xwayland-satellite
     orca-slicer
