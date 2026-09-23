@@ -247,7 +247,15 @@
     xdg-desktop-portal-wlr
 
     # math plotting library
-    octaveFull
+    (octaveFull.withPackages (
+      ps: with ps; [
+        interval
+        symbolic
+      ]
+    ))
+
+    # electronics sim
+    ltspice
 
     # java
     openjdk25

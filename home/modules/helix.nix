@@ -4,7 +4,7 @@
     enable = true;
     settings = {
 
-      theme = "modus_vivendi_tritanopia";
+      theme = "gruvbox_dark_hard";
       editor = {
         line-number = "relative";
       };
@@ -23,11 +23,20 @@
         command = "${pkgs.qt6.qtdeclarative}/bin/qmlls";
         args = [
           "-E"
-          "-I" "${pkgs.quickshell}/lib/qt-6/qml"
-          "-I" "${pkgs.qt6.qtdeclarative}/lib/qt-6/qml"
+          "-I"
+          "${pkgs.quickshell}/lib/qt-6/qml"
+          "-I"
+          "${pkgs.qt6.qtdeclarative}/lib/qt-6/qml"
         ];
       };
+      language-server.tinymist = {
+        command = "${pkgs.tinymist}/bin/tinymist";
+      };
       language = [
+        {
+          name = "typst";
+          language-servers = [ "tinymist" ];
+        }
         {
           name = "nix";
           auto-format = true;

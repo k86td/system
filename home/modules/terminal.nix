@@ -39,10 +39,10 @@
         program = "${pkgs.zsh}/bin/zsh";
       };
       font = {
-        size = 14;
+        size = 15;
         normal = {
-          family = "3270 Nerd Font Propo";
-          style = "Regular";
+          family = "Hurmit Nerd Font";
+          style = "Bold";
         };
       };
       colors = {
