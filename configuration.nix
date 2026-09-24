@@ -254,6 +254,10 @@
 
   # setup fonts
   fonts.packages = with pkgs; [
+    # Plain "Fira Code" family. nerd-fonts.fira-code only provides
+    # "FiraCode Nerd Font*", so DMS rebuilt its font cache on every login
+    # looking for a family that did not exist. Refs #3
+    fira-code
     nerd-fonts.fira-code
     nerd-fonts.hurmit
     nerd-fonts._3270
