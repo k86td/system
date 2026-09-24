@@ -153,6 +153,7 @@
     isNormalUser = true;
     extraGroups = [
       "wheel"
+      "networkmanager"
       "docker"
       "wireshark"
       "render"
