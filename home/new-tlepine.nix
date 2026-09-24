@@ -1,6 +1,7 @@
 {
   inputs,
   cfg,
+  config,
   lib,
   pkgs,
   ...
@@ -211,8 +212,14 @@
   };
 
   # TODO: move this to its own module
-  xdg.configFile."niri/config.kdl".source = ./files/niri/config.kdl;
-  xdg.configFile."niri/dms-binds.kdl".source = ./files/niri/dms-binds.kdl;
+  # Out-of-store symlinks: these point at the working copy in the repo, not at
+  # /nix/store, so niri picks up edits immediately (it watches its config) and
+  # no rebuild is needed to test a keybind change. Still tracked in git.
+  # Refs #5
+  xdg.configFile."niri/config.kdl".source =
+    config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/files/niri/config.kdl";
+  xdg.configFile."niri/dms-binds.kdl".source =
+    config.lib.file.mkOutOfStoreSymlink "/etc/nixos/home/files/niri/dms-binds.kdl";
 
   # TODO: move this to its own module
   services.gnome-keyring.enable = true;
