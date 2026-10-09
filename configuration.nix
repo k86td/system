@@ -179,6 +179,16 @@
   hardware.uinput.enable = true;
   boot.kernelModules = [ "uinput" ];
 
+  # Coredumps disabled: kernel 6.18.49 oopses inside vfs_coredump while dumping
+  # a crashed process, which corrupts page tables and panics the machine.
+  # Seen 2026-10-01 (oops, survived) and 2026-10-05 (panic, hard hang).
+  # systemd.coredump.enable = false alone only sets core_pattern = "core", which
+  # still runs vfs_coredump, so RLIMIT_CORE must be 0 to skip dumping entirely.
+  # Re-evaluate after a kernel bump.
+  systemd.coredump.enable = false;
+  systemd.settings.Manager.DefaultLimitCORE = "0:0";
+  systemd.user.settings.Manager.DefaultLimitCORE = "0:0";
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
