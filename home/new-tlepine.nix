@@ -290,6 +290,9 @@
     vlc
     lazygit
 
+    # block-based markdown notebook (TUI), not in nixpkgs
+    (callPackage ../pkgs/tsuzuri.nix { })
+
     grim
     slurp
     wl-clipboard
