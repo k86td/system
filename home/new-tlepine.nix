@@ -15,6 +15,7 @@
     ./modules/tmux.nix
     ./modules/herdr.nix
     ./modules/taskwarrior.nix
+    ./modules/concord.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
