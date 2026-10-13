@@ -23,6 +23,7 @@
       nvim-treesitter-context
       gitsigns-nvim
       fidget-nvim
+      gruvbox
 
       claudecode-nvim
 

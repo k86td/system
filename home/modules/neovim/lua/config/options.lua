@@ -10,3 +10,5 @@ vim.bo.softtabstop = 2
 
 -- Disable mouse
 vim.o.mouse = ""
+
+vim.cmd("colorscheme gruvbox")
