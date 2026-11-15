@@ -31,6 +31,7 @@
       url = "github:nix-community/nixos-images";
     };
     herdr.url = "github:ogulcancelik/herdr";
+    appartment-search.url = "github:k86td/appartment-search";
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);

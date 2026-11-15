@@ -11,6 +11,7 @@
       inputs.self.nixosModules.mediaserver
       inputs.self.nixosModules.tailscale
       inputs.self.nixosModules.ai
+      inputs.self.nixosModules.appartment-search
     ];
   };
 }
