@@ -78,6 +78,7 @@
       "/var/lib/postgresql"
       "/var/lib/redis-nextcloud"
       "/etc/netns"
+      "/var/lib/appartment-search"
     ];
     files = [
       "/etc/machine-id"
