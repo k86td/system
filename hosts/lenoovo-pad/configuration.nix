@@ -78,7 +78,12 @@
       "/var/lib/postgresql"
       "/var/lib/redis-nextcloud"
       "/etc/netns"
-      "/var/lib/appartment-search"
+      {
+        directory = "/var/lib/appartment-search";
+        user = "appartment-search";
+        group = "appartment-search";
+        mode = "0750";
+      }
     ];
     files = [
       "/etc/machine-id"
